@@ -1,0 +1,20 @@
+QRH/Probe_f0.lean:11:7: error(lean.unknownIdentifier): Unknown constant `Measurable.aeStronglyMeasurable`
+QRH/Probe_f0.lean:12:7: error(lean.unknownIdentifier): Unknown identifier `MeasureTheory.aeStronglyMeasurable`
+QRH/Probe_f0.lean:13:7: error(lean.unknownIdentifier): Unknown identifier `MeasureTheory.aestronglyMeasurable`
+MeasureTheory.AEStronglyMeasurable.{u_1, u_2} {α : Type u_1} {β : Type u_2} [TopologicalSpace β] [m : MeasurableSpace α]
+  {m₀ : MeasurableSpace α} (f : α → β) (μ : MeasureTheory.Measure α := by volume_tac) : Prop
+QRH/Probe_f0.lean:15:7: error(lean.unknownIdentifier): Unknown identifier `MeasureTheory.aeStronglyMeasurable_iff`
+QRH/Probe_f0.lean:16:7: error(lean.unknownIdentifier): Unknown identifier `MeasureTheory.stronglyMeasurable.aeStronglyMeasurable`
+MeasureTheory.Integrable.aestronglyMeasurable.{u_1, u_5} {α : Type u_1} {ε : Type u_5} {m : MeasurableSpace α}
+  {μ : MeasureTheory.Measure α} [TopologicalSpace ε] [ContinuousENorm ε] {f : α → ε}
+  (hf : MeasureTheory.Integrable f μ) : MeasureTheory.AEStronglyMeasurable f μ
+QRH/Probe_f0.lean:18:7: error(lean.unknownIdentifier): Unknown constant `MeasureTheory.Integrable.aeStronglyMeasurable`
+QRH/Probe_f0.lean:19:7: error(lean.unknownIdentifier): Unknown identifier `MeasureTheory.indicator_of_mem`
+Set.indicator_of_mem.{u_1, u_3} {α : Type u_1} {M : Type u_3} [Zero M] {s : Set α} {a : α} (h : a ∈ s) (f : α → M) :
+  s.indicator f a = f a
+QRH/Probe_f0.lean:21:7: error(lean.unknownIdentifier): Unknown constant `Set.indicator_of_not_mem`
+MeasureTheory.IntegrableOn.{u_1, u_3} {α : Type u_1} {ε : Type u_3} {mα : MeasurableSpace α} [TopologicalSpace ε]
+  [ContinuousENorm ε] (f : α → ε) (s : Set α) (μ : MeasureTheory.Measure α := by volume_tac) : Prop
+MeasureTheory.integrableOn_const.{u_1, u_4} {α : Type u_1} {ε' : Type u_4} {mα : MeasurableSpace α} {s : Set α}
+  {μ : MeasureTheory.Measure α} [TopologicalSpace ε'] [ESeminormedAddMonoid ε'] {C : ε'} (hs : μ s ≠ ⊤ := by finiteness)
+  (hC : ‖C‖ₑ ≠ ⊤ := by finiteness) : MeasureTheory.IntegrableOn (fun x => C) s μ

@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-31T05:28:53.782995+00:00",
+  "status": "rendered",
+  "visual_review": "pending",
+  "channel": "lark-cli docs +word-to-pdf",
+  "input": {
+    "path": "C:\\Users\\shtcl\\Doubao\\chats\\2026-10-16\\document\\d1\\路2攻防XLII-S7.15-n2_linkage真证-ε-λ联动与axiom降定理.docx",
+    "sha256": "99c409eec60daa787cf2afd512138aa02a350cfeacfee4a280a501b7162b3c6f",
+    "size": 42741
+  },
+  "cli": {
+    "path": "C:\\Users\\shtcl\\AppData\\Local\\Doubao\\User Data\\Default\\sandbox_envs_dir\\envs\\00dc6aec-6c0a-4941-a7a3-4e1a75391a1b\\override_dlcs\\lark-cli.exe",
+    "version": "lark-cli version v1.0.104+4e993e8",
+    "sha256": "2e4fc82197e4a487917f4a0940ae86631a957ff5c44bb20e91dec2ce44b3c7e3",
+    "size": 51905024
+  },
+  "dpi": 150,
+  "attempts": [
+    {
+      "argv": [
+        "C:\\Users\\shtcl\\AppData\\Local\\Doubao\\User Data\\Default\\sandbox_envs_dir\\envs\\00dc6aec-6c0a-4941-a7a3-4e1a75391a1b\\override_dlcs\\lark-cli.exe",
+        "docs",
+        "+word-to-pdf",
+        "--file",
+        "./input.docx",
+        "--wait-timeout-seconds",
+        "120",
+        "--output",
+        "./document.pdf",
+        "--if-exists",
+        "error",
+        "--format",
+        "json"
+      ],
+      "returncode": 0,
+      "stdout": {
+        "ok": true,
+        "identity": "user",
+        "data": {
+          "task_id": "render__BY1Pzsrgv72rDCQXav3aw",
+          "status": "succeeded",
+          "pdf": {
+            "download_url": "https://api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?<redacted>",
+            "size": 347059,
+            "url_expires_at": 1793424960
+          },
+          "expires_at": 1793510759,
+          "output_path": "C:\\Users\\shtcl\\Doubao\\chats\\2026-10-16\\new-chat\\s715_work\\render_cn\\render-dju7cuvh\\document.pdf",
+          "downloaded_size": 347059,
+          "upload_preparation": {
+            "compressed": false,
+            "strategy": "original",
+            "strategy_version": "word-render-media-v2",
+            "source_size_bytes": 42741,
+            "upload_size_bytes": 42741,
+            "images_compressed": 0,
+            "layout_preserved": true
+          },
+          "timings": {
+            "prepare_upload_ms": 27,
+            "create_task_ms": 908,
+            "poll_total_ms": 1879,
+            "poll_sleep_ms": 501,
+            "status_request_ms": 1378,
+            "status_request_count": 1,
+            "download_pdf_ms": 453,
+            "total_ms": 3271
+          }
+        }
+      },
+      "stderr": ""
+    }
+  ],
+  "dependency": {
+    "python": "C:\\Users\\shtcl\\AppData\\Local\\Doubao\\User Data\\sandbox_runtime\\bases\\772984f6fd3a8ae0ae7d2422cd7c2bfa\\python\\python.exe",
+    "path": "C:\\Users\\shtcl\\AppData\\Local\\Doubao\\User Data\\sandbox_runtime\\bases\\772984f6fd3a8ae0ae7d2422cd7c2bfa\\python\\Lib\\site-packages\\pymupdf\\__init__.py",
+    "version": "1.27.2.2",
+    "source": "existing"
+  },
+  "task_id": "render__BY1Pzsrgv72rDCQXav3aw",
+  "cli_status": "succeeded",
+  "upload_preparation": {
+    "compressed": false,
+    "strategy": "original",
+    "strategy_version": "word-render-media-v2",
+    "source_size_bytes": 42741,
+    "upload_size_bytes": 42741,
+    "images_compressed": 0,
+    "layout_preserved": true
+  },
+  "expires_at": 1793510759,
+  "pdf": {
+    "file": "document.pdf",
+    "sha256": "4ba58f81191a91670a291ad56ced0dbd991377e2df3fe68700b3ae9cf3b99a31",
+    "size": 347059,
+    "metadata": {
+      "format": "PDF 1.7",
+      "title": "",
+      "author": "",
+      "subject": "",
+      "keywords": "",
+      "creator": "",
+      "producer": "",
+      "creationDate": "D:20261031132559+08'00'",
+      "modDate": "D:20261031132559+08'00'",
+      "trapped": "",
+      "encryption": null
+    }
+  },
+  "page_count": 5,
+  "pages": [
+    {
+      "page": 1,
+      "file": "page-0001.png",
+      "sha256": "9023a0ebc8b83ada922ea6656d341bf0934fea4ccd12d0e5d797b3af0704bca9",
+      "size": 306111,
+      "width_px": 1241,
+      "height_px": 1754,
+      "width_pt": 595.2999877929688,
+      "height_pt": 841.9000244140625
+    },
+    {
+      "page": 2,
+      "file": "page-0002.png",
+      "sha256": "da776bd62e4ef34ed1e61e3c6192381b902b824ee200d1a1b041b29f1af0ca5a",
+      "size": 246357,
+      "width_px": 1241,
+      "height_px": 1754,
+      "width_pt": 595.2999877929688,
+      "height_pt": 841.9000244140625
+    },
+    {
+      "page": 3,
+      "file": "page-0003.png",
+      "sha256": "f59e6176afff97c89793bbeab86888fbbdaef5fbeaa08f38f5476a06c42ea1d5",
+      "size": 250786,
+      "width_px": 1241,
+      "height_px": 1754,
+      "width_pt": 595.2999877929688,
+      "height_pt": 841.9000244140625
+    },
+    {
+      "page": 4,
+      "file": "page-0004.png",
+      "sha256": "f2a5bf54dc1f66c031362a8ea3ce116c15ee3b60fa7989f1335aa4c8e97f0cba",
+      "size": 244394,
+      "width_px": 1241,
+      "height_px": 1754,
+      "width_pt": 595.2999877929688,
+      "height_pt": 841.9000244140625
+    },
+    {
+      "page": 5,
+      "file": "page-0005.png",
+      "sha256": "5ae756019b025d711c799dd39864296d5a55eea55c6c3e7e9842d6a27d1ea6a7",
+      "size": 243385,
+      "width_px": 1241,
+      "height_px": 1754,
+      "width_pt": 595.2999877929688,
+      "height_pt": 841.9000244140625
+    }
+  ],
+  "rasterizer": "PyMuPDF 1.27.2.2"
+}
