@@ -14,6 +14,12 @@ $qrhDst = Join-Path $repo "QRH\$today"
 New-Item -ItemType Directory -Force -Path $qrhDst | Out-Null
 Copy-Item -Path "C:\proj2\QRH\*" -Destination $qrhDst -Recurse -Force
 
+# 1b) A5CharQ5 Lean 项目源 → 仓库 A5CharQ5\<today> 快照（同日更新；历史快照保留不覆盖）
+$a5Dst = Join-Path $repo "A5CharQ5\$today"
+New-Item -ItemType Directory -Force -Path $a5Dst | Out-Null
+Copy-Item -Path "C:\proj2\A5CharQ5\*" -Destination $a5Dst -Recurse -Force
+if (Test-Path -LiteralPath "C:\proj2\A5CharQ5.lean") { Copy-Item -LiteralPath "C:\proj2\A5CharQ5.lean" -Destination $a5Dst -Force }
+
 # 2) C:\proj2 根新产出（编译证据/脚本/探针）→ 仓库根
 $proj2Files = @(
   "QRH.lean","migrate_khat.py",
@@ -49,7 +55,7 @@ if ([string]::IsNullOrWhiteSpace($changes)) {
     exit
 }
 
-$commitMsg = Read-Host -Prompt "Input commit message"
+$commitMsg = $env:PUSH_MSG
 if ([string]::IsNullOrWhiteSpace($commitMsg)) {
     $commitMsg = "sync: lean source & docs & numerics $today"
 }

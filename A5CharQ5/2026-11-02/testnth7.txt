@@ -1,0 +1,59 @@
+C:\proj2\A5CharQ5\TestNth7.lean:8:2: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+C:\proj2\A5CharQ5\TestNth7.lean:16:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pA ^ 2 * pA
+in the target expression
+  pA ^ 2 * pB * pA ^ 2 * pA * pB * pB = pA ^ 2 * pB * pA ^ 3 * pB * pB
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+⊢ pA ^ 2 * pB * pA ^ 2 * pA * pB * pB = pA ^ 2 * pB * pA ^ 3 * pB * pB
+C:\proj2\A5CharQ5\TestNth7.lean:23:32: error: Tactic `assumption` failed
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hBi : pA ^ 3 * pB ^ 2 = pB * pA ^ 2
+⊢ pA ^ 2 * (pB * (pA ^ 3 * (pB * pB))) = pA ^ 2 * (pB * (pA ^ 3 * pB ^ 2))
+C:\proj2\A5CharQ5\TestNth7.lean:25:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pA ^ 3 * pB ^ 2
+in the target expression
+  pA ^ 2 * pB * pA ^ 3 * pB ^ 2 = pA ^ 2 * pB * (pB * pA ^ 2)
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hBi : pA ^ 3 * pB ^ 2 = pB * pA ^ 2
+⊢ pA ^ 2 * pB * pA ^ 3 * pB ^ 2 = pA ^ 2 * pB * (pB * pA ^ 2)
+C:\proj2\A5CharQ5\TestNth7.lean:27:6: error: Tactic `assumption` failed
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hBi : pA ^ 3 * pB ^ 2 = pB * pA ^ 2
+⊢ pA ^ 2 * (pB * (pB * pA ^ 2)) = pA ^ 2 * (pB ^ 2 * pA ^ 2)
+C:\proj2\A5CharQ5\TestNth7.lean:34:28: error: unsolved goals
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hF : pA * pB * pA = pA ^ 4 * pB ^ 2 * pA ^ 4
+⊢ pB * pA * pB * pA * pB = pB * (pA * pB * pA) * pB
+C:\proj2\A5CharQ5\TestNth7.lean:38:6: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+C:\proj2\A5CharQ5\TestNth7.lean:42:0: warning: declaration uses `sorry`
+C:\proj2\A5CharQ5\TestNth7.lean:54:2: error: Tactic `assumption` failed
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+hB3 : pB ^ 3 = 1
+⊢ pB * (pA ^ 2 * (pB ^ 2 * (pA ^ 3 * (pB * (pA ^ 4 * pB))))) = pA ^ 3 * (pB * (pA ^ 3 * (pB * (pA ^ 4 * pB))))
+C:\proj2\A5CharQ5\TestNth7.lean:58:0: warning: declaration uses `sorry`
+C:\proj2\A5CharQ5\TestNth7.lean:72:2: error: No goals to be solved
+C:\proj2\A5CharQ5\TestNth7.lean:74:0: error: Invalid `end`: There is no current scope to end
+
+Note: Scopes are introduced using `namespace` and `section`

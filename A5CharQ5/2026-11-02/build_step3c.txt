@@ -1,0 +1,375 @@
+A5CharQ5\A5Defs.lean:149:29: warning: This simp argument is unused:
+  Equiv.Perm.sign_swap
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Equiv.Perm.sign_mul]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+A5CharQ5\A5Defs.lean:211:4: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+A5CharQ5\A5Defs.lean:211:72: warning: Unused tactic linter: `exact Or.inl rfl` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+A5CharQ5\A5Defs.lean:211:72: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+A5CharQ5\A5Defs.lean:225:4: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+A5CharQ5\A5Defs.lean:239:4: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+A5CharQ5\A5Defs.lean:239:72: warning: Unused tactic linter: `exact Or.inl rfl` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+A5CharQ5\A5Defs.lean:239:72: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+A5CharQ5\A5Defs.lean:327:44: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+A5CharQ5\A5Defs.lean:335:25: warning: Try `simp at hdiv` instead of `simpa using hdiv`
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+A5CharQ5\A5Defs.lean:481:200: warning: Unused tactic linter: `norm_num` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+A5CharQ5\A5Defs.lean:481:200: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+A5CharQ5\A5Defs.lean:491:77: warning: This simp argument is unused:
+  ← add_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Matrix.mul_apply, Fin.sum_univ_succ, icosahedralT]
+
+Note: Simp arguments with `←` have the additional effect of removing the other direction from the simp set, even if the simp argument itself is unused. If the hint above does not work, try replacing `←` with `-` to only get that effect and silence this warning.
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+A5CharQ5\A5Defs.lean:491:108: warning: Unused tactic linter: `simp [Matrix.mul_apply, Fin.sum_univ_succ, ← add_assoc]` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+A5CharQ5\A5Defs.lean:491:168: warning: Unused tactic linter: `simp [Matrix.mul_apply, Fin.sum_univ_succ, ← add_assoc]` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+A5CharQ5\A5Defs.lean:491:228: warning: Unused tactic linter: `norm_num` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+A5CharQ5\A5Defs.lean:491:108: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+A5CharQ5\A5Defs.lean:491:168: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+A5CharQ5\A5Defs.lean:491:228: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+A5CharQ5\A5Defs.lean:501:214: warning: Unused tactic linter: `norm_num` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+A5CharQ5\A5Defs.lean:501:214: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+A5CharQ5\A5Defs.lean:682:2: error: No goals to be solved
+A5CharQ5\A5Defs.lean:688:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a ^ ?m * ?a ^ ?n
+in the target expression
+  pA * pA ^ 4 = 1
+
+⊢ pA * pA ^ 4 = 1
+A5CharQ5\A5Defs.lean:695:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a ^ ?m * ?a ^ ?n
+in the target expression
+  pB * pB ^ 2 = 1
+
+⊢ pB * pB ^ 2 = 1
+A5CharQ5\A5Defs.lean:702:4: error: Type mismatch: After simplification, term
+  pA2B_pow_two
+ has type
+  @Eq P (pA * pA * pB * (pA * pA * pB)) 1
+but is expected to have type
+  @Eq P (pA * pA * pB * (pA * pA) * pB) 1
+A5CharQ5\A5Defs.lean:712:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a ^ ?m * ?a ^ ?n
+in the target expression
+  pB * pB ^ 2 = 1
+
+h1 : pA ^ 2 * pB * pA ^ 2 * pB = 1
+ha3 : (pA ^ 2)⁻¹ = pA ^ 3
+⊢ pB * pB ^ 2 = 1
+A5CharQ5\A5Defs.lean:717:53: error: Invalid rewrite argument: The pattern to be substituted is a metavariable (`?a`) in this equality
+  ?a = ?a * ?b * ?b⁻¹
+A5CharQ5\A5Defs.lean:723:58: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a⁻¹ * (?a * ?b)
+in the target expression
+  1 * (pB * pA ^ 2) = (pA ^ 2)⁻¹ * pA ^ 2 * (pB * pA ^ 2)
+
+h1 : pA ^ 2 * pB * pA ^ 2 * pB = 1
+ha3 : (pA ^ 2)⁻¹ = pA ^ 3
+hb2 : pB⁻¹ = pB ^ 2
+h2 : pA ^ 2 * pB * pA ^ 2 = pB⁻¹
+⊢ 1 * (pB * pA ^ 2) = (pA ^ 2)⁻¹ * pA ^ 2 * (pB * pA ^ 2)
+A5CharQ5\A5Defs.lean:755:76: error: unsolved goals
+case h
+⊢ pA * (pA * pB) = pB * pB * (pA * (pA * pA))
+A5CharQ5\A5Defs.lean:757:18: warning: This simp argument is unused:
+  pow_two
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [cosetRep, pow_three, a2_b_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+A5CharQ5\A5Defs.lean:757:38: warning: This simp argument is unused:
+  a2_b_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [cosetRep, pow_two, pow_three]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+A5CharQ5\A5Defs.lean:759:76: error: unsolved goals
+case h
+⊢ pA * (pB * pB) = pA * pB * pB
+A5CharQ5\A5Defs.lean:763:76: error: unsolved goals
+case h
+⊢ pA * (pA * pB * pB) = pA * pA * pB * pB
+A5CharQ5\A5Defs.lean:767:76: error: unsolved goals
+case h
+⊢ pA * (pB * pA * pB) = pA * pB * pA * pB
+A5CharQ5\A5Defs.lean:771:76: error: unsolved goals
+case h
+⊢ pA * (pA * pA * pB * pB) = pB * (pA * pA)
+A5CharQ5\A5Defs.lean:773:27: warning: This simp argument is unused:
+  pow_three
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [cosetRep, pow_two, b_a2_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+A5CharQ5\A5Defs.lean:773:38: warning: This simp argument is unused:
+  b_a2_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [cosetRep, pow_two, pow_three]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+A5CharQ5\A5Defs.lean:775:77: error: unsolved goals
+case h
+⊢ pA * (pB * pA * pB * pB) = pA * pB * pA * pB * pB
+A5CharQ5\A5Defs.lean:787:76: error: unsolved goals
+case h
+⊢ pB * (pA * pB) = pB * pA * pB
+A5CharQ5\A5Defs.lean:791:76: error: unsolved goals
+case h
+⊢ pB * (pA * pB * pB) = pB * pA * pB * pB
+A5CharQ5\A5Defs.lean:795:76: error: unsolved goals
+case h
+⊢ pB * (pB * pA * pB) = pB * pB * pA * pB
+A5CharQ5\A5Defs.lean:804:37: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * (?a * ?a)
+in the target expression
+  pB * pB * pB * pA * pB = pB ^ 3 * pA * pB
+
+⊢ pB * pB * pB * pA * pB = pB ^ 3 * pA * pB
+A5CharQ5\A5Defs.lean:807:34: error: Invalid rewrite argument: The pattern to be substituted is a metavariable (`?a`) in this equality
+  ?a = ?a * 1
+A5CharQ5\A5Defs.lean:809:79: error: unsolved goals
+case h
+⊢ pB * (pA * pB * pA * pB * pB) = pB * pA * pB * pA * pB * pB
+A5CharQ5\A5Defs.lean:816:37: error: Tactic `assumption` failed
+
+case «0»
+⊢ ∃ k, pA * cosetRep 0 = cosetRep 0 * pA ^ ↑k
+A5CharQ5\A5Defs.lean:816:37: error: Tactic `assumption` failed
+
+case «1»
+⊢ ∃ k, pA * cosetRep 1 = cosetRep 2 * pA ^ ↑k
+A5CharQ5\A5Defs.lean:816:37: error: Tactic `assumption` failed
+
+case «2»
+⊢ ∃ k, pA * cosetRep 2 = cosetRep 3 * pA ^ ↑k
+A5CharQ5\A5Defs.lean:816:37: error: Tactic `assumption` failed
+
+case «3»
+⊢ ∃ k, pA * cosetRep 3 = cosetRep 4 * pA ^ ↑k
+A5CharQ5\A5Defs.lean:816:37: error: Tactic `assumption` failed
+
+case «4»
+⊢ ∃ k, pA * cosetRep 4 = cosetRep 6 * pA ^ ↑k
+A5CharQ5\A5Defs.lean:816:37: error: Tactic `assumption` failed
+
+case «5»
+⊢ ∃ k, pA * cosetRep 5 = cosetRep 7 * pA ^ ↑k
+A5CharQ5\A5Defs.lean:816:37: error: Tactic `assumption` failed
+
+case «6»
+⊢ ∃ k, pA * cosetRep 6 = cosetRep 1 * pA ^ ↑k
+A5CharQ5\A5Defs.lean:816:37: error: Tactic `assumption` failed
+
+case «7»
+⊢ ∃ k, pA * cosetRep 7 = cosetRep 8 * pA ^ ↑k
+A5CharQ5\A5Defs.lean:816:37: error: Tactic `assumption` failed
+
+case «8»
+⊢ ∃ k, pA * cosetRep 8 = cosetRep 10 * pA ^ ↑k
+A5CharQ5\A5Defs.lean:816:37: error: Tactic `assumption` failed
+
+case «9»
+⊢ ∃ k, pA * cosetRep 9 = cosetRep 5 * pA ^ ↑k
+A5CharQ5\A5Defs.lean:816:37: error: Tactic `assumption` failed
+
+case «10»
+⊢ ∃ k, pA * cosetRep 10 = cosetRep 9 * pA ^ ↑k
+A5CharQ5\A5Defs.lean:816:37: error: Tactic `assumption` failed
+
+case «11»
+⊢ ∃ k, pA * cosetRep 11 = cosetRep 11 * pA ^ ↑k
+A5CharQ5\A5Defs.lean:820:37: error: Tactic `assumption` failed
+
+case «0»
+⊢ ∃ k, pB * cosetRep 0 = cosetRep 1 * pA ^ ↑k
+A5CharQ5\A5Defs.lean:820:37: error: Tactic `assumption` failed
+
+case «1»
+⊢ ∃ k, pB * cosetRep 1 = cosetRep 3 * pA ^ ↑k
+A5CharQ5\A5Defs.lean:820:37: error: Tactic `assumption` failed
+
+case «2»
+⊢ ∃ k, pB * cosetRep 2 = cosetRep 5 * pA ^ ↑k
+A5CharQ5\A5Defs.lean:820:37: error: Tactic `assumption` failed
+
+case «3»
+⊢ ∃ k, pB * cosetRep 3 = cosetRep 0 * pA ^ ↑k
+A5CharQ5\A5Defs.lean:820:37: error: Tactic `assumption` failed
+
+case «4»
+⊢ ∃ k, pB * cosetRep 4 = cosetRep 8 * pA ^ ↑k
+A5CharQ5\A5Defs.lean:820:37: error: Tactic `assumption` failed
+
+case «5»
+⊢ ∃ k, pB * cosetRep 5 = cosetRep 9 * pA ^ ↑k
+A5CharQ5\A5Defs.lean:820:37: error: Tactic `assumption` failed
+
+case «6»
+⊢ ∃ k, pB * cosetRep 6 = cosetRep 4 * pA ^ ↑k
+A5CharQ5\A5Defs.lean:820:37: error: Tactic `assumption` failed
+
+case «7»
+⊢ ∃ k, pB * cosetRep 7 = cosetRep 10 * pA ^ ↑k
+A5CharQ5\A5Defs.lean:820:37: error: Tactic `assumption` failed
+
+case «8»
+⊢ ∃ k, pB * cosetRep 8 = cosetRep 6 * pA ^ ↑k
+A5CharQ5\A5Defs.lean:820:37: error: Tactic `assumption` failed
+
+case «9»
+⊢ ∃ k, pB * cosetRep 9 = cosetRep 2 * pA ^ ↑k
+A5CharQ5\A5Defs.lean:820:37: error: Tactic `assumption` failed
+
+case «10»
+⊢ ∃ k, pB * cosetRep 10 = cosetRep 11 * pA ^ ↑k
+A5CharQ5\A5Defs.lean:820:37: error: Tactic `assumption` failed
+
+case «11»
+⊢ ∃ k, pB * cosetRep 11 = cosetRep 7 * pA ^ ↑k
+A5CharQ5\A5Defs.lean:827:8: warning: This simp argument is unused:
+  S
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [cosetRep]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+A5CharQ5\A5Defs.lean:831:8: warning: This simp argument is unused:
+  S
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [cosetRep]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+A5CharQ5\A5Defs.lean:835:8: warning: This simp argument is unused:
+  S
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [cosetRep]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+A5CharQ5\A5Defs.lean:841:34: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pA ^ ↑(?m + ?k)
+in the target expression
+  S (cosetRep (aTarget p.1) * (pA ^ ↑k * pA ^ ↑p.2))
+
+p : Fin 12 × Fin 5
+k : Fin 5
+hk : pA * cosetRep p.1 = cosetRep (aTarget p.1) * pA ^ ↑k
+⊢ S (cosetRep (aTarget p.1) * (pA ^ ↑k * pA ^ ↑p.2))
+A5CharQ5\A5Defs.lean:848:34: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pA ^ ↑(?m + ?k)
+in the target expression
+  S (cosetRep (bTarget p.1) * (pA ^ ↑k * pA ^ ↑p.2))
+
+p : Fin 12 × Fin 5
+k : Fin 5
+hk : pB * cosetRep p.1 = cosetRep (bTarget p.1) * pA ^ ↑k
+⊢ S (cosetRep (bTarget p.1) * (pA ^ ↑k * pA ^ ↑p.2))
+A5CharQ5\A5Defs.lean:881:2: error: Invalid alternative name `inv`: Expected `inv_of`
+A5CharQ5\A5Defs.lean:860:6: error: Tactic `constructor` failed: target is not an inductive datatype
+
+case one
+x : P
+⊢ (PresentedGroup.mk rels) 1 ∈ Submonoid.closure {pA, pB}
+A5CharQ5\A5Defs.lean:866:6: error: Tactic `constructor` failed: target is not an inductive datatype
+
+case of
+x : P
+i : Fin 2
+⊢ (PresentedGroup.mk rels) (FreeGroup.of i) ∈ Submonoid.closure {pA, pB}
+A5CharQ5\A5Defs.lean:888:6: error: Tactic `constructor` failed: target is not an inductive datatype
+
+case mul
+x : P
+z₁ z₂ : FreeGroup (Fin 2)
+ih₁ : (PresentedGroup.mk rels) z₁ ∈ Submonoid.closure {pA, pB}
+ih₂ : (PresentedGroup.mk rels) z₂ ∈ Submonoid.closure {pA, pB}
+⊢ (PresentedGroup.mk rels) (z₁ * z₂) ∈ Submonoid.closure {pA, pB}
+A5CharQ5\A5Defs.lean:858:2: error: Alternative `inv_of` has not been provided
+A5CharQ5\A5Defs.lean:920:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  std x
+in the target expression
+  cosetRep (Classical.choose ⋯).1 * pA ^ ↑(Classical.choose ⋯).2 =
+    cosetRep (Classical.choose ⋯).1 * pA ^ ↑(Classical.choose ⋯).2
+
+x y : P
+hxy : std x = std y
+hx : x = cosetRep (Classical.choose ⋯).1 * pA ^ ↑(Classical.choose ⋯).2
+hy : y = cosetRep (Classical.choose ⋯).1 * pA ^ ↑(Classical.choose ⋯).2
+⊢ cosetRep (Classical.choose ⋯).1 * pA ^ ↑(Classical.choose ⋯).2 =
+    cosetRep (Classical.choose ⋯).1 * pA ^ ↑(Classical.choose ⋯).2
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    S_univ x
+  has type
+    S x
+  but is expected to have type
+    ∃ x_1, x = cosetRep x_1.1 * pA ^ ↑x_1.2
+  in the application
+    Classical.choose ⋯
+A5CharQ5\A5Defs.lean:924:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+A5CharQ5\A5Defs.lean:950:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+A5CharQ5\A5Defs.lean:965:4: warning: declaration uses `sorry`
+A5CharQ5\A5Defs.lean:969:8: warning: declaration uses `sorry`

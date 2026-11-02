@@ -1,0 +1,109 @@
+C:\proj2\A5CharQ5\TestNth8.lean:8:2: error: Tactic `assumption` failed
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+⊢ pA ^ 2 * (pB * (pA ^ 3 * (pB * pB))) = pA ^ 2 * (pB * (pA ^ 3 * pB ^ 2))
+C:\proj2\A5CharQ5\TestNth8.lean:13:2: error: Tactic `assumption` failed
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+⊢ pA ^ 2 * (pB * (pB * pA ^ 2)) = pA ^ 2 * (pB ^ 2 * pA ^ 2)
+C:\proj2\A5CharQ5\TestNth8.lean:27:14: error(lean.unknownIdentifier): Unknown identifier `a2_b_comm`
+C:\proj2\A5CharQ5\TestNth8.lean:26:43: error: unsolved goals
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+hB3 : pB ^ 3 = 1
+⊢ pB * (pA ^ 2 * pB) * pB * pA ^ 3 * pB * pA ^ 4 * pB = pB * (pB ^ 2 * pA ^ 3) * pB * pA ^ 3 * pB * pA ^ 4 * pB
+C:\proj2\A5CharQ5\TestNth8.lean:33:14: error(lean.unknownIdentifier): Unknown identifier `pB_pow_three`
+C:\proj2\A5CharQ5\TestNth8.lean:32:35: error: unsolved goals
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+hB3 : pB ^ 3 = 1
+⊢ pB ^ 3 * pA ^ 3 * pB * pA ^ 3 * pB * pA ^ 4 * pB = 1 * pA ^ 3 * pB * pA ^ 3 * pB * pA ^ 4 * pB
+C:\proj2\A5CharQ5\TestNth8.lean:41:22: error(lean.unknownIdentifier): Unknown identifier `a2_b_comm`
+C:\proj2\A5CharQ5\TestNth8.lean:41:2: error: Tactic `assumption` failed
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pA ^ 3 * pB * pA ^ 3 * pB * pA ^ 4 * pB = pA * pB * pB * pA * pB * pA ^ 4 * pB
+C:\proj2\A5CharQ5\TestNth8.lean:52:14: error(lean.unknownIdentifier): Unknown identifier `a2_b_comm`
+C:\proj2\A5CharQ5\TestNth8.lean:51:40: error: unsolved goals
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pA * (pA ^ 2 * pB) * pA ^ 3 * pB * pA ^ 4 * pB = pA * (pB ^ 2 * pA ^ 3) * pA ^ 3 * pB * pA ^ 4 * pB
+C:\proj2\A5CharQ5\TestNth8.lean:55:39: error: unsolved goals
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pA * (pB * pB) * pA ^ 3 * pA ^ 3 * pB * pA ^ 4 * pB = pA * pB * pB * pA ^ 3 * pA ^ 3 * pB * pA ^ 4 * pB
+C:\proj2\A5CharQ5\TestNth8.lean:57:42: error: unsolved goals
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pA * pB * pB * (pA * pA ^ 2) * (pA * pA ^ 2) * pB * pA ^ 4 * pB =
+    pA * pB * pB * pA * pA ^ 2 * (pA * pA ^ 2) * pB * pA ^ 4 * pB
+C:\proj2\A5CharQ5\TestNth8.lean:59:45: error: unsolved goals
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pA * pB * pB * pA * pA ^ 2 * (pA * pA ^ 2) * pB * pA ^ 4 * pB =
+    pA * pB * pB * pA * pA ^ 2 * pA * pA ^ 2 * pB * pA ^ 4 * pB
+C:\proj2\A5CharQ5\TestNth8.lean:62:10: error: Tactic `assumption` failed
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pA * (pB * (pB * (pA * (pA ^ 2 * (pA * (pA ^ 2 * (pB * (pA ^ 4 * pB)))))))) =
+    pA * (pB * (pB * (pA * (pA ^ 5 * (pB * (pA ^ 4 * pB))))))
+C:\proj2\A5CharQ5\TestNth8.lean:65:28: error(lean.unknownIdentifier): Unknown identifier `pA_pow_five`
+C:\proj2\A5CharQ5\TestNth8.lean:65:10: error: Tactic `assumption` failed
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pA * (pB * (pB * (pA * (pA ^ 5 * (pB * (pA ^ 4 * pB)))))) = pA * (pB * (pB * (pA * (pB * (pA ^ 4 * pB)))))
+C:\proj2\A5CharQ5\TestNth8.lean:72:39: error: unsolved goals
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pA * pB * pB * pA * pB * (pA ^ 2 * pA ^ 2) * pB = pA * pB * pB * pA * pB * pA ^ 2 * pA ^ 2 * pB
+C:\proj2\A5CharQ5\TestNth8.lean:79:10: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+C:\proj2\A5CharQ5\TestNth8.lean:85:22: error(lean.unknownIdentifier): Unknown identifier `a2_b_comm`
+C:\proj2\A5CharQ5\TestNth8.lean:85:56: error(lean.unknownIdentifier): Unknown identifier `pA_pow_five`
+C:\proj2\A5CharQ5\TestNth8.lean:85:2: error: Tactic `assumption` failed
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pA * pB * pB * pA * pB * pA ^ 2 * pB ^ 2 * pA ^ 3 = pA * pB * pB * pA ^ 4 * pB * pA ^ 3
+C:\proj2\A5CharQ5\TestNth8.lean:91:22: error(lean.unknownIdentifier): Unknown identifier `a2_b_comm`
+C:\proj2\A5CharQ5\TestNth8.lean:91:45: error(lean.unknownIdentifier): Unknown identifier `pA_pow_five`
+C:\proj2\A5CharQ5\TestNth8.lean:91:2: error: Tactic `assumption` failed
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pA * pB * pB * pA ^ 4 * pB * pA ^ 3 = pA * pB * pB * pA ^ 2 * pB ^ 2 * pA
+C:\proj2\A5CharQ5\TestNth8.lean:93:0: error: Invalid `end`: There is no current scope to end
+
+Note: Scopes are introduced using `namespace` and `section`

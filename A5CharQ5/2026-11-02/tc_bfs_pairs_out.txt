@@ -1,0 +1,30 @@
+==== b11 R0->R1  bbababb(7) -> aabaaababbb(11)
+      NO PATH within depth4/cap26
+==== b11 R7->R8  aaaabbaabbaaaa(14) -> aaaabbaaaabba(13)
+      NO PATH within depth4/cap26
+==== b11 R8->R9  aaaabbaaaabba(13) -> ababa(5)
+      NO PATH within depth4/cap26
+==== b7 tail  abbaabaaaab(11) -> abaabbaaaa(10)
+      NO PATH within depth4/cap26
+==== a11 R3->R4(Bi)  abaaabaaaabbaa(14) -> abaaababaaaa(12)
+      steps=1
+      abaaaba|aaabb|aa -> abaaababaaaa   (rule0 rev)
+      goal=abaaababaaaa  reached=True
+==== a11 R4->R5(Ci)  abaaababaaaa(12) -> abbaabbaabaaaa(14)
+      NO PATH within depth4/cap26
+==== a11 R5->R6(Di)  abbaabbaabaaaa(14) -> aaabaaaaaabbaabaaaa(19)
+      NO PATH within depth4/cap26
+==== a11 R6->R7(Di2)  aaabaaaaaabbaabaaaa(19) -> aaabaaabaaabaaaa(16)
+      NO PATH within depth4/cap26
+==== a11 R7->R8(Bi2)  aaabaaabaaabaaaa(16) -> bbaabbaabaaaabaaaa(18)
+      NO PATH within depth4/cap26
+==== a11 R8->R9(Ci2)  bbaabbaabaaaabaaaa(18) -> baaaabaaabaaabaaaa(18)
+      NO PATH within depth4/cap26
+==== a11 R9->R10(Gi)  baaaabaaabaaabaaaa(18) -> baaaabbbaaabbaaabaaaa(21)
+      NO PATH within depth4/cap26
+==== a11 R10->R11(Ai)  baaaabbbaaabbaaabaaaa(21) -> baaaabbbaaaaabbaaaa(19)
+      steps=1
+      baaaabbbaaa|bbaaa|baaaa -> baaaabbbaaaaabbaaaa   (rule1 rev)
+      goal=baaaabbbaaaaabbaaaa  reached=True
+==== a11 R11->R12(Ai2)  baaaabbbaaaaabbaaaa(19) -> baabaabbaaaa(12)
+      NO PATH within depth4/cap26
