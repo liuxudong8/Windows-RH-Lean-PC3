@@ -1,0 +1,3 @@
+A5CharQ5\CharValues.lean:30:9: warning: declaration uses `sorry`
+A5CharQ5\CharValues.lean:34:8: warning: declaration uses `sorry`
+A5CharQ5\CharValues.lean:40:8: warning: declaration uses `sorry`

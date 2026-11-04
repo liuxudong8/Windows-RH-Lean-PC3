@@ -1,4 +1,4 @@
-<#
+﻿<#
 Windows-RH-Lean-PC2 one-click push script (全面版 2026-10-27)
 Run under repository root directory
 流程：① 同步外部产出（C:\proj2、chats\2026-10-16）到仓库内镜像 → ② git add/commit/push

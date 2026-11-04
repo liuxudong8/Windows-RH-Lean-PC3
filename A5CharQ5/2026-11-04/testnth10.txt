@@ -1,0 +1,129 @@
+C:\proj2\A5CharQ5\TestNth10.lean:5:0: error: Unknown option `maxRecursionDepth`
+C:\proj2\A5CharQ5\TestNth10.lean:55:41: error: unsolved goals
+G : Type
+inst✝ : Group G
+pA pB : G
+hF✝ : pA * pB * pA = pA ^ 4 * pB ^ 2 * pA ^ 4
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+hB : pB * pA ^ 2 = pA ^ 3 * pB ^ 2
+hC : pA ^ 2 * pB * pA ^ 2 = pB ^ 2
+hD : pB * pA ^ 2 * pB = pA ^ 3
+hG : pB ^ 2 * pA ^ 2 * pB ^ 2 = pB * pA ^ 3 * pB
+hA5 : pA ^ 5 = 1
+hB3 : pB ^ 3 = 1
+hF : pA * pB * pA = pA ^ 4 * pB ^ 2 * pA ^ 4
+⊢ pB * pA * pB * pA * pB = pB * (pA * pB) * pA * pB
+C:\proj2\A5CharQ5\TestNth10.lean:56:32: error: unsolved goals
+G : Type
+inst✝ : Group G
+pA pB : G
+hF✝ : pA * pB * pA = pA ^ 4 * pB ^ 2 * pA ^ 4
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+hB : pB * pA ^ 2 = pA ^ 3 * pB ^ 2
+hC : pA ^ 2 * pB * pA ^ 2 = pB ^ 2
+hD : pB * pA ^ 2 * pB = pA ^ 3
+hG : pB ^ 2 * pA ^ 2 * pB ^ 2 = pB * pA ^ 3 * pB
+hA5 : pA ^ 5 = 1
+hB3 : pB ^ 3 = 1
+hF : pA * pB * pA = pA ^ 4 * pB ^ 2 * pA ^ 4
+⊢ pB * (pA ^ 4 * pB ^ 2) * pA ^ 4 * pB = pB * pA ^ 4 * pB ^ 2 * pA ^ 4 * pB
+C:\proj2\A5CharQ5\TestNth10.lean:62:61: error: unsolved goals
+G : Type
+inst✝ : Group G
+pA pB : G
+hF : pA * pB * pA = pA ^ 4 * pB ^ 2 * pA ^ 4
+hA✝ : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+hB : pB * pA ^ 2 = pA ^ 3 * pB ^ 2
+hC : pA ^ 2 * pB * pA ^ 2 = pB ^ 2
+hD : pB * pA ^ 2 * pB = pA ^ 3
+hG : pB ^ 2 * pA ^ 2 * pB ^ 2 = pB * pA ^ 3 * pB
+hA5 : pA ^ 5 = 1
+hB3 : pB ^ 3 = 1
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pB * (pA ^ 2 * pA ^ 2) * pB ^ 2 * pA ^ 2 * pA ^ 2 * pB = pB * pA ^ 2 * pA ^ 2 * pB ^ 2 * pA ^ 2 * pA ^ 2 * pB
+C:\proj2\A5CharQ5\TestNth10.lean:65:45: error: unsolved goals
+G : Type
+inst✝ : Group G
+pA pB : G
+hF : pA * pB * pA = pA ^ 4 * pB ^ 2 * pA ^ 4
+hA✝ : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+hB : pB * pA ^ 2 = pA ^ 3 * pB ^ 2
+hC : pA ^ 2 * pB * pA ^ 2 = pB ^ 2
+hD : pB * pA ^ 2 * pB = pA ^ 3
+hG : pB ^ 2 * pA ^ 2 * pB ^ 2 = pB * pA ^ 3 * pB
+hA5 : pA ^ 5 = 1
+hB3 : pB ^ 3 = 1
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pB * pA ^ 2 * pA ^ 2 * (pB * pB) * pA ^ 2 * pA ^ 2 * pB = pB * pA ^ 2 * (pA ^ 2 * pB) * pB * pA ^ 2 * pA ^ 2 * pB
+C:\proj2\A5CharQ5\TestNth10.lean:87:2: error: Tactic `assumption` failed
+
+G : Type
+inst✝ : Group G
+pA pB : G
+hF : pA * pB * pA = pA ^ 4 * pB ^ 2 * pA ^ 4
+hA✝ : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+hB : pB * pA ^ 2 = pA ^ 3 * pB ^ 2
+hC : pA ^ 2 * pB * pA ^ 2 = pB ^ 2
+hD : pB * pA ^ 2 * pB = pA ^ 3
+hG : pB ^ 2 * pA ^ 2 * pB ^ 2 = pB * pA ^ 3 * pB
+hA5 : pA ^ 5 = 1
+hB3 : pB ^ 3 = 1
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pA ^ 3 * (pB * (pA ^ 3 * (pB * (pA ^ 4 * pB)))) = pA * (pB ^ 2 * (pA * (pB * (pA ^ 4 * pB))))
+C:\proj2\A5CharQ5\TestNth10.lean:93:63: error: unsolved goals
+G : Type
+inst✝ : Group G
+pA pB : G
+hF : pA * pB * pA = pA ^ 4 * pB ^ 2 * pA ^ 4
+hA✝ : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+hB : pB * pA ^ 2 = pA ^ 3 * pB ^ 2
+hC : pA ^ 2 * pB * pA ^ 2 = pB ^ 2
+hD : pB * pA ^ 2 * pB = pA ^ 3
+hG : pB ^ 2 * pA ^ 2 * pB ^ 2 = pB * pA ^ 3 * pB
+hA5✝ : pA ^ 5 = 1
+hB3 : pB ^ 3 = 1
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+hA5 : pA ^ 5 = 1
+⊢ pA * pA ^ 2 * pB * (pA * pA ^ 2) * pB * (pA ^ 4 * pB) = pA * pA ^ 2 * pB * pA * pA ^ 2 * pB * pA ^ 4 * pB
+C:\proj2\A5CharQ5\TestNth10.lean:96:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pA ^ 2 * pB
+in the target expression
+  pA * pA ^ 2 * pB * pA * pA ^ 2 * pB * pA ^ 4 * pB = pA * pB ^ 2 * pA ^ 3 * pA * pB ^ 2 * pA ^ 3 * pA ^ 4 * pB
+
+G : Type
+inst✝ : Group G
+pA pB : G
+hF : pA * pB * pA = pA ^ 4 * pB ^ 2 * pA ^ 4
+hA✝ : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+hB : pB * pA ^ 2 = pA ^ 3 * pB ^ 2
+hC : pA ^ 2 * pB * pA ^ 2 = pB ^ 2
+hD : pB * pA ^ 2 * pB = pA ^ 3
+hG : pB ^ 2 * pA ^ 2 * pB ^ 2 = pB * pA ^ 3 * pB
+hA5✝ : pA ^ 5 = 1
+hB3 : pB ^ 3 = 1
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+hA5 : pA ^ 5 = 1
+⊢ pA * pA ^ 2 * pB * pA * pA ^ 2 * pB * pA ^ 4 * pB = pA * pB ^ 2 * pA ^ 3 * pA * pB ^ 2 * pA ^ 3 * pA ^ 4 * pB
+C:\proj2\A5CharQ5\TestNth10.lean:97:44: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a ^ ?m * ?a ^ ?n
+in the target expression
+  pA * pB ^ 2 * pA ^ 3 * pA * pB ^ 2 * pA ^ 3 * pA ^ 4 * pB = pA * pB ^ 2 * pA ^ 4 * pB ^ 2 * pA ^ 7 * pB
+
+G : Type
+inst✝ : Group G
+pA pB : G
+hF : pA * pB * pA = pA ^ 4 * pB ^ 2 * pA ^ 4
+hA✝ : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+hB : pB * pA ^ 2 = pA ^ 3 * pB ^ 2
+hC : pA ^ 2 * pB * pA ^ 2 = pB ^ 2
+hD : pB * pA ^ 2 * pB = pA ^ 3
+hG : pB ^ 2 * pA ^ 2 * pB ^ 2 = pB * pA ^ 3 * pB
+hA5✝ : pA ^ 5 = 1
+hB3 : pB ^ 3 = 1
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+hA5 : pA ^ 5 = 1
+⊢ pA * pB ^ 2 * pA ^ 3 * pA * pB ^ 2 * pA ^ 3 * pA ^ 4 * pB = pA * pB ^ 2 * pA ^ 4 * pB ^ 2 * pA ^ 7 * pB
+C:\proj2\A5CharQ5\TestNth10.lean:103:0: error: Unexpected name `A5CharQ5` after `end`: The current section is unnamed
+
+Hint: Delete the name `A5CharQ5` to end the current unnamed scope; outer named scopes can then be closed using additional `end` command(s):
+  end ̵A̵5̵C̵h̵a̵r̵Q̵5̵

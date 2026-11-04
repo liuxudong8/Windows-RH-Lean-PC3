@@ -1,0 +1,457 @@
+A5CharQ5\A5Defs.lean:149:29: warning: This simp argument is unused:
+  Equiv.Perm.sign_swap
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Equiv.Perm.sign_mul]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+A5CharQ5\A5Defs.lean:211:4: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+A5CharQ5\A5Defs.lean:211:72: warning: Unused tactic linter: `exact Or.inl rfl` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+A5CharQ5\A5Defs.lean:211:72: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+A5CharQ5\A5Defs.lean:225:4: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+A5CharQ5\A5Defs.lean:239:4: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+A5CharQ5\A5Defs.lean:239:72: warning: Unused tactic linter: `exact Or.inl rfl` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+A5CharQ5\A5Defs.lean:239:72: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+A5CharQ5\A5Defs.lean:327:44: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+A5CharQ5\A5Defs.lean:335:25: warning: Try `simp at hdiv` instead of `simpa using hdiv`
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+A5CharQ5\A5Defs.lean:481:200: warning: Unused tactic linter: `norm_num` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+A5CharQ5\A5Defs.lean:481:200: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+A5CharQ5\A5Defs.lean:491:77: warning: This simp argument is unused:
+  ← add_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Matrix.mul_apply, Fin.sum_univ_succ, icosahedralT]
+
+Note: Simp arguments with `←` have the additional effect of removing the other direction from the simp set, even if the simp argument itself is unused. If the hint above does not work, try replacing `←` with `-` to only get that effect and silence this warning.
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+A5CharQ5\A5Defs.lean:491:108: warning: Unused tactic linter: `simp [Matrix.mul_apply, Fin.sum_univ_succ, ← add_assoc]` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+A5CharQ5\A5Defs.lean:491:168: warning: Unused tactic linter: `simp [Matrix.mul_apply, Fin.sum_univ_succ, ← add_assoc]` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+A5CharQ5\A5Defs.lean:491:228: warning: Unused tactic linter: `norm_num` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+A5CharQ5\A5Defs.lean:491:108: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+A5CharQ5\A5Defs.lean:491:168: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+A5CharQ5\A5Defs.lean:491:228: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+A5CharQ5\A5Defs.lean:501:214: warning: Unused tactic linter: `norm_num` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+A5CharQ5\A5Defs.lean:501:214: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+A5CharQ5\A5Defs.lean:769:39: error: unsolved goals
+⊢ pA ^ 2 * (pB * (pA ^ 2 * pB)) = pA ^ 2 * pB * pA ^ 2 * pB
+A5CharQ5\A5Defs.lean:813:30: error: Type mismatch
+  hb4
+has type
+  pB ^ 4 = pB
+but is expected to have type
+  pB * pA ^ 3 * pB ^ 4 = pB * pA ^ 3 * pB
+A5CharQ5\A5Defs.lean:807:38: error: unsolved goals
+hb4 : pB ^ 4 = pB
+⊢ pB * pB * pA ^ 2 * (pB * pB) = pB * pB * pA ^ 2 * pB * pB
+A5CharQ5\A5Defs.lean:808:42: error: unsolved goals
+hb4 : pB ^ 4 = pB
+⊢ pB * pB * pA ^ 2 * (pB * pB) = pB * (pB * pA ^ 2) * pB * pB
+A5CharQ5\A5Defs.lean:810:44: error: unsolved goals
+hb4 : pB ^ 4 = pB
+⊢ pB * (pA ^ 3 * pB ^ 2) * (pB * pB) = pB * pA ^ 3 * pB ^ 2 * pB * pB
+A5CharQ5\A5Defs.lean:812:34: error: unsolved goals
+hb4 : pB ^ 4 = pB
+⊢ pB * pA ^ 3 * (pB ^ 2) ^ 2 = pB * pA ^ 3 * pB ^ 4
+A5CharQ5\A5Defs.lean:830:2: error: `simp` made no progress
+A5CharQ5\A5Defs.lean:835:2: error: `simp` made no progress
+A5CharQ5\A5Defs.lean:840:2: error: `simp` made no progress
+A5CharQ5\A5Defs.lean:849:36: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * ?a
+in the target expression
+  pA ^ 3 * pB * pB = pA ^ 3 * pB ^ 2
+
+⊢ pA ^ 3 * pB * pB = pA ^ 3 * pB ^ 2
+A5CharQ5\A5Defs.lean:854:2: error: `simp` made no progress
+A5CharQ5\A5Defs.lean:867:2: error: `simp` made no progress
+A5CharQ5\A5Defs.lean:872:2: error: `simp` made no progress
+A5CharQ5\A5Defs.lean:877:2: error: `simp` made no progress
+A5CharQ5\A5Defs.lean:890:79: error: unsolved goals
+case h
+⊢ pB * (pA * pB * pA * pB * pB) = pB * pA * pB * pA * pB * pB
+A5CharQ5\A5Defs.lean:902:48: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a ^ ?n * ?a
+in the target expression
+  pB ^ 2 * pA ^ 3 * (pA * pB) = pB ^ 2 * pA ^ 4 * pB
+
+⊢ pB ^ 2 * pA ^ 3 * (pA * pB) = pB ^ 2 * pA ^ 4 * pB
+A5CharQ5\A5Defs.lean:904:57: error: No goals to be solved
+A5CharQ5\A5Defs.lean:903:39: error: unsolved goals
+⊢ pB ^ 2 * (pA ^ 2 * pA ^ 2) * pB = pB ^ 2 * pA ^ 2 * pA ^ 2 * pB
+A5CharQ5\A5Defs.lean:907:46: error: unsolved goals
+⊢ pB * pB * pA ^ 2 * (pB * pB) * pA ^ 3 = pB * (pB * pA ^ 2) * (pB * pB) * pA ^ 3
+A5CharQ5\A5Defs.lean:912:46: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * (?b * ?c)
+in the target expression
+  pB * pA ^ 3 * pB ^ 2 * pB ^ 2 * pA ^ 3 = pB * pA ^ 3 * pB ^ 4 * pA ^ 3
+
+⊢ pB * pA ^ 3 * pB ^ 2 * pB ^ 2 * pA ^ 3 = pB * pA ^ 3 * pB ^ 4 * pA ^ 3
+A5CharQ5\A5Defs.lean:915:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a ^ ?n * ?a
+in the target expression
+  pB ^ 4 = pB
+
+⊢ pB ^ 4 = pB
+A5CharQ5\A5Defs.lean:917:42: error: unsolved goals
+⊢ pB * pA * pA ^ 2 * pB * pA * pA ^ 2 = pB * pA * (pA ^ 2 * pB) * (pA * pA ^ 2)
+A5CharQ5\A5Defs.lean:922:42: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * (?b * ?c)
+in the target expression
+  pB * pA * pB ^ 2 * pA ^ 3 * pA ^ 3 = pB * pA * pB ^ 2 * pA ^ 6
+
+⊢ pB * pA * pB ^ 2 * pA ^ 3 * pA ^ 3 = pB * pA * pB ^ 2 * pA ^ 6
+A5CharQ5\A5Defs.lean:932:54: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pB ^ 2
+in the target expression
+  pA * (pB * pB) * pA * pB = pA * (pA ^ 2 * pB * pA ^ 2) * pA * pB
+
+⊢ pA * (pB * pB) * pA * pB = pA * (pA ^ 2 * pB * pA ^ 2) * pA * pB
+A5CharQ5\A5Defs.lean:933:45: error: unsolved goals
+⊢ pA * (pA ^ 2 * pB) * pA ^ 2 * pA * pB = pA * pA ^ 2 * pB * pA ^ 2 * pA * pB
+A5CharQ5\A5Defs.lean:936:19: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a ^ ?n * ?a
+in the target expression
+  pA ^ (2 + 1) * pB * pA ^ 2 * (pA * pB) = pA ^ 3 * pB * pA ^ 3 * pB
+
+⊢ pA ^ (2 + 1) * pB * pA ^ 2 * (pA * pB) = pA ^ 3 * pB * pA ^ 3 * pB
+A5CharQ5\A5Defs.lean:938:62: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * ?a
+in the target expression
+  pB * pA ^ 2 * pB * pB * (pA ^ 3 * pB) = pB * pA ^ 2 * pB ^ 2 * pA ^ 3 * pB
+
+⊢ pB * pA ^ 2 * pB * pB * (pA ^ 3 * pB) = pB * pA ^ 2 * pB ^ 2 * pA ^ 3 * pB
+A5CharQ5\A5Defs.lean:942:21: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * (?b * ?c)
+in the target expression
+  pB * pA ^ 2 * pA ^ 2 * pB * pB = pB * pA ^ 4 * pB ^ 2
+
+⊢ pB * pA ^ 2 * pA ^ 2 * pB * pB = pB * pA ^ 4 * pB ^ 2
+A5CharQ5\A5Defs.lean:947:19: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pA ^ 3 * pB ^ 2
+in the target expression
+  pB * (pA * pA ^ 3 * pB ^ 2) = pB * pA * (pB * pA ^ 2)
+
+⊢ pB * (pA * pA ^ 3 * pB ^ 2) = pB * pA * (pB * pA ^ 2)
+A5CharQ5\A5Defs.lean:956:53: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a ^ ?n * ?a
+in the target expression
+  pB ^ 2 * pA ^ 3 * pA * (pB * pB) = pB ^ 2 * pA ^ 4 * pB * pB
+
+⊢ pB ^ 2 * pA ^ 3 * pA * (pB * pB) = pB ^ 2 * pA ^ 4 * pB * pB
+A5CharQ5\A5Defs.lean:957:41: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * (?b * ?c)
+in the target expression
+  pB ^ 2 * pA ^ 4 * pB * pB = pB ^ 2 * pA ^ 4 * pB ^ 2
+
+⊢ pB ^ 2 * pA ^ 4 * pB * pB = pB ^ 2 * pA ^ 4 * pB ^ 2
+A5CharQ5\A5Defs.lean:960:19: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pA ^ 3 * pB ^ 2
+in the target expression
+  pB ^ 2 * (pA * pA ^ 3 * pB ^ 2) = pB ^ 2 * pA * (pB * pA ^ 2)
+
+⊢ pB ^ 2 * (pA * pA ^ 3 * pB ^ 2) = pB ^ 2 * pA * (pB * pA ^ 2)
+A5CharQ5\A5Defs.lean:970:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * (?b * ?c)
+in the target expression
+  pA * pB * pA * pB * pA * pB * pB = pA * pB * pA * pB * pA ^ 3 * pB * pA ^ 2
+
+⊢ pA * pB * pA * pB * pA * pB * pB = pA * pB * pA * pB * pA ^ 3 * pB * pA ^ 2
+A5CharQ5\A5Defs.lean:975:24: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * ?a
+in the target expression
+  pA * pB * pA * pB * (pB * pA ^ 2 * pB) * pB * pA ^ 2 = pA * pB * pA * pB * pB * pA ^ 2 * pB ^ 2 * pA ^ 2
+
+⊢ pA * pB * pA * pB * (pB * pA ^ 2 * pB) * pB * pA ^ 2 = pA * pB * pA * pB * pB * pA ^ 2 * pB ^ 2 * pA ^ 2
+A5CharQ5\A5Defs.lean:979:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a ^ ?n * ?a
+in the target expression
+  pA * pB * pA * pB * pB * pA ^ 2 * (pA ^ 2 * pB * pA ^ 2 * pA ^ 2) =
+    pA * pB * pA ^ 3 * pB * pA ^ 4 * (pA ^ 2 * pB * pA ^ 2) * pA ^ 2
+
+⊢ pA * pB * pA * pB * pB * pA ^ 2 * (pA ^ 2 * pB * pA ^ 2 * pA ^ 2) =
+    pA * pB * pA ^ 3 * pB * pA ^ 4 * (pA ^ 2 * pB * pA ^ 2) * pA ^ 2
+A5CharQ5\A5Defs.lean:982:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pA ^ 3 * pB ^ 2
+in the target expression
+  pA * pB * pA ^ 3 * pB * pA ^ 4 * pB ^ 2 * pA ^ 2 = pA * pB * pA ^ 3 * pB * pA * pB * pA ^ 4
+
+⊢ pA * pB * pA ^ 3 * pB * pA ^ 4 * pB ^ 2 * pA ^ 2 = pA * pB * pA ^ 3 * pB * pA * pB * pA ^ 4
+A5CharQ5\A5Defs.lean:985:25: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * ?a
+in the target expression
+  pA * pB * pA ^ 3 * pB * pA * pB * pA ^ 4 = pA * pB * pB * pA ^ 2 * (pA ^ 2 * pB * pA ^ 2) * pA * pB * pA ^ 4
+
+⊢ pA * pB * pA ^ 3 * pB * pA * pB * pA ^ 4 = pA * pB * pB * pA ^ 2 * (pA ^ 2 * pB * pA ^ 2) * pA * pB * pA ^ 4
+A5CharQ5\A5Defs.lean:988:24: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * ?a ^ ?n
+in the target expression
+  pA * pB * pB * pA ^ 2 * pB ^ 2 * pA * pB * pA ^ 4 = pB * pA ^ 2 * pB * pB * pA ^ 4 * pB ^ 2 * pA * pB * pA ^ 4
+
+⊢ pA * pB * pB * pA ^ 2 * pB ^ 2 * pA * pB * pA ^ 4 = pB * pA ^ 2 * pB * pB * pA ^ 4 * pB ^ 2 * pA * pB * pA ^ 4
+A5CharQ5\A5Defs.lean:992:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a ^ ?n * ?a
+in the target expression
+  pB * pA ^ 2 * pB * pB * pA ^ 4 * pB ^ 2 * pA * (pB * pA ^ 4) =
+    pB * pA ^ 2 * pB * pB * pA * pB * (pB * pA ^ 2 * pB) * pB * pA ^ 4
+
+⊢ pB * pA ^ 2 * pB * pB * pA ^ 4 * pB ^ 2 * pA * (pB * pA ^ 4) =
+    pB * pA ^ 2 * pB * pB * pA * pB * (pB * pA ^ 2 * pB) * pB * pA ^ 4
+A5CharQ5\A5Defs.lean:995:24: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pA ^ 3 * pB ^ 2
+in the target expression
+  pB * pA ^ 2 * pB * pB * pA * pB * (pB * pA ^ 2 * pB) * pB * pA ^ 4 =
+    pB * pA ^ 2 * pB ^ 2 * pA * pB * (pB * pA ^ 2 * pB) * pB * pA ^ 4
+
+⊢ pB * pA ^ 2 * pB * pB * pA * pB * (pB * pA ^ 2 * pB) * pB * pA ^ 4 =
+    pB * pA ^ 2 * pB ^ 2 * pA * pB * (pB * pA ^ 2 * pB) * pB * pA ^ 4
+A5CharQ5\A5Defs.lean:998:27: error(lean.unknownIdentifier): Unknown identifier `pow_four`
+A5CharQ5\A5Defs.lean:997:63: error: unsolved goals
+⊢ pB * pA ^ 2 * (pA ^ 2 * pB * pA ^ 2) * pA * pB * pA ^ 3 * pB * pA ^ 4 =
+    pB * pA ^ 4 * pB * pA ^ 3 * pB * pA ^ 3 * pB * pA ^ 4
+A5CharQ5\A5Defs.lean:1001:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pB * pA ^ 3 * pB
+in the target expression
+  pB * pA ^ 4 * pB * pA ^ 3 * pB * pA ^ 3 * pB * pA ^ 4 = pB * pA ^ 4 * pB * pB * pA ^ 2 * pB ^ 2 * pA ^ 3 * pB * pA ^ 4
+
+⊢ pB * pA ^ 4 * pB * pA ^ 3 * pB * pA ^ 3 * pB * pA ^ 4 = pB * pA ^ 4 * pB * pB * pA ^ 2 * pB ^ 2 * pA ^ 3 * pB * pA ^ 4
+A5CharQ5\A5Defs.lean:1004:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pB ^ 2 * pA ^ 3
+in the target expression
+  pB * pA ^ 4 * pB * pB * pA ^ 2 * pB ^ 2 * pA ^ 3 * pB * pA ^ 4 = pB * pA ^ 4 * pB ^ 2 * pA ^ 4 * pB ^ 2 * pA ^ 4
+
+⊢ pB * pA ^ 4 * pB * pB * pA ^ 2 * pB ^ 2 * pA ^ 3 * pB * pA ^ 4 = pB * pA ^ 4 * pB ^ 2 * pA ^ 4 * pB ^ 2 * pA ^ 4
+A5CharQ5\A5Defs.lean:1007:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pB ^ 2 * pA ^ 3
+in the target expression
+  pB * pA ^ 4 * pB ^ 2 * pA ^ 4 * pB ^ 2 * pA ^ 4 = pB * pA * pB * pA * pB ^ 2 * pA ^ 4
+
+⊢ pB * pA ^ 4 * pB ^ 2 * pA ^ 4 * pB ^ 2 * pA ^ 4 = pB * pA * pB * pA * pB ^ 2 * pA ^ 4
+A5CharQ5\A5Defs.lean:1034:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * (?b * ?c)
+in the target expression
+  pB * pA * pB * pA * pB = pB * pA ^ 4 * pB ^ 2 * pA ^ 4 * pB
+
+⊢ pB * pA * pB * pA * pB = pB * pA ^ 4 * pB ^ 2 * pA ^ 4 * pB
+A5CharQ5\A5Defs.lean:1038:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pB ^ 2 * pA ^ 3
+in the target expression
+  pB * pA ^ 4 * pB ^ 2 * pA ^ 4 * pB = pB * pA ^ 2 * pB ^ 2 * pA ^ 3 * pB * pA ^ 4 * pB
+
+⊢ pB * pA ^ 4 * pB ^ 2 * pA ^ 4 * pB = pB * pA ^ 2 * pB ^ 2 * pA ^ 3 * pB * pA ^ 4 * pB
+A5CharQ5\A5Defs.lean:1040:19: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pB ^ 2 * pA ^ 3
+in the target expression
+  pB * pA ^ 2 * pB ^ 2 * pA ^ 3 * pB * (pA ^ 4 * pB) = pA ^ 3 * pB * pA ^ 3 * pB * pA ^ 4 * pB
+
+⊢ pB * pA ^ 2 * pB ^ 2 * pA ^ 3 * pB * (pA ^ 4 * pB) = pA ^ 3 * pB * pA ^ 3 * pB * pA ^ 4 * pB
+A5CharQ5\A5Defs.lean:1043:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pB ^ 2 * pA ^ 3
+in the target expression
+  pA ^ 3 * pB * pA ^ 3 * pB * pA ^ 4 * pB = pA * pB * pB * pA * pB * pA ^ 4 * pB
+
+⊢ pA ^ 3 * pB * pA ^ 3 * pB * pA ^ 4 * pB = pA * pB * pB * pA * pB * pA ^ 4 * pB
+A5CharQ5\A5Defs.lean:1045:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pB ^ 2 * pA ^ 3
+in the target expression
+  pA * pB * pB * pA * pB * pA ^ 4 * pB = pA * pB * pB * pA * pA ^ 2 * pB ^ 2 * pA ^ 3
+
+⊢ pA * pB * pB * pA * pB * pA ^ 4 * pB = pA * pB * pB * pA * pA ^ 2 * pB ^ 2 * pA ^ 3
+A5CharQ5\A5Defs.lean:1047:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pB ^ 2 * pA ^ 3
+in the target expression
+  pA * pB * pB * pA * pA ^ 2 * pB ^ 2 * pA ^ 3 = pA * pB * pB * pA ^ 4 * pB * pA ^ 3
+
+⊢ pA * pB * pB * pA * pA ^ 2 * pB ^ 2 * pA ^ 3 = pA * pB * pB * pA ^ 4 * pB * pA ^ 3
+A5CharQ5\A5Defs.lean:1049:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pB ^ 2 * pA ^ 3
+in the target expression
+  pA * pB * pB * pA ^ 4 * pB * pA ^ 3 = pA * pB * pB * pA ^ 2 * pB ^ 2 * pA
+
+⊢ pA * pB * pB * pA ^ 4 * pB * pA ^ 3 = pA * pB * pB * pA ^ 2 * pB ^ 2 * pA
+A5CharQ5\A5Defs.lean:1051:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pB ^ 2 * pA ^ 3
+in the target expression
+  pA * pB * pB * pA ^ 2 * pB ^ 2 * pA = pA * pB * pA ^ 3 * pB * pA
+
+⊢ pA * pB * pB * pA ^ 2 * pB ^ 2 * pA = pA * pB * pA ^ 3 * pB * pA
+A5CharQ5\A5Defs.lean:1053:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pB ^ 2 * pA ^ 3
+in the target expression
+  pA * pB * pA ^ 3 * pB * pA = pA * pB * pA * pB ^ 2 * pA ^ 4
+
+⊢ pA * pB * pA ^ 3 * pB * pA = pA * pB * pA * pB ^ 2 * pA ^ 4
+A5CharQ5\A5Defs.lean:1062:58: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a ^ ?n * ?a
+in the target expression
+  pA ^ 2 * pB * pA ^ 2 * pA * (pB * pB) = pA ^ 2 * pB * pA ^ 3 * pB * pB
+
+⊢ pA ^ 2 * pB * pA ^ 2 * pA * (pB * pB) = pA ^ 2 * pB * pA ^ 3 * pB * pB
+A5CharQ5\A5Defs.lean:1064:21: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * (?b * ?c)
+in the target expression
+  pA ^ 2 * pB * pA ^ 3 * pB * pB = pA ^ 2 * pB * pB * pA ^ 2 * pB
+
+⊢ pA ^ 2 * pB * pA ^ 3 * pB * pB = pA ^ 2 * pB * pB * pA ^ 2 * pB
+A5CharQ5\A5Defs.lean:1066:19: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * ?a
+in the target expression
+  pA ^ 2 * pB * (pB * pA ^ 2 * pB) = pA ^ 2 * pB ^ 2 * pA ^ 2
+
+⊢ pA ^ 2 * pB * (pB * pA ^ 2 * pB) = pA ^ 2 * pB ^ 2 * pA ^ 2
+A5CharQ5\A5Defs.lean:1076:25: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a ^ ?n * ?a
+in the target expression
+  pB * pB * pA * pB * pA * pB * pB = pA ^ 2 * pB * pA ^ 3 * pB * pA * (pA ^ 2 * pB * pA ^ 2)
+
+⊢ pB * pB * pA * pB * pA * pB * pB = pA ^ 2 * pB * pA ^ 3 * pB * pA * (pA ^ 2 * pB * pA ^ 2)
+A5CharQ5\A5Defs.lean:1079:25: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a ^ ?n * ?a
+in the target expression
+  pA ^ 2 * pB * pA ^ 3 * pB * pA * (pA ^ 2 * pB * pA ^ 2) = pA ^ 2 * pB * pA ^ 3 * pB * pA ^ 3 * pB * pA ^ 2
+
+⊢ pA ^ 2 * pB * pA ^ 3 * pB * pA * (pA ^ 2 * pB * pA ^ 2) = pA ^ 2 * pB * pA ^ 3 * pB * pA ^ 3 * pB * pA ^ 2
+A5CharQ5\A5Defs.lean:1082:24: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * ?a
+in the target expression
+  pA ^ 2 * pB * (pB * pA ^ 2 * pB) * pB * (pB * pA ^ 2 * pB) * pB * pA ^ 2 =
+    pA ^ 2 * pB ^ 2 * pA ^ 2 * pB ^ 2 * (pB * pA ^ 2 * pB) * pB * pA ^ 2
+
+⊢ pA ^ 2 * pB * (pB * pA ^ 2 * pB) * pB * (pB * pA ^ 2 * pB) * pB * pA ^ 2 =
+    pA ^ 2 * pB ^ 2 * pA ^ 2 * pB ^ 2 * (pB * pA ^ 2 * pB) * pB * pA ^ 2
+A5CharQ5\A5Defs.lean:1085:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pB ^ 2 * pA ^ 3
+in the target expression
+  pA ^ 2 * pB ^ 2 * pA ^ 2 * pB ^ 2 * pA ^ 3 * pB * pA ^ 2 = pA ^ 2 * pB ^ 2 * pA ^ 4 * pB ^ 2 * pA ^ 2
+
+⊢ pA ^ 2 * pB ^ 2 * pA ^ 2 * pB ^ 2 * pA ^ 3 * pB * pA ^ 2 = pA ^ 2 * pB ^ 2 * pA ^ 4 * pB ^ 2 * pA ^ 2
+A5CharQ5\A5Defs.lean:1088:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pB ^ 2 * pA ^ 3
+in the target expression
+  pA ^ 2 * pB ^ 2 * pA ^ 4 * pB ^ 2 * pA ^ 2 = pA ^ 4 * pB * pA * pB ^ 2 * pA ^ 2
+
+⊢ pA ^ 2 * pB ^ 2 * pA ^ 4 * pB ^ 2 * pA ^ 2 = pA ^ 4 * pB * pA * pB ^ 2 * pA ^ 2
+A5CharQ5\A5Defs.lean:1091:25: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a ^ ?n * ?a
+in the target expression
+  pA ^ 4 * pB * pA * (pA ^ 2 * pB * pA ^ 2) * pA ^ 2 = pA ^ 4 * pB * pA ^ 3 * pB * pA ^ 4
+
+⊢ pA ^ 4 * pB * pA * (pA ^ 2 * pB * pA ^ 2) * pA ^ 2 = pA ^ 4 * pB * pA ^ 3 * pB * pA ^ 4
+A5CharQ5\A5Defs.lean:1094:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pB * pA ^ 3 * pB
+in the target expression
+  pA ^ 4 * pB * pA ^ 3 * pB * pA ^ 4 = pA ^ 4 * pB ^ 2 * pA ^ 2 * pB ^ 2 * pA ^ 4
+
+⊢ pA ^ 4 * pB * pA ^ 3 * pB * pA ^ 4 = pA ^ 4 * pB ^ 2 * pA ^ 2 * pB ^ 2 * pA ^ 4
+A5CharQ5\A5Defs.lean:1097:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pB ^ 2 * pA ^ 3
+in the target expression
+  pA ^ 4 * pB ^ 2 * pA ^ 2 * pB ^ 2 * pA ^ 4 = pA ^ 4 * pB ^ 2 * pA ^ 4 * pB * pA
+
+⊢ pA ^ 4 * pB ^ 2 * pA ^ 2 * pB ^ 2 * pA ^ 4 = pA ^ 4 * pB ^ 2 * pA ^ 4 * pB * pA
+A5CharQ5\A5Defs.lean:1100:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pB ^ 2 * pA ^ 3
+in the target expression
+  pA ^ 4 * pB ^ 2 * pA ^ 4 * pB * pA = pA * pB * pA * pB * pA
+
+⊢ pA ^ 4 * pB ^ 2 * pA ^ 4 * pB * pA = pA * pB * pA * pB * pA
+A5CharQ5\A5Defs.lean:1141:8: warning: This simp argument is unused:
+  S
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [cosetRep]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+A5CharQ5\A5Defs.lean:1145:8: warning: This simp argument is unused:
+  S
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [cosetRep]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+A5CharQ5\A5Defs.lean:1149:8: warning: This simp argument is unused:
+  S
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [cosetRep]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+A5CharQ5\A5Defs.lean:1157:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pA ^ ↑(?m + ?k)
+in the target expression
+  S (cosetRep (aTarget p.1) * (pA ^ ↑k * pA ^ ↑p.2))
+
+p : Fin 12 × Fin 5
+k : Fin 5
+hk : pA * cosetRep p.1 = cosetRep (aTarget p.1) * pA ^ ↑k
+⊢ S (cosetRep (aTarget p.1) * (pA ^ ↑k * pA ^ ↑p.2))
+A5CharQ5\A5Defs.lean:1166:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pA ^ ↑(?m + ?k)
+in the target expression
+  S (cosetRep (bTarget p.1) * (pA ^ ↑k * pA ^ ↑p.2))
+
+p : Fin 12 × Fin 5
+k : Fin 5
+hk : pB * cosetRep p.1 = cosetRep (bTarget p.1) * pA ^ ↑k
+⊢ S (cosetRep (bTarget p.1) * (pA ^ ↑k * pA ^ ↑p.2))
+A5CharQ5\A5Defs.lean:1173:2: error: Type mismatch
+  PresentedGroup.induction_on x ?m.39
+has type
+  x ∈ Submonoid.closure {pA, pB} ∧ x⁻¹ ∈ Submonoid.closure {pA, pB}
+but is expected to have type
+  x ∈ Submonoid.closure {pA, pB}
+A5CharQ5\A5Defs.lean:1244:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+A5CharQ5\A5Defs.lean:1270:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+A5CharQ5\A5Defs.lean:1285:4: warning: declaration uses `sorry`
+A5CharQ5\A5Defs.lean:1289:8: warning: declaration uses `sorry`

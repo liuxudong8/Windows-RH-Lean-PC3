@@ -1,0 +1,8 @@
+==== coset_a_11: abaababbb -> bababbbaaaa
+  NO PATH
+==== coset_b_7: babab -> ababbbaaaa
+  NO PATH
+==== coset_b_8: bbabb -> aabbaa
+  NO PATH
+==== coset_b_11: bbababb -> ababa
+  NO PATH

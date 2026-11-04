@@ -1,0 +1,26 @@
+pA : P
+pB : P
+cosetRep : Fin 12 → P
+pA_pow_five : pA ^ 5 = 1
+pB_pow_three : pB ^ 3 = 1
+pA2B_pow_two : (pA ^ 2 * pB) ^ 2 = 1
+coset_a_0 : ∃ k, pA * cosetRep 0 = cosetRep 0 * pA ^ ↑k
+coset_b_3 : ∃ k, pB * cosetRep 3 = cosetRep 0 * pA ^ ↑k
+A5CharQ5\probe4.lean:11:7: error(lean.unknownIdentifier): Unknown identifier `aTarget`
+A5CharQ5\probe4.lean:12:7: error(lean.unknownIdentifier): Unknown identifier `bTarget`
+A5CharQ5\probe4.lean:13:7: error(lean.unknownIdentifier): Unknown identifier `pA_pow_mod`
+A5CharQ5\probe4.lean:14:7: error(lean.unknownIdentifier): Unknown identifier `pA_pow_add_fin`
+A5CharQ5\probe4.lean:15:7: error(lean.unknownIdentifier): Unknown identifier `pA_inv`
+A5CharQ5\probe4.lean:16:7: error(lean.unknownIdentifier): Unknown identifier `pB_inv`
+A5CharQ5\probe4.lean:17:7: error(lean.unknownIdentifier): Unknown identifier `b_a2_comm`
+A5CharQ5\probe4.lean:18:7: error(lean.unknownIdentifier): Unknown identifier `a2_b_comm`
+A5CharQ5\probe4.lean:19:7: error(lean.unknownIdentifier): Unknown identifier `pB_pow_four`
+A5CharQ5\probe4.lean:20:7: error(lean.unknownIdentifier): Unknown identifier `a2_b_a2_eq_b2`
+A5CharQ5\probe4.lean:21:7: error(lean.unknownIdentifier): Unknown identifier `b_a2_b_eq_a3`
+A5CharQ5\probe4.lean:22:7: error(lean.unknownIdentifier): Unknown identifier `a_b_a_eq_a4_b2_a4`
+A5CharQ5\probe4.lean:23:7: error(lean.unknownIdentifier): Unknown identifier `b2_a2_b2_eq_b_a3_b`
+A5CharQ5\probe4.lean:24:7: error(lean.unknownIdentifier): Unknown identifier `coset_a_11`
+A5CharQ5\probe4.lean:25:7: error(lean.unknownIdentifier): Unknown identifier `coset_b_7`
+A5CharQ5\probe4.lean:26:7: error(lean.unknownIdentifier): Unknown identifier `coset_b_8`
+A5CharQ5\probe4.lean:27:7: error(lean.unknownIdentifier): Unknown identifier `coset_b_11`
+A5CharQ5\probe4.lean:28:7: error(lean.unknownIdentifier): Unknown identifier `coset_b_6`

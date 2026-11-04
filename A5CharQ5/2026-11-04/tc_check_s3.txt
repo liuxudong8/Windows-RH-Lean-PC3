@@ -1,0 +1,62 @@
+a7: a·c7 = c8·a 置换验证=OK
+  路径: A(@0) -> A(@4) -> A(@2) -> A(@2)
+    → b2a4b
+    → b2a2b2a3
+    → ba3ba3
+    → bab2a
+a9: a·c9 = c5·a² 置换验证=OK
+  路径: Ci(@1) -> Di(@0) -> Ai(@3) -> Bi(@2)
+    → a3ba3b
+    → ba2b2a3b
+    → ba4b2
+    → baba2
+a10: a·c10 = c9·a² 置换验证=OK
+  路径: A(@0) -> Bi(@3)
+    → b2a4b2
+    → b2aba2
+a11: a·c11 = c11·a⁴ 置换验证=OK
+  路径: Ci(@5) -> Di(@4) -> Ci(@3) -> Bi(@7) -> Di(@2) -> Ci(@1) -> Bi(@5) -> Di(@0) -> Ci(@3) -> Gi(@5) -> Ai(@9) -> Ai(@5)
+    → ababa3ba2
+    → abab2a2b2a2
+    → aba3ba4b2a2
+    → aba3baba4
+    → ab2a2b2aba4
+    → a3ba4b2aba4
+    → a3baba3ba4
+    → ba2b2aba3ba4
+    → ba4ba3ba3ba4
+    → ba4b2a2b2a3ba4
+    → ba4b2a4b2a4
+    → babab2a4
+b6: b·c6 = c4·a³ 置换验证=OK
+  路径: A(@1) -> A(@1)
+    → a3b
+    → ab2a3
+b7: b·c7 = c10·a⁴ 置换验证=OK
+  路径: F(@1) -> A(@3) -> A(@1) -> A(@1) -> A(@7) -> A(@5) -> A(@5) -> A(@3) -> A(@3)
+    → ba4b2a4b
+    → ba2b2a3ba4b
+    → a3ba3ba4b
+    → ab2aba4b
+    → ab2aba2b2a3
+    → ab2a4ba3
+    → ab2a2b2a
+    → aba3ba
+    → abab2a4
+b8: b·c8 = c6·a² 置换验证=OK
+  路径: Ci(@0) -> Bi(@3)
+    → a2ba3b2
+    → a2b2a2
+b11: b·c11 = c7·a 置换验证=OK
+  路径: Ci(@0) -> Ci(@8) -> Di(@3) -> Ai(@6) -> Ai(@2) -> Ci(@6) -> Gi(@4) -> Ai(@8) -> Ai(@4)
+    → a2ba3bab2
+    → a2ba3ba3ba2
+    → a2b2a2b2a3ba2
+    → a2b2a4b2a2
+    → a4bab2a2
+    → a4ba3ba4
+    → a4b2a2b2a4
+    → a4b2a4ba
+    → ababa
+S3 = (0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1) -> a3ba3ba4b
+A(S3) = (0, 1, 1, 0, 1, 0, 0, 0, 0, 1) -> ab2aba4b
