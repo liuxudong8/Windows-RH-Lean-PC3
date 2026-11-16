@@ -1,0 +1,143 @@
+C:\proj2\A5CharQ5\TestNth3.lean:13:3: error: unknown tactic
+C:\proj2\A5CharQ5\TestNth3.lean:12:56: error: unsolved goals
+x : Type
+inst✝ : Monoid x
+pA pB : x
+⊢ pB * pA ^ 4 * pB ^ 2 * pA ^ 4 * pB = pB * pA ^ 2 * pA ^ 2 * pB ^ 2 * pA ^ 4 * pB
+C:\proj2\A5CharQ5\TestNth3.lean:29:3: error: unknown tactic
+C:\proj2\A5CharQ5\TestNth3.lean:28:68: error: unsolved goals
+x : Type
+inst✝ : Monoid x
+pA pB : x
+⊢ pB * pA ^ 2 * pB ^ 2 * pA ^ 3 * pB * pA ^ 4 * pB = pB * pA ^ 2 * pB * pB * pA ^ 3 * pB * pA ^ 4 * pB
+C:\proj2\A5CharQ5\TestNth3.lean:37:11: error: unknown tactic
+C:\proj2\A5CharQ5\TestNth3.lean:36:37: error: unsolved goals
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pB * pA ^ 4 * pB ^ 2 * pA ^ 4 * pB = pB * pA ^ 2 * pA ^ 2 * pB ^ 2 * pA ^ 4 * pB
+C:\proj2\A5CharQ5\TestNth3.lean:34:59: error: unsolved goals
+case calc.step
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pB * pA ^ 2 * pA ^ 2 * pB ^ 2 * pA ^ 4 * pB = pB * pA ^ 2 * pB ^ 2 * pA ^ 3 * pB * pA ^ 4 * pB
+C:\proj2\A5CharQ5\TestNth3.lean:59:10: error: No goals to be solved
+C:\proj2\A5CharQ5\TestNth3.lean:62:10: error: No goals to be solved
+C:\proj2\A5CharQ5\TestNth3.lean:66:10: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+C:\proj2\A5CharQ5\TestNth3.lean:69:10: error: No goals to be solved
+C:\proj2\A5CharQ5\TestNth3.lean:81:10: error: Tactic `rfl` failed: The left-hand side
+  pA * pB * pB * pA * pB * (pA ^ 2 * pA ^ 2) * pB
+is not definitionally equal to the right-hand side
+  pA * pB * pB * pA * pB * pA ^ 2 * pA ^ 2 * pB
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pA * pB * pB * pA * pB * (pA ^ 2 * pA ^ 2) * pB = pA * pB * pB * pA * pB * pA ^ 2 * pA ^ 2 * pB
+C:\proj2\A5CharQ5\TestNth3.lean:75:62: error: unsolved goals
+case calc.step
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pA * pB * pB * pA * pB * pA ^ 2 * (pA ^ 2 * pB) = pA * pB * pB * pA * pB * pA ^ 2 * pB ^ 2 * pA ^ 3
+C:\proj2\A5CharQ5\TestNth3.lean:92:11: error: unknown tactic
+C:\proj2\A5CharQ5\TestNth3.lean:91:38: error: unsolved goals
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+hA5 : pA ^ 5 = 1
+⊢ pA * pB * pB * pA ^ 4 * pB * pA ^ 3 = pA * pB * pB * pA ^ 2 * pA ^ 2 * pB * pA ^ 3
+C:\proj2\A5CharQ5\TestNth3.lean:89:53: error: unsolved goals
+case calc.step
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+hA5 : pA ^ 5 = 1
+⊢ pA * pB * pB * pA ^ 2 * pA ^ 2 * pB * pA ^ 3 = pA * pB * pB * pA ^ 2 * pB ^ 2 * pA
+C:\proj2\A5CharQ5\TestNth3.lean:103:11: error: unknown tactic
+C:\proj2\A5CharQ5\TestNth3.lean:102:31: error: unsolved goals
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pA * pB * pA ^ 3 * pB * pA = pA * pB * pA * pA ^ 2 * pB * pA
+C:\proj2\A5CharQ5\TestNth3.lean:100:45: error: unsolved goals
+case calc.step
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pA * pB * pA * pA ^ 2 * pB * pA = pA * pB * pA * pB ^ 2 * pA ^ 4
+C:\proj2\A5CharQ5\TestNth3.lean:118:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pB ^ 2
+in the target expression
+  pB * pB * pA * pB * pB = pA ^ 2 * pB * pA ^ 2 * pA * pB * pB
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hCi : pB ^ 2 = pA ^ 2 * pB * pA ^ 2
+hBi : pA ^ 3 * pB ^ 2 = pB * pA ^ 2
+⊢ pB * pB * pA * pB * pB = pA ^ 2 * pB * pA ^ 2 * pA * pB * pB
+C:\proj2\A5CharQ5\TestNth3.lean:121:6: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+C:\proj2\A5CharQ5\TestNth3.lean:124:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a ^ ?n * ?a
+in the target expression
+  pA ^ 2 * pB * pA ^ 2 * pA * pB * pB = pA ^ 2 * pB * pA ^ 3 * pB * pB
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hCi : pB ^ 2 = pA ^ 2 * pB * pA ^ 2
+hBi : pA ^ 3 * pB ^ 2 = pB * pA ^ 2
+⊢ pA ^ 2 * pB * pA ^ 2 * pA * pB * pB = pA ^ 2 * pB * pA ^ 3 * pB * pB
+C:\proj2\A5CharQ5\TestNth3.lean:130:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * ?a
+in the target expression
+  pA ^ 2 * pB * pA ^ 3 * pB * pB = pA ^ 2 * pB * pA ^ 3 * pB ^ 2
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hCi : pB ^ 2 = pA ^ 2 * pB * pA ^ 2
+hBi : pA ^ 3 * pB ^ 2 = pB * pA ^ 2
+⊢ pA ^ 2 * pB * pA ^ 3 * pB * pB = pA ^ 2 * pB * pA ^ 3 * pB ^ 2
+C:\proj2\A5CharQ5\TestNth3.lean:132:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pA ^ 3 * pB ^ 2
+in the target expression
+  pA ^ 2 * pB * pA ^ 3 * pB ^ 2 = pA ^ 2 * pB * (pB * pA ^ 2)
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hCi : pB ^ 2 = pA ^ 2 * pB * pA ^ 2
+hBi : pA ^ 3 * pB ^ 2 = pB * pA ^ 2
+⊢ pA ^ 2 * pB * pA ^ 3 * pB ^ 2 = pA ^ 2 * pB * (pB * pA ^ 2)
+C:\proj2\A5CharQ5\TestNth3.lean:134:6: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+C:\proj2\A5CharQ5\TestNth3.lean:136:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * ?a
+in the target expression
+  pA ^ 2 * pB * pB * pA ^ 2 = pA ^ 2 * pB ^ 2 * pA ^ 2
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hCi : pB ^ 2 = pA ^ 2 * pB * pA ^ 2
+hBi : pA ^ 3 * pB ^ 2 = pB * pA ^ 2
+⊢ pA ^ 2 * pB * pB * pA ^ 2 = pA ^ 2 * pB ^ 2 * pA ^ 2
+C:\proj2\A5CharQ5\TestNth3.lean:138:0: error: Invalid `end`: There is no current scope to end
+
+Note: Scopes are introduced using `namespace` and `section`
