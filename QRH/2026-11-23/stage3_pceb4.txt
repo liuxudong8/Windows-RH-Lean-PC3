@@ -1,0 +1,88 @@
+QRH/S7_1_Stage3.lean:499:56: error: (deterministic) timeout at `isDefEq`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+QRH/S7_1_Stage3.lean:548:8: error: linarith failed to find a contradiction
+case pos
+ε δ N : ℝ
+Z : ZeroSet
+hN : 0 < N
+hsum :
+  Summable fun p =>
+    if p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2 then
+      |f0 (δ * (p.1 - p.2).im)| + |f_eps ε (δ * (p.1 - p.2).im)| +
+        |f0 (δ * (p.1 - p.2).im) - f_eps ε (δ * (p.1 - p.2).im)|
+    else 0
+M : ℝ := (√2 * |sin (1 / √2)|)⁻¹
+hM0 : 0 ≤ M
+hterm :
+  ∀ (p : ℂ × ℂ),
+    |(if p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2 then f_eps ε (δ * (p.1 - p.2).im) ^ 2 else 0) -
+          if p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2 then f0 (δ * (p.1 - p.2).im) ^ 2 else 0| ≤
+      2 * M * if p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2 then |f0 (δ * (p.1 - p.2).im) - f_eps ε (δ * (p.1 - p.2).im)| else 0
+p : ℂ × ℂ
+hz : p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2
+hc0 :
+  0 ≤
+    |f0 (δ * (p.1 - p.2).im)| + |f_eps ε (δ * (p.1 - p.2).im)| +
+      |f0 (δ * (p.1 - p.2).im) - f_eps ε (δ * (p.1 - p.2).im)|
+a✝ : |f0 (δ * (p.1.im - p.2.im))| + |f_eps ε (δ * (p.1.im - p.2.im))| < 0
+⊢ False
+failed
+QRH/S7_1_Stage3.lean:568:10: error: invalid 'calc' step, left-hand side is
+  |f_eps ε (δ * (p.1 - p.2).im) ^ 2| : ℝ
+but is expected to be
+  f_eps ε (δ * (p.1.im - p.2.im)) ^ 2 : ℝ
+QRH/S7_1_Stage3.lean:569:12: error: Type mismatch: After simplification, term
+  mul_le_mul_of_nonneg_right (f_eps_abs_le ε (δ * (p.1 - p.2).im)) (abs_nonneg ?m.1444)
+ has type
+  |f_eps ε (δ * (p.1.im - p.2.im))| * |?m.1444| ≤ |sin (√2)⁻¹|⁻¹ * (√2)⁻¹ * |?m.1444|
+but is expected to have type
+  f_eps ε (δ * (p.1.im - p.2.im)) * f_eps ε (δ * (p.1.im - p.2.im)) ≤ M * |f_eps ε (δ * (p.1.im - p.2.im))|
+QRH/S7_1_Stage3.lean:593:10: error: invalid 'calc' step, left-hand side is
+  |f0 (δ * (p.1 - p.2).im) ^ 2| : ℝ
+but is expected to be
+  f0 (δ * (p.1.im - p.2.im)) ^ 2 : ℝ
+QRH/S7_1_Stage3.lean:594:12: error: Type mismatch: After simplification, term
+  mul_le_mul_of_nonneg_right (f0_abs_le (δ * (p.1 - p.2).im)) (abs_nonneg ?m.2024)
+ has type
+  |f0 (δ * (p.1.im - p.2.im))| * |?m.2024| ≤ |sin (√2)⁻¹|⁻¹ * (√2)⁻¹ * |?m.2024|
+but is expected to have type
+  f0 (δ * (p.1.im - p.2.im)) * f0 (δ * (p.1.im - p.2.im)) ≤ M * |f0 (δ * (p.1.im - p.2.im))|
+Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+QRH/S7_1_Stage3.lean:643:68: error: Application type mismatch: The argument
+  h2My
+has type
+  Summable fun p =>
+    2 * M * if p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2 then |f0 (δ * (p.1 - p.2).im) - f_eps ε (δ * (p.1 - p.2).im)| else 0
+but is expected to have type
+  Summable
+    (fun i =>
+      |(if i.1 ∈ Z ∧ i.2 ∈ Z ∧ i.1 ≠ i.2 then f_eps ε (δ * (i.1 - i.2).im) ^ 2 else 0) -
+          if i.1 ∈ Z ∧ i.2 ∈ Z ∧ i.1 ≠ i.2 then f0 (δ * (i.1 - i.2).im) ^ 2 else 0|)
+    ?m.3332
+in the application
+  Summable.tsum_le_tsum hterm h2My
+QRH/S7_1_Stage3.lean:547:18: warning: This simp argument is unused:
+  abs_of_nonneg hc0
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [hz]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+QRH/S7_1_Stage3.lean:683:10: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+QRH/S7_1_Stage3.lean:694:8: error: No goals to be solved
+Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.

@@ -1,0 +1,5 @@
+tokens to test: 313
+CITED_FILENAMES 64 MISSING 1 ['DataParams2.lean']
+scanned files 175187
+TOKENS_FOUND 246 / 313
+NOT_FOUND: ['ClaimLow.', 'ClosedScale3.l3m', 'Ee.', 'ExtraTie.om_eq', 'Host.', 'Host.u0', 'IndefData.Untwisted', 'IndefExtraR.fun0', 'ParameterChoice', 'SizeData2', 'SplitClasses.', 'The', 'There', 'WtGe.', 'aPlus_eq_originBig.', 'among', 'are', 'asks', 'assume', 'assumed', 'assumes', 'bilinear', 'bility.', 'blockBound.', 'col.B', 'compu', 'constant', 'definition', 'dependency', 'depending', 'depends', 'differences', 'dimension', 'divisi', 'done.', 'dropped', 'elsewhere.', 'equals', 'file', 'inequality', 'its', 'latter', 'letterLog.', 'logMet.', 'logarithm', 'mu_index_sum.', 'places.', 'proved', 'random', 'rowRad.', 'said', 'says', 'seventh', 'shiftLat.', 'size_alt_alt.', 'statements', 'subsection', 'tation.', 'that', 'there', 'those', 'uses', 'vwin_of_row.', 'which', 'whose', 'winPairs', 'writes']

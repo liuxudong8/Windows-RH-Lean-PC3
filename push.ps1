@@ -1,11 +1,28 @@
 ﻿<#
-Windows-RH-Lean-PC2 one-click push script (全面版 2026-10-27)
+Windows-RH-Lean-PC3 one-click push script (全面版 2026-11-23)
 Run under repository root directory
 流程：① 同步外部产出（C:\proj2、chats\2026-10-16）到仓库内镜像 → ② git add/commit/push
+远端：git@github.com:liuxudong8/Windows-RH-Lean-PC3.git（PC2 已冻结，不再写入）
 #>
 
 $repo = Split-Path -Parent $MyInvocation.MyCommand.Path
 $today = Get-Date -Format "yyyy-MM-dd"
+
+# git 可执行文件定位（本机 PATH 里没有 git）
+$gitExe = "C:\Program Files\Git\cmd\git.exe"
+if (-not (Test-Path -LiteralPath $gitExe)) {
+    $cmd = Get-Command git -ErrorAction SilentlyContinue
+    if ($cmd) { $gitExe = $cmd.Source }
+    else { Write-Host "git not found, abort." -ForegroundColor Red; exit 1 }
+}
+
+# 远端守卫：只允许推 PC3，防止误写历史仓库 PC2
+$expectedRemote = "git@github.com:liuxudong8/Windows-RH-Lean-PC3.git"
+$originUrl = & $gitExe -C $repo remote get-url origin 2>$null
+if ($originUrl -ne $expectedRemote) {
+    Write-Host "origin = '$originUrl', 应为 '$expectedRemote'，已中止。" -ForegroundColor Red
+    exit 1
+}
 
 Write-Host "===== 1/5 Sync external artifacts into repo =====" -ForegroundColor Cyan
 
@@ -49,7 +66,7 @@ if ($LASTEXITCODE -ge 8) { Write-Host "robocopy new-chat FAILED ($LASTEXITCODE)"
 if ($LASTEXITCODE -ge 8) { Write-Host "robocopy archive FAILED ($LASTEXITCODE)" -ForegroundColor Red; exit 1 }
 
 Write-Host "`n===== 2/5 Check local changes =====" -ForegroundColor Cyan
-$changes = git status --porcelain
+$changes = & $gitExe -C $repo status --porcelain
 if ([string]::IsNullOrWhiteSpace($changes)) {
     Write-Host "No changes detected, exit." -ForegroundColor Yellow
     exit
@@ -61,15 +78,15 @@ if ([string]::IsNullOrWhiteSpace($commitMsg)) {
 }
 
 Write-Host "`n=== 3/5 git add all ===" -ForegroundColor Cyan
-git add .
+& $gitExe -C $repo add .
 
 Write-Host "`n=== 4/5 git commit ===" -ForegroundColor Cyan
-git commit -m "$commitMsg"
+& $gitExe -C $repo commit -m "$commitMsg"
 
 Write-Host "`n=== 5/5 git push origin main ===" -ForegroundColor Cyan
-git push origin main
+& $gitExe -C $repo push origin main
 
 Write-Host "`n✅ Push completed!" -ForegroundColor Green
-$lastHash = git rev-parse --short HEAD
+$lastHash = & $gitExe -C $repo rev-parse --short HEAD
 Write-Host "Commit hash: $lastHash"
-Write-Host "Actions URL: https://github.com/liuxudong8/Windows-RH-Lean-PC2/actions`n"
+Write-Host "Actions URL: https://github.com/liuxudong8/Windows-RH-Lean-PC3/actions`n"

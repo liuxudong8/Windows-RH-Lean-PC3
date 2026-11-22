@@ -1,0 +1,8 @@
+FILES 175187
+LINES 17374215
+DECLS {'theorem': 784092, 'def': 212819, 'structure': 8286, 'instance': 8199, 'lemma': 34663, 'abbrev': 13202, 'example': 4662, 'inductive': 121, 'class': 43} TOTAL 1066087
+KW_COUNTS {'partial def': 2}
+
+== partial def ==
+   Formalism\HermitianCurvature\HermitianCurvatureProofs\CutCptCopy.lean:41: partial def go (env : Environment) (n : Name) (st : NameSet × NameSet × Array Name) : NameSet × NameSet × Arra
+   Formalism\LocalToGlobal\NumberFieldFamilies\OwnStruct.lean:18: partial def copyAt (probe : Bool) (e tgt : Expr) (path : String) (fuel : Nat) : StateT (Array String) MetaM Ex

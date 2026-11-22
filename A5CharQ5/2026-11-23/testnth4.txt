@@ -1,0 +1,35 @@
+C:\proj2\A5CharQ5\TestNth4.lean:10:3: error: unknown tactic
+C:\proj2\A5CharQ5\TestNth4.lean:8:58: error: unsolved goals
+x : Type
+inst✝ : Monoid x
+pA pB : x
+h4 : pA ^ 4 = pA ^ 2 * pA ^ 2
+⊢ pB * pA ^ 4 * pB ^ 2 * pA ^ 4 * pB = pB * (pA ^ 2 * pA ^ 2) * pB ^ 2 * pA ^ 4 * pB
+C:\proj2\A5CharQ5\TestNth4.lean:20:11: error: unknown tactic
+C:\proj2\A5CharQ5\TestNth4.lean:18:39: error: unsolved goals
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+h4 : pA ^ 4 = pA ^ 2 * pA ^ 2
+⊢ pB * pA ^ 4 * pB ^ 2 * pA ^ 4 * pB = pB * (pA ^ 2 * pA ^ 2) * pB ^ 2 * pA ^ 4 * pB
+C:\proj2\A5CharQ5\TestNth4.lean:16:59: error: unsolved goals
+case calc.step
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pB * (pA ^ 2 * pA ^ 2) * pB ^ 2 * pA ^ 4 * pB = pB * pA ^ 2 * pB ^ 2 * pA ^ 3 * pB * pA ^ 4 * pB
+C:\proj2\A5CharQ5\TestNth4.lean:38:0: warning: declaration uses `sorry`
+C:\proj2\A5CharQ5\TestNth4.lean:58:10: error: No goals to be solved
+C:\proj2\A5CharQ5\TestNth4.lean:53:62: error: unsolved goals
+case calc.step
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pA * pB * pB * pA * pB * pA ^ 2 * (pA ^ 2 * pB) = pA * pB * pB * pA * pB * pA ^ 2 * pB ^ 2 * pA ^ 3
+C:\proj2\A5CharQ5\TestNth4.lean:66:0: warning: declaration uses `sorry`
+C:\proj2\A5CharQ5\TestNth4.lean:74:0: error: Invalid `end`: There is no current scope to end
+
+Note: Scopes are introduced using `namespace` and `section`

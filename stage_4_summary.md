@@ -266,3 +266,32 @@ pin：toolchain `leanprover/lean4:v4.33.1`、mathlib rev `0df444a360eaa60ab8c11d
 3. **`hz` 口径补论证**：零点侧对角线截断（丢 `j ≠ k` 交叉项）是否需要写一条不等式估计说明误差可控。
 4. **K-GRH 落地**：零点基础设施从 Riemann ζ 换成 ζ_K（需 Dedekind zeta / L(χ₅) / K 素理想 von Mangoldt——mathlib 无）。
 5. 逐步降级 `stage_4.lean` 的 38 个语句级假设；`laplacian_M`/`laplacian_X` 的无界自伴性仍 `admit`，等 mathlib 补链。
+
+---
+
+## S. 2026-11-23：与 Alpöge–Claude 论文（164 页，2026-11-21）对照后的口径修正
+
+来源：`C:\proj2\Alpoge_Paper_Compare.md`（完整对照与证据）。
+
+**S.1 路线修正（重要，必须覆盖旧说法）**
+论文把证明链写成 `(M) + B + C ⇒ Estimate A ⇒ G(x) ≤ x^{1/2+ε}（在 [Y, Y^{3/2}]）⇒ RH`；公告的步骤 4、6（Weil 型正性 `W(f) ≥ 0`、由正性得无零点区）被论文明确记为 “an earlier form of our first step”，最终论证改用 Landau 型单边引理。**结论**：本摘要 M–R 里我们这条谱对偶链（Weil 显式公式、A 签名、双曲 Laplacian、Weil Gram）是 Weil/Lax–Phillips 正性路线，与这条最终证明**平行而不相交**；不得再表述为“与 Alpöge–Claude 对齐”。它的数学仍然成立，只是不是他们的数学。
+
+**S.2 (M) 的边界是分层的**
+论文自承 (M) `is not proved here`。但形式层里 (M) 的等式形式有对象：`AskMainBalance`（`Formalism/SizeWindowBrackets/FirstPrimeNeSecondPrime.lean:98`，内容 `ASK − MAIN = De`，即论文 Part II (5.3) 的精确恒等式），由 `colour_balance`（`…/ChainSlopeWindows/StronglyIrreducible.lean:695`）证，全库 0 sorry。故：**人类可读层缺 (M)，形式层不缺，但形式层未过评审、本机亦无法复核定理层**。三层可信度分开说。
+
+**S.3 实测核对（本轮，替换旧数）**
+- 14 分卷 joined 后 SHA-256 = `9631b4f0…f49c7fc`，与论文第 53 页所载**逐字节一致**；
+- `.lean` 文件 **175,187**（此前报 174,793 是早期解包计数，差额 394；旧“全库扫描”覆盖面少 0.22%，本轮已在完整体上重跑）；
+- 总行数 **17,374,215**，与“about 17 million lines”一致；
+- 论文编号引用 [1]–[29] **29/29 在档**（[22] 为 `DataParams₂.lean`，U+2082）；全文 64 个不同 `X.lean` 引用 64/64 命中；行号抽查 `def VWin` 落 `ExistsPageN.lean:49`，与论文一致；
+- 文本层声明总数 **1,066,087**（theorem 784,092 / def 212,819 / lemma 34,663 / abbrev 13,202 / structure 8,286 / instance 8,199 / example 4,662 / inductive 121 / class 43）；论文自报依赖闭包 **1,478,198**，高出 412,111（38.7%），系 kernel 生成声明（`match_`/`_proof_`/投影/recursor）不占源码行所致，**无 olean 不可复核**；
+- 静态重扫（完整 175,187）：`axiom/constant/opaque/unsafe/sorry/admit/native_decide` 全 0，`partial def` 2（元编程）。
+
+**S.4 新增模块（已编译，零警告）**
+`OrderPreservingBijection/WeilGramSharp.lean`：上半平面 `0 ≤ Im ρ` 上相位模 `≤ 1`，把 `hz` 的解析界从 `card S · (exp T)² · (∫‖φ‖)²` 收紧为 `card S · (∫‖φ‖)²`。六条定理 axiom 全 `[propext, Classical.choice, Quot.sound]`（日志 `_wgs_out.txt`）。硬边界：只做上半平面，下半平面需共轭配对（未写）；对角截断与 `j ≠ k` 交叉项照旧缺。
+
+**S.5 `ASK`/`MAIN` 与论文 (I.25)/(I.26) 同物**
+`ASK = Σ_{惯性 p} 2 log p · [Σ_i max(a/p^i − w)₊] + log d · askD`，`MAIN = a(log a − 1 − γ + ℓ(chC) − ⟨log w⟩)`。这两条与论文的 `P`、`M` 是同一组对象，不是“相似”。
+
+**S.6 下一步口径**
+原“下一步”第 3 条（`hz` 口径补论证）改由此文 S.4 承接；新增优先级（照 `Alpoge_Paper_Compare.md` §6）：补完 `hz` 的下半平面与交叉项 → 引入预算式模板（照归档 `[6]` 的 `SizeWindows`/`GrowthBound` 形状）→ 素数侧换 `primVal`/`cosetMean` 型权 → 独立形化 Landau 单边引理（区间版）。

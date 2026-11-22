@@ -1,0 +1,6 @@
+'RHSpectralDuality.phase_re_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'RHSpectralDuality.phase_re_nonpos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'RHSpectralDuality.phase_norm_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'RHSpectralDuality.phiHat_norm_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'RHSpectralDuality.phiHat_sq_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'RHSpectralDuality.weilZeroDiag_re_le_upper' depends on axioms: [propext, Classical.choice, Quot.sound]

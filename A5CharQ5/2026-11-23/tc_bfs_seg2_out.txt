@@ -1,0 +1,44 @@
+==== b11-s1  bbababb -> aabaaababbb
+  NO PATH / limit (643551 states)
+==== b11-s2  aabaaababbb -> aabaaabaaabaa
+  NO PATH / limit (552701 states)
+==== b11-s3  aabaaabaaabaa -> aabbaabbaaabaa
+    pos=3 rule3 rev aaa -> aabbaabbaaabaa
+  steps=1 goal_reached=True
+==== b11-s4  aabbaabbaaabaa -> aabbaaaabbaa
+    pos=6 rule1 rev bbaaa -> aabbaaaabbaa
+  steps=1 goal_reached=True
+==== b11-s5  aabbaaaabbaa -> aaaababbaa
+    pos=2 rule1 rev bbaaa -> aaaababbaa
+  steps=1 goal_reached=True
+==== b11-s6  aaaababbaa -> aaaabaaabaaaa
+    pos=6 rule2 rev bb -> aaaabaaabaaaa
+  steps=1 goal_reached=True
+==== b11-s7  aaaabaaabaaaa -> aaaabbaabbaaaa
+    pos=5 rule3 rev aaa -> aaaabbaabbaaaa
+  steps=1 goal_reached=True
+==== b11-s8  aaaabbaabbaaaa -> aaaabbaaaabba
+  NO PATH / limit (493517 states)
+==== b11-s9  aaaabbaaaabba -> ababa
+  NO PATH / limit (417526 states)
+==== b7-tail  abbaabaaaab -> abaabbaaaa
+  NO PATH / limit (451935 states)
+==== a11-B  abaaabaaaabbbbaa -> abaaababaaaa
+  NO PATH / limit (514864 states)
+==== a11-C  abaaababaaaa -> abbaabbaabaaaa
+  NO PATH / limit (537535 states)
+==== a11-D  abbaabbaabaaaa -> aaabaaaaaabbaabaaaa
+  NO PATH / limit (537535 states)
+==== a11-D2  aaabaaaaaabbaabaaaa -> aaabaaabaaabaaaa
+  NO PATH / limit (430344 states)
+==== a11-B2  aaabaaabaaabaaaa -> bbaabbaabaaaabaaaa
+  NO PATH / limit (678769 states)
+==== a11-C2  bbaabbaabaaaabaaaa -> baaaabaaabaaabaaaa
+  NO PATH / limit (448613 states)
+==== a11-G  baaaabaaabaaabaaaa -> baaaabbbaaabbaaabaaaa
+  NO PATH / limit (462215 states)
+==== a11-A  baaaabbbaaabbaaabaaaa -> baaaabbbaaaaabbaaaa
+    pos=11 rule1 rev bbaaa -> baaaabbbaaaaabbaaaa
+  steps=1 goal_reached=True
+==== a11-A2  baaaabbbaaaaabbaaaa -> baabaabbaaaa
+  NO PATH / limit (495048 states)

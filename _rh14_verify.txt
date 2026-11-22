@@ -1,0 +1,9 @@
+SIZE 239275554
+SHA256 9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc
+MATCH True
+CITES_OK 28 / 29
+  MISSING 22 Formalism/LocalRingCardinality/DataParams2.lean
+CITE_SIZES {"1": 9681, "2": 6705, "3": 6380, "4": 1873, "5": 3793, "6": 10434, "7": 8116, "8": 3776, "9": 8552, "10": 4570, "11": 4613, "12": 740, "13": 4757, "14": 17716, "15": 11945, "16": 1241, "17": 7388, "18": 8176, "19": 8939, "20": 3163, "21": 8074, "22": null, "23": 29581, "24": 174907, "25": 10956, "26": 3847, "27": 16802, "28": 12049, "29": 2421}
+LEAN_FILES 175187
+TOTAL_LINES 17374215
+BIGGEST 17981 F:\F\BSD_GRH_RH\RH_14\lean\src\Formalism\HermitianCurvature\HermitianCurvatureProofs\IsAdmissibleSplittingCharPairMulTwist.lean

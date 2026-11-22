@@ -1,0 +1,64 @@
+C:\proj2\A5CharQ5\TestNth9.lean:8:2: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+C:\proj2\A5CharQ5\TestNth9.lean:13:17: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * ?a
+in the target expression
+  pA ^ 2 * pB * (pB * pA ^ 2) = pA ^ 2 * pB ^ 2 * pA ^ 2
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+⊢ pA ^ 2 * pB * (pB * pA ^ 2) = pA ^ 2 * pB ^ 2 * pA ^ 2
+C:\proj2\A5CharQ5\TestNth9.lean:39:2: error: Tactic `assumption` failed
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+hA5 : pA ^ 5 = 1
+hB3 : pB ^ 3 = 1
+⊢ pA ^ 3 * pB * pA ^ 3 * pB * pA ^ 4 * pB = pA * pB * pB * pA * pB * pA ^ 4 * pB
+C:\proj2\A5CharQ5\TestNth9.lean:47:39: error: unsolved goals
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pA * pB * pB * pA * pB * pA ^ 2 * pA ^ 2 * pB = pA * pB * pB * pA * pB * pA ^ 2 * (pA ^ 2 * pB)
+C:\proj2\A5CharQ5\TestNth9.lean:52:10: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+C:\proj2\A5CharQ5\TestNth9.lean:57:2: error: Tactic `assumption` failed
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+hA5 : pA ^ 5 = 1
+⊢ pA * pB * pB * pA * pB * pA ^ 2 * pB ^ 2 * pA ^ 3 = pA * pB * pB * pA ^ 4 * pB * pA ^ 3
+C:\proj2\A5CharQ5\TestNth9.lean:62:2: error: Tactic `assumption` failed
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+hA5 : pA ^ 5 = 1
+⊢ pA * pB * pB * pA ^ 4 * pB * pA ^ 3 = pA * pB * pB * pA ^ 2 * pB ^ 2 * pA
+C:\proj2\A5CharQ5\TestNth9.lean:67:2: error: Tactic `assumption` failed
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pA * pB * pB * pA ^ 2 * pB ^ 2 * pA = pA * pB * pA ^ 3 * pB * pA
+C:\proj2\A5CharQ5\TestNth9.lean:72:2: error: Tactic `assumption` failed
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pA * pB * pA ^ 3 * pB * pA = pA * pB * pA * pB ^ 2 * pA ^ 4
+C:\proj2\A5CharQ5\TestNth9.lean:75:0: warning: declaration uses `sorry`
+C:\proj2\A5CharQ5\TestNth9.lean:88:0: error: Invalid `end`: There is no current scope to end
+
+Note: Scopes are introduced using `namespace` and `section`

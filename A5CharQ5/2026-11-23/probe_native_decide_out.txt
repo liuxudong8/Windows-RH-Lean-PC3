@@ -1,0 +1,34 @@
+A5CharQ5\probe_native_decide.lean:5:2: error: failed to synthesize
+  Decidable (∃ k, pA * cosetRep 11 = cosetRep 11 * pA ^ ↑k)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+A5CharQ5\probe_native_decide.lean:8:2: error: failed to synthesize
+  Decidable (∃ k, pB * cosetRep 7 = cosetRep 10 * pA ^ ↑k)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+A5CharQ5\probe_native_decide.lean:11:2: error: failed to synthesize
+  Decidable (∃ k, pB * cosetRep 8 = cosetRep 6 * pA ^ ↑k)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+A5CharQ5\probe_native_decide.lean:14:2: error: failed to synthesize
+  Decidable (∃ k, pB * cosetRep 11 = cosetRep 7 * pA ^ ↑k)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+A5CharQ5\probe_native_decide.lean:17:77: error: Function expected at
+  aTarget
+but this term has type
+  ?m.1
+
+Note: Expected a function because this term is being applied to the argument
+  i
+
+Hint: The identifier `aTarget` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+A5CharQ5\probe_native_decide.lean:18:76: error: Function expected at
+  bTarget
+but this term has type
+  ?m.2
+
+Note: Expected a function because this term is being applied to the argument
+  i
+
+Hint: The identifier `bTarget` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.

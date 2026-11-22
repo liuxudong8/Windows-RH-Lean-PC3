@@ -1,0 +1,138 @@
+==== a_11
+  R0: abababb (7)
+  R1: ababaaabaa (10)
+  R2: ababbaabbaa (11)
+  R3: abaaabaaaabbaa (14)
+  R4: abaaababaaaa (12)
+  R5: abbaabbabaaaa (13)
+  R6: aaabaaaabbabaaaa (16)
+  R7: aaababaaabaaaa (14)
+  R8: baabbabaaabaaaa (15)
+  R9: baaaabaaabaaabaaaa (18)
+  R10: baaaabbaabbaaabaaaa (19)
+  R11: baaaabbaaaabbaaaa (17)
+  R12: bababbaaaa (10)
+  -- R0->R1: abababb -> ababaaabaa
+     steps=1
+      ababa|bb| -> ababaaabaa   (rule2 rev)
+      goal=ababaaabaa  reached=True
+  -- R1->R2: ababaaabaa -> ababbaabbaa
+     steps=1
+      abab|aaa|baa -> ababbaabbaa   (rule3 rev)
+      goal=ababbaabbaa  reached=True
+  -- R2->R3: ababbaabbaa -> abaaabaaaabbaa
+     steps=1
+      aba|bb|aabbaa -> abaaabaaaabbaa   (rule2 rev)
+      goal=abaaabaaaabbaa  reached=True
+  -- R3->R4: abaaabaaaabbaa -> abaaababaaaa
+     steps=1
+      abaaaba|aaabb|aa -> abaaababaaaa   (rule0 rev)
+      goal=abaaababaaaa  reached=True
+  -- R4->R5: abaaababaaaa -> abbaabbabaaaa
+     steps=1
+      ab|aaa|babaaaa -> abbaabbabaaaa   (rule3 rev)
+      goal=abbaabbabaaaa  reached=True
+  -- R5->R6: abbaabbabaaaa -> aaabaaaabbabaaaa
+     steps=1
+      a|bb|aabbabaaaa -> aaabaaaabbabaaaa   (rule2 rev)
+      goal=aaabaaaabbabaaaa  reached=True
+  -- R6->R7: aaabaaaabbabaaaa -> aaababaaabaaaa
+     steps=1
+      aaaba|aaabb|abaaaa -> aaababaaabaaaa   (rule0 rev)
+      goal=aaababaaabaaaa  reached=True
+  -- R7->R8: aaababaaabaaaa -> baabbabaaabaaaa
+     steps=1
+      |aaa|babaaabaaaa -> baabbabaaabaaaa   (rule3 rev)
+      goal=baabbabaaabaaaa  reached=True
+  -- R8->R9: baabbabaaabaaaa -> baaaabaaabaaabaaaa
+     steps=1
+      baa|bb|abaaabaaaa -> baaaabaaabaaabaaaa   (rule2 rev)
+      goal=baaaabaaabaaabaaaa  reached=True
+  -- R9->R10: baaaabaaabaaabaaaa -> baaaabbaabbaaabaaaa
+     steps=1
+      baaaab|aaa|baaabaaaa -> baaaabbaabbaaabaaaa   (rule3 rev)
+      goal=baaaabbaabbaaabaaaa  reached=True
+  -- R10->R11: baaaabbaabbaaabaaaa -> baaaabbaaaabbaaaa
+     steps=1
+      baaaabbaa|bbaaa|baaaa -> baaaabbaaaabbaaaa   (rule1 rev)
+      goal=baaaabbaaaabbaaaa  reached=True
+  -- R11->R12: baaaabbaaaabbaaaa -> bababbaaaa
+     steps=1
+      b|aaaabbaaaa|bbaaaa -> bababbaaaa   (rule4 rev)
+      goal=bababbaaaa  reached=True
+==== b_11
+  R0: bbababb (7)
+  R1: aabaaababb (10)
+  R2: aabaaabaaabaa (13)
+  R3: aabbaabbaaabaa (14)
+  R4: aabbaaaabbaa (12)
+  R5: aaaababbaa (10)
+  R6: aaaabaaabaaaa (13)
+  R7: aaaabbaabbaaaa (14)
+  R8: aaaabbaaaaba (12)
+  R9: ababa (5)
+  -- R0->R1: bbababb -> aabaaababb
+     steps=1
+      |bb|ababb -> aabaaababb   (rule2 rev)
+      goal=aabaaababb  reached=True
+  -- R1->R2: aabaaababb -> aabaaabaaabaa
+     steps=1
+      aabaaaba|bb| -> aabaaabaaabaa   (rule2 rev)
+      goal=aabaaabaaabaa  reached=True
+  -- R2->R3: aabaaabaaabaa -> aabbaabbaaabaa
+     steps=1
+      aab|aaa|baaabaa -> aabbaabbaaabaa   (rule3 rev)
+      goal=aabbaabbaaabaa  reached=True
+  -- R3->R4: aabbaabbaaabaa -> aabbaaaabbaa
+     steps=1
+      aabbaa|bbaaa|baa -> aabbaaaabbaa   (rule1 rev)
+      goal=aabbaaaabbaa  reached=True
+  -- R4->R5: aabbaaaabbaa -> aaaababbaa
+     steps=1
+      aa|bbaaa|abbaa -> aaaababbaa   (rule1 rev)
+      goal=aaaababbaa  reached=True
+  -- R5->R6: aaaababbaa -> aaaabaaabaaaa
+     steps=1
+      aaaaba|bb|aa -> aaaabaaabaaaa   (rule2 rev)
+      goal=aaaabaaabaaaa  reached=True
+  -- R6->R7: aaaabaaabaaaa -> aaaabbaabbaaaa
+     steps=1
+      aaaab|aaa|baaaa -> aaaabbaabbaaaa   (rule3 rev)
+      goal=aaaabbaabbaaaa  reached=True
+  -- R7->R8: aaaabbaabbaaaa -> aaaabbaaaaba
+     steps=1
+      aaaabbaa|bbaaa|a -> aaaabbaaaaba   (rule1 rev)
+      goal=aaaabbaaaaba  reached=True
+  -- R8->R9: aaaabbaaaaba -> ababa
+     steps=1
+      |aaaabbaaaa|ba -> ababa   (rule4 rev)
+      goal=ababa  reached=True
+==== b_7
+  R0: babab (5)
+  R1: baaaabbaaaab (12)
+  R2: baabbaaabaaaab (14)
+  R3: aaabaaabaaaab (13)
+  R4: abbabaaaab (10)
+  -- R0->R1: babab -> baaaabbaaaab
+     steps=1
+      b|aba|b -> baaaabbaaaab   (rule4 fwd)
+      goal=baaaabbaaaab  reached=True
+  -- R1->R2: baaaabbaaaab -> baabbaaabaaaab
+     steps=1
+      baa|aab|baaaab -> baabbaaabaaaab   (rule1 fwd)
+      goal=baabbaaabaaaab  reached=True
+  -- R2->R3: baabbaaabaaaab -> aaabaaabaaaab
+     steps=1
+      |baab|baaabaaaab -> aaabaaabaaaab   (rule3 fwd)
+      goal=aaabaaabaaaab  reached=True
+  -- R3->R4: aaabaaabaaaab -> abbabaaaab
+     steps=1
+      a|aabaa|abaaaab -> abbabaaaab   (rule2 fwd)
+      goal=abbabaaaab  reached=True
+==== b_7 tail R4->R9 (整段重设计)
+  R4=abbabaaaab  R9=ababbaaaa
+  steps=3
+      abba|baaaab| -> abbaaaabaaa   (rule7 fwd)
+      ab|baaaab|aaa -> abaaabaaaaaa   (rule7 fwd)
+      aba|aabaa|aaaa -> ababbaaaa   (rule2 fwd)
+      goal=ababbaaaa  reached=True
