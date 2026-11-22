@@ -1,0 +1,15 @@
+@RHSpectralDuality.weilPrimeGram : {n : Type} → [Fintype n] → [DecidableEq n] → ℕ → (n → ℝ → ℂ) → Matrix n n ℂ
+RHSpectralDuality.localGram : ℕ → (ℝ → ℂ) → (ℝ → ℂ) → ℂ
+RHSpectralDuality.phiHat : (ℝ → ℂ) → ℂ → ℂ
+@RHSpectralDuality.weilZeroDiag : {n : Type} → [Fintype n] → [DecidableEq n] → Finset ℂ → (n → ℝ → ℂ) → n → ℂ
+@RHSpectralDuality.weilGramConcrete : {n : Type} →
+  [Fintype n] → [DecidableEq n] → Finset ℂ → ℕ → (n → ℝ → ℂ) → Matrix n n ℂ
+@RHSpectralDuality.weilGramConcrete_negativeDim_le : ∀ {n k : Type} [inst : Fintype n] [inst_1 : DecidableEq n]
+  [inst_2 : Fintype k] [DecidableEq k] (S : Finset ℂ) (N : ℕ) (φ : n → ℝ → ℂ) {p q : ℕ},
+  RHSpectralDuality.ADefiniteSignature (RHSpectralDuality.weilGramConcrete S N φ) p q →
+    ∀ (B : Matrix n k ℂ),
+      Function.Injective B.mulVec →
+        (∀ (v : k → ℂ), (star (B.mulVec v) ⬝ᵥ (RHSpectralDuality.weilGramConcrete S N φ).mulVec (B.mulVec v)).re ≤ 0) →
+          Fintype.card k ≤ q
+'RHSpectralDuality.weilGramConcrete_negativeDim_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'RHSpectralDuality.weilZeroDiag_re_le' depends on axioms: [propext, Classical.choice, Quot.sound]

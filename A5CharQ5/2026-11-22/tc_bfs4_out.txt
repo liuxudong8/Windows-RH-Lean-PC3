@@ -1,0 +1,44 @@
+==== coset_a_11: abababb -> bababbaaaa
+start: abababb
+  ababa|bb| -> ababaaabaa   (rule2 rev: aabaa->bb)
+  abab|aaa|baa -> ababbaabbaa   (rule3 rev: baab->aaa)
+  aba|bb|aabbaa -> abaaabaaaabbaa   (rule2 rev: aabaa->bb)
+  abaaabaaaa|bb|aa -> abaaabaaaaaabaaaa   (rule2 rev: aabaa->bb)
+  ab|aaabaaa|aaabaaaa -> abbaaaabaaabaaaa   (rule7 rev: baaaab->aaabaaa)
+  a|bb|aaaabaaabaaaa -> aaabaaaaaabaaabaaaa   (rule2 rev: aabaa->bb)
+  |aaabaaa|aaabaaabaaaa -> baaaabaaabaaabaaaa   (rule7 rev: baaaab->aaabaaa)
+  baaaab|aaabaaa|baaaa -> baaaabbaaaabbaaaa   (rule7 rev: baaaab->aaabaaa)
+  b|aaaabbaaaa|bbaaaa -> bababbaaaa   (rule4 rev: aba->aaaabbaaaa)
+goal: bababbaaaa
+steps: 9
+
+==== coset_b_7: babab -> ababbaaaa
+start: babab
+  b|aba|b -> baaaabbaaaab   (rule4 fwd: aba->aaaabbaaaa)
+  |baaaab|baaaab -> aaabaaabaaaab   (rule7 fwd: baaaab->aaabaaa)
+  a|aabaa|abaaaab -> abbabaaaab   (rule2 fwd: aabaa->bb)
+  abba|baaaab| -> abbaaaabaaa   (rule7 fwd: baaaab->aaabaaa)
+  ab|baaaab|aaa -> abaaabaaaaaa   (rule7 fwd: baaaab->aaabaaa)
+  aba|aabaa|aaaa -> ababbaaaa   (rule2 fwd: aabaa->bb)
+goal: ababbaaaa
+steps: 6
+
+==== coset_b_8: bbabb -> aabbaa
+start: bbabb
+  |bb|abb -> aabaaabb   (rule2 rev: aabaa->bb)
+  aab|aaabb| -> aabbaa   (rule0 rev: baa->aaabb)
+goal: aabbaa
+steps: 2
+
+==== coset_b_11: bbababb -> ababa
+start: bbababb
+  |bb|ababb -> aabaaababb   (rule2 rev: aabaa->bb)
+  aabaaaba|bb| -> aabaaabaaabaa   (rule2 rev: aabaa->bb)
+  aab|aaabaaa|baa -> aabbaaaabbaa   (rule7 rev: baaaab->aaabaaa)
+  aabba|aaabb|aa -> aabbabaaaa   (rule0 rev: baa->aaabb)
+  aa|bb|abaaaa -> aaaabaaabaaaa   (rule2 rev: aabaa->bb)
+  a|aaabaaa|baaaa -> abaaaabbaaaa   (rule7 rev: baaaab->aaabaaa)
+  ab|aaaabbaaaa| -> ababa   (rule4 rev: aba->aaaabbaaaa)
+goal: ababa
+steps: 7
+

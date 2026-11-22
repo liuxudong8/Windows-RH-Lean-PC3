@@ -1,0 +1,113 @@
+QRH/S7_1_Stage3.lean:119:15: error: Application type mismatch: The argument
+  le_refl 0
+has type
+  0 ≤ 0
+but is expected to have type
+  0 ≤ 1
+in the application
+  max_le (le_refl 0)
+QRH/S7_1_Stage3.lean:141:90: error: unsolved goals
+ε x : ℝ
+hε : 0 < ε
+hx : |x| ≤ 1 / 2 - ε
+ht : 1 ≤ (1 / 2 - |x|) / ε
+hmin : min 1 ((1 / 2 - |x|) / ε) = 1
+⊢ max 0 (min 1 ((2⁻¹ - |x|) / ε)) = 1
+QRH/S7_1_Stage3.lean:147:8: warning: This simp argument is unused:
+  hmin
+
+Hint: Omit it from the simp argument list.
+  [apply] simp
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+QRH/S7_1_Stage3.lean:155:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  MeasureTheory.volume (Set.Icc ?m.58 ?m.59)
+in the target expression
+  MeasureTheory.volume.real (Set.Icc a b) • 1 = b - a
+
+a b : ℝ
+hab : a ≤ b
+⊢ MeasureTheory.volume.real (Set.Icc a b) • 1 = b - a
+QRH/S7_1_Stage3.lean:184:4: error: Type mismatch: After simplification, term
+  hnonneg
+ has type
+  0 ≤ C * (I1.indicator (fun x => 1) x + I2.indicator (fun x => 1) x)
+but is expected to have type
+  0 ≤
+    |sin (√2)⁻¹|⁻¹ * (√2)⁻¹ *
+      ((Set.Icc (-2⁻¹) (-2⁻¹ + ε)).indicator (fun x => 1) x + (Set.Icc (2⁻¹ - ε) 2⁻¹).indicator (fun x => 1) x)
+QRH/S7_1_Stage3.lean:203:30: error(lean.unknownIdentifier): Unknown identifier `f0_abs_le`
+QRH/S7_1_Stage3.lean:227:30: error(lean.unknownIdentifier): Unknown identifier `f0_abs_le`
+QRH/S7_1_Stage3.lean:240:12: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+QRH/S7_1_Stage3.lean:240:12: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  if |x| ≤ 1 / 2 then ?m.975 else ?m.976
+in the target expression
+  cos (√2 * x) / (√2 * sin (1 / √2)) = 0
+
+ε x : ℝ
+hε : 0 < ε
+I1 : Set ℝ := Set.Icc (-(1 / 2)) (-(1 / 2) + ε)
+I2 : Set ℝ := Set.Icc (1 / 2 - ε) (1 / 2)
+C : ℝ := (√2 * |sin (1 / √2)|)⁻¹
+hCpos : 0 < C
+hCnonneg : 0 ≤ C
+hdiff : f0 x - f_eps ε x = f0 x * (1 - w_eps ε x)
+hA : ¬|x| ≤ 1 / 2 - ε
+hC : ¬|x| ≤ 1 / 2
+hC' : 1 / 2 < |x|
+⊢ cos (√2 * x) / (√2 * sin (1 / √2)) = 0
+QRH/S7_1_Stage3.lean:246:6: error: Type mismatch: After simplification, term
+  hnonneg
+ has type
+  0 ≤ C * (I1.indicator (fun x => 1) x + I2.indicator (fun x => 1) x)
+but is expected to have type
+  0 ≤
+    |sin (√2)⁻¹|⁻¹ * (√2)⁻¹ *
+      ((Set.Icc (-2⁻¹) (-2⁻¹ + ε)).indicator (fun x => 1) x + (Set.Icc (2⁻¹ - ε) 2⁻¹).indicator (fun x => 1) x)
+QRH/S7_1_Stage3.lean:277:11: error: don't know how to synthesize implicit argument `f`
+  @MeasureTheory.IntegrableOn.congr_fun ℝ ℝ measureSpace.toMeasurableSpace ?m.260 (fun x => I1.indicator (fun x => 1) x)
+    I1 MeasureTheory.volume PseudoMetricSpace.toUniformSpace.toTopologicalSpace
+    NormedAddGroup.toENormedAddMonoid.toContinuousENorm ?m.266 ?m.267 ?m.268
+context:
+ε : ℝ
+hε : 0 < ε
+I1 : Set ℝ := ⋯
+I2 : Set ℝ := ⋯
+C : ℝ := ⋯
+hCpos : 0 < C
+hCnonneg : 0 ≤ C
+hpoint : ∀ (x : ℝ), |f0 x - f_eps ε x| ≤ C * (I1.indicator (fun x => 1) x + I2.indicator (fun x => 1) x)
+hsupp : (Function.support fun x => I1.indicator (fun x => 1) x) ⊆ I1
+⊢ ℝ → ℝ
+QRH/S7_1_Stage3.lean:304:27: error(lean.unknownIdentifier): Unknown identifier `f0_measurable.mul`
+QRH/S7_1_Stage3.lean:305:64: error(lean.unknownIdentifier): Unknown identifier `f0_measurable.sub`
+QRH/S7_1_Stage3.lean:316:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  |C * (I1.indicator (fun x => 1) x + I2.indicator (fun x => 1) x)|
+in the target expression
+  |f0 x - f_eps ε x| ≤ ‖C * (I1.indicator (fun x => 1) x + I2.indicator (fun x => 1) x)‖
+
+ε : ℝ
+hε : 0 < ε
+I1 : Set ℝ := Set.Icc (-(1 / 2)) (-(1 / 2) + ε)
+I2 : Set ℝ := Set.Icc (1 / 2 - ε) (1 / 2)
+C : ℝ := (√2 * |sin (1 / √2)|)⁻¹
+hCpos : 0 < C
+hCnonneg : 0 ≤ C
+hpoint : ∀ (x : ℝ), |f0 x - f_eps ε x| ≤ C * (I1.indicator (fun x => 1) x + I2.indicator (fun x => 1) x)
+hI1int : MeasureTheory.Integrable (fun x => I1.indicator (fun x => 1) x) MeasureTheory.volume
+hI2int : MeasureTheory.Integrable (fun x => I2.indicator (fun x => 1) x) MeasureTheory.volume
+hsumint :
+  MeasureTheory.Integrable (fun x => I1.indicator (fun x => 1) x + I2.indicator (fun x => 1) x) MeasureTheory.volume
+hRHSint :
+  MeasureTheory.Integrable (fun x => C * (I1.indicator (fun x => 1) x + I2.indicator (fun x => 1) x))
+    MeasureTheory.volume
+hLHSmeas : MeasureTheory.AEStronglyMeasurable (fun x => |f0 x - f_eps ε x|) MeasureTheory.volume
+x : ℝ
+hRnn : 0 ≤ C * (I1.indicator (fun x => 1) x + I2.indicator (fun x => 1) x)
+⊢ |f0 x - f_eps ε x| ≤ ‖C * (I1.indicator (fun x => 1) x + I2.indicator (fun x => 1) x)‖
+Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.

@@ -1,0 +1,937 @@
+OrderPreservingBijection\stage_4.lean:54:18: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:55:58: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:56:58: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:43:4: warning: Try this: intro n h
+OrderPreservingBijection\stage_4.lean:83:8: warning: declaration uses `sorry`
+OrderPreservingBijection\stage_4.lean:137:8: warning: declaration uses `sorry`
+OrderPreservingBijection\stage_4.lean:156:8: warning: declaration uses `sorry`
+OrderPreservingBijection\stage_4.lean:221:18: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:227:20: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:221:18: warning: Unused tactic linter: `linarith` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:227:20: warning: Unused tactic linter: `linarith` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:262:35: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:295:8: warning: declaration uses `sorry`
+OrderPreservingBijection\stage_4.lean:311:8: warning: declaration uses `sorry`
+OrderPreservingBijection\stage_4.lean:464:8: warning: declaration uses `sorry`
+OrderPreservingBijection\stage_4.lean:507:8: warning: declaration uses `sorry`
+OrderPreservingBijection\stage_4.lean:547:2: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:633:19: warning: Variable name `f` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _f
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+OrderPreservingBijection\stage_4.lean:644:8: warning: declaration uses `sorry`
+OrderPreservingBijection\stage_4.lean:666:2: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:743:30: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:743:30: warning: Unused tactic linter: `rfl` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:789:4: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:811:4: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:843:34: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:870:6: warning: declaration uses `sorry`
+OrderPreservingBijection\stage_4.lean:875:6: warning: declaration uses `sorry`
+OrderPreservingBijection\stage_4.lean:881:6: warning: declaration uses `sorry`
+OrderPreservingBijection\stage_4.lean:890:6: warning: declaration uses `sorry`
+OrderPreservingBijection\stage_4.lean:896:18: warning: declaration uses `sorry`
+OrderPreservingBijection\stage_4.lean:907:18: warning: declaration uses `sorry`
+OrderPreservingBijection\stage_4.lean:966:8: warning: declaration uses `sorry`
+OrderPreservingBijection\stage_4.lean:1039:6: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:1039:6: warning: Unused tactic linter: `exact h` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:1054:4: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:1085:2: warning: `push_neg` has been deprecated. Prefer using `push Not` instead.
+If you'd rather continue using `push_neg` in your project, you can implement it as follows:
+```
+open Lean.Parser.Tactic in
+macro "push_neg" cfg:optConfig loc:(location)? : tactic =>
+  `(tactic| push $cfg:optConfig Not $[$loc]?)
+```
+OrderPreservingBijection\stage_4.lean:1115:30: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:1117:40: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:1115:30: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:1117:40: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:1135:30: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:1148:24: warning: This simp argument is unused:
+  Complex.add_im
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Complex.add_re, Complex.mul_re, Complex.mul_im, Complex.I_re, Complex.I_im]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+OrderPreservingBijection\stage_4.lean:1148:56: warning: This simp argument is unused:
+  Complex.mul_im
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Complex.add_re, Complex.add_im, Complex.mul_re, Complex.I_re, Complex.I_im]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+OrderPreservingBijection\stage_4.lean:1149:6: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:1149:6: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:1157:8: warning: This simp argument is unused:
+  Complex.add_re
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Complex.add_im, Complex.mul_re, Complex.mul_im, Complex.I_re, Complex.I_im]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+OrderPreservingBijection\stage_4.lean:1157:40: warning: This simp argument is unused:
+  Complex.mul_re
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Complex.add_re, Complex.add_im, Complex.mul_im, Complex.I_re, Complex.I_im]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+OrderPreservingBijection\stage_4.lean:1158:2: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:1188:10: warning: This simp argument is unused:
+  Complex.add_re
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Complex.add_im, Complex.mul_re, Complex.mul_im, Complex.I_re, Complex.I_im]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+OrderPreservingBijection\stage_4.lean:1188:42: warning: This simp argument is unused:
+  Complex.mul_re
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Complex.add_re, Complex.add_im, Complex.mul_im, Complex.I_re, Complex.I_im]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+OrderPreservingBijection\stage_4.lean:1189:8: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:1189:8: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:1289:62: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:1289:2: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:1289:62: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:1303:8: warning: declaration uses `sorry`
+OrderPreservingBijection\stage_4.lean:1322:8: warning: declaration uses `sorry`
+OrderPreservingBijection\stage_4.lean:1330:16: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:1330:16: warning: Unused tactic linter: `rfl` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:1340:8: warning: declaration uses `sorry`
+OrderPreservingBijection\stage_4.lean:1358:2: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:1359:2: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:1359:39: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:1380:26: warning: This simp argument is unused:
+  h2
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [jlMultiplicity]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+OrderPreservingBijection\stage_4.lean:1380:30: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:1410:26: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:1482:8: warning: declaration uses `sorry`
+OrderPreservingBijection\stage_4.lean:1527:23: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:1610:8: warning: declaration uses `sorry`
+OrderPreservingBijection\stage_4.lean:1687:71: warning: This simp argument is unused:
+  g1
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [primeIdealDirichletIntegral, zetaLogDerivativeIntegral, g2]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+OrderPreservingBijection\stage_4.lean:1687:75: warning: This simp argument is unused:
+  g2
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [primeIdealDirichletIntegral, zetaLogDerivativeIntegral, g1]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+OrderPreservingBijection\stage_4.lean:1675:80: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:1679:72: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:1693:74: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:1698:61: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:1700:65: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:1910:33: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:1920:31: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:1910:33: warning: Unused tactic linter: `tauto` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:1998:10: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:1992:6: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:2004:6: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:2011:18: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:1998:10: warning: Unused tactic linter: `exact Set.finite_insert _ (Set.finite_singleton _)` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:2059:8: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:2087:28: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:2059:8: warning: Unused tactic linter: `exact Set.finite_empty` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:2087:28: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:2105:8: warning: declaration uses `sorry`
+OrderPreservingBijection\stage_4.lean:2126:8: warning: declaration uses `sorry`
+OrderPreservingBijection\stage_4.lean:2146:60: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:2146:60: warning: Unused tactic linter: `aesop` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:2156:65: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:2160:26: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:2380:15: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:2341:67: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:2353:67: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:2354:67: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:2380:15: warning: Unused tactic linter: `linarith` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:2401:69: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:2402:69: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:2461:32: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:2471:29: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:2461:32: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:2520:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:2534:32: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:2516:10: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:2544:29: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:2520:12: warning: Unused tactic linter: `linarith [h_denom2]` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:2534:32: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:2552:20: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:2552:35: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:2583:73: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:2584:73: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:2588:75: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:2589:74: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:2629:56: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:2745:10: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:2693:75: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:2694:75: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:2698:77: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:2699:76: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:2745:10: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:2816:6: warning: Try this: intro k hk hmem
+OrderPreservingBijection\stage_4.lean:2949:23: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:2949:23: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+Try this:
+  [apply] exact specDiscM_monotone n m hnm
+OrderPreservingBijection\stage_4.lean:2987:6: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:2995:6: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:3003:4: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+Try this:
+  [apply] exact contDiff_zero_fun
+OrderPreservingBijection\stage_4.lean:3027:32: warning: This simp argument is unused:
+  Finset.sum_congr rfl
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [ellipticTerm, h_eval]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+OrderPreservingBijection\stage_4.lean:3028:8: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:3028:8: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:3132:37: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+Try this:
+  [apply] exact tendsto_nhds_of_eventually_eq h_ev2
+Try this:
+  [apply] exact intervalIntegral.integral_mono hle hfi hgi h_deriv_bound
+Try this:
+  [apply] exact intervalIntegral.integral_mono_on h_x_ge_ε₀ hfi2 hgi2 h_le1
+OrderPreservingBijection\stage_4.lean:3072:49: warning: Variable name `hε₀_pos` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hε₀_pos
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+OrderPreservingBijection\stage_4.lean:3165:27: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:3207:31: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:3221:49: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:3246:47: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+Try this:
+  [apply] exact norm_exp ((s - 1) * ↑(Real.log x))
+Try this:
+  [apply] exact ContinuousOn.integrableOn_Icc h_g_cont
+Try this:
+  [apply] exact ContinuousOn.star h_cont_pow
+OrderPreservingBijection\stage_4.lean:3309:17: warning: This simp argument is unused:
+  h_eval x
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [hx']
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+OrderPreservingBijection\stage_4.lean:3337:30: warning: This simp argument is unused:
+  Complex.add_re
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Complex.mul_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+OrderPreservingBijection\stage_4.lean:3444:16: warning: This simp argument is unused:
+  mul_zero
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [zero_add, one_mul]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+OrderPreservingBijection\stage_4.lean:3444:26: warning: This simp argument is unused:
+  zero_add
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [mul_zero, one_mul]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+OrderPreservingBijection\stage_4.lean:3338:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:3345:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:3445:14: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:3451:36: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:3338:12: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:3345:12: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:3445:14: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:3451:36: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:3539:8: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+OrderPreservingBijection\stage_4.lean:3539:20: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+OrderPreservingBijection\stage_4.lean:3558:17: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:3567:16: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:3558:17: warning: Unused tactic linter: `exact Set.finite_empty` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:3567:16: warning: Unused tactic linter: `simp [v]` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:3602:8: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:3615:16: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:3618:20: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:3624:24: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:3602:8: warning: Unused tactic linter: `exact Set.finite_empty` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:3615:16: warning: Unused tactic linter: `rfl` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:3618:20: warning: Unused tactic linter: `tauto` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:3624:24: warning: Unused tactic linter: `exact Or.inl hs` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:3785:6: warning: declaration uses `sorry`
+OrderPreservingBijection\stage_4.lean:3835:35: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:3893:32: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:3928:10: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:3934:29: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:3947:40: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:3900:13: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:3906:13: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:3893:32: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:3928:10: warning: Unused tactic linter: `rfl` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:3934:29: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:3947:40: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:4062:8: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+OrderPreservingBijection\stage_4.lean:4068:10: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+OrderPreservingBijection\stage_4.lean:4069:10: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+OrderPreservingBijection\stage_4.lean:4089:22: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+OrderPreservingBijection\stage_4.lean:4111:10: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+OrderPreservingBijection\stage_4.lean:4045:36: warning: Variable name `hε₀_lt_R₀` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hε₀_lt_R₀
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+OrderPreservingBijection\stage_4.lean:4098:14: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:4116:10: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:4131:8: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:4128:6: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:4098:14: warning: Unused tactic linter: `rfl` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:4116:10: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:4131:8: warning: Unused tactic linter: `rfl` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+Try this:
+  [apply] exact Continuous.intervalIntegrable h_cont' ε₀ R₀
+OrderPreservingBijection\stage_4.lean:4141:5: warning: Variable name `h_left` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _h_left
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+OrderPreservingBijection\stage_4.lean:4142:5: warning: Variable name `h_right` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _h_right
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+OrderPreservingBijection\stage_4.lean:4199:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:4226:37: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:4281:4: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:4284:27: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:4321:18: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:4199:12: warning: Unused tactic linter: `norm_num` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:4226:37: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+Try this:
+  [apply] exact Continuous.intervalIntegrable h_cont ε₀ R₀
+OrderPreservingBijection\stage_4.lean:4331:5: warning: Variable name `h_left` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _h_left
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+OrderPreservingBijection\stage_4.lean:4332:5: warning: Variable name `h_right` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _h_right
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+OrderPreservingBijection\stage_4.lean:4406:34: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:4458:16: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:4461:27: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:4499:18: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:4586:10: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:4591:36: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:4603:50: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:4586:10: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:4591:36: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+Try this:
+  [apply] exact Complex.sq_norm s
+Try this:
+  [apply] exact Complex.sq_norm (s + 1)
+OrderPreservingBijection\stage_4.lean:4616:26: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:4618:26: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:4637:15: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+Try this:
+  [apply] exact integral_Icc_eq_integral_Ioc
+Try this:
+  [apply] exact ContDiff.deriv' hC2
+Try this:
+  [apply] exact Continuous.intervalIntegrable h_cont ε₀ R₀
+Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+Try this:
+  [apply] exact RCLike.ofReal_le_ofReal.mp h7
+OrderPreservingBijection\stage_4.lean:4776:12: warning: This simp argument is unused:
+  norm_div
+
+Hint: Omit it from the simp argument list.
+  [apply] simp
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+OrderPreservingBijection\stage_4.lean:4678:10: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:4767:51: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:4777:10: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:4937:10: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:4663:13: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:4734:123: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:4742:26: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:4744:28: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:4757:38: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:4807:8: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:4874:39: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:4876:28: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:4678:10: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:4767:51: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:4777:10: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:4937:10: warning: Unused tactic linter: `linarith` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+Try this:
+  [apply] exact tendsto_nhds_of_eventually_eq h2
+Try this:
+  [apply] exact nhdsWithin_le_nhds
+Try this:
+  [apply] exact tendsto_nhds_of_eventually_eq h2
+Try this:
+  [apply] exact nhdsWithin_le_nhds
+Try this:
+  [apply] exact EventuallyEq.deriv_eq h2
+Try this:
+  [apply] exact deriv_const x 0
+Try this:
+  [apply] exact ContDiff.deriv' hC2
+Try this:
+  [apply] exact tendsto_nhds_of_eventually_eq h2
+Try this:
+  [apply] exact nhdsWithin_le_nhds
+Try this:
+  [apply] exact EventuallyEq.deriv_eq h2
+Try this:
+  [apply] exact deriv_const x 0
+Try this:
+  [apply] exact ContDiff.deriv' hC2
+Try this:
+  [apply] exact tendsto_nhds_of_eventually_eq h2
+Try this:
+  [apply] exact nhdsWithin_le_nhds
+OrderPreservingBijection\stage_4.lean:5139:10: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:5139:10: warning: Unused tactic linter: `linarith` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:5231:61: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:5231:61: warning: Unused tactic linter: `assumption` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:5285:10: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+OrderPreservingBijection\stage_4.lean:5357:18: warning: This simp argument is unused:
+  hρ
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [h_cancel]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+OrderPreservingBijection\stage_4.lean:5356:27: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:5446:64: warning: This simp argument is unused:
+  hρ
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [hF]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+OrderPreservingBijection\stage_4.lean:5591:34: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:5572:72: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:5576:53: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:5591:34: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:5694:14: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+OrderPreservingBijection\stage_4.lean:5696:14: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+OrderPreservingBijection\stage_4.lean:5706:14: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+OrderPreservingBijection\stage_4.lean:5709:14: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+OrderPreservingBijection\stage_4.lean:5634:39: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:5663:38: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:5643:18: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:5646:18: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:5651:48: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:5652:63: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:5667:18: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:5735:13: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:5634:39: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:5663:38: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:5821:5: warning: Variable name `f` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _f
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+OrderPreservingBijection\stage_4.lean:5859:6: warning: declaration uses `sorry`
+OrderPreservingBijection\stage_4.lean:5885:29: warning: Variable name `f` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _f
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+OrderPreservingBijection\stage_4.lean:5905:26: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:5906:18: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:5905:26: warning: Unused tactic linter: `norm_num` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:5906:18: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:5922:22: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:5922:22: warning: Unused tactic linter: `norm_num` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+OrderPreservingBijection\stage_4.lean:5964:10: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+OrderPreservingBijection\stage_4.lean:6022:57: warning: Variable name `hd` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hd
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+OrderPreservingBijection\stage_4.lean:6023:5: warning: Variable name `h_order_preserving` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _h_order_preserving
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+OrderPreservingBijection\stage_4.lean:6023:33: warning: Variable name `h_jl_correspondence` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _h_jl_correspondence
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+OrderPreservingBijection\stage_4.lean:6097:8: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+OrderPreservingBijection\stage_4.lean:6097:8: warning: Unused tactic linter: `linarith [abs_nonneg t]` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+'RHSpectralDuality.riemann_hypothesis' depends on axioms: [propext, sorryAx, Classical.choice, Quot.sound]
+'RHSpectralDuality.all_zeros_on_critical_line' depends on axioms: [propext, sorryAx, Classical.choice, Quot.sound]
+'RHSpectralDuality.weil_explicit_formula' depends on axioms: [propext, sorryAx, Classical.choice, Quot.sound]
+'RHSpectralDuality.weil_explicit_formula_trivial_terms_cancel' depends on axioms: [propext,
+ sorryAx,
+ Classical.choice,
+ Quot.sound]
+'RHSpectralDuality.nontrivial_zero_sum_pair_separation' depends on axioms: [propext,
+ sorryAx,
+ Classical.choice,
+ Quot.sound]
+'RHSpectralDuality.off_critical_line_contradiction' depends on axioms: [propext, sorryAx, Classical.choice, Quot.sound]
+'RHSpectralDuality.mollified_trace_equality' depends on axioms: [propext, sorryAx, Classical.choice, Quot.sound]
+'RHSpectralDuality.aSignature_wellDefined' depends on axioms: [propext, Classical.choice, Quot.sound]
+'RHSpectralDuality.aSignature_dim' depends on axioms: [propext, Classical.choice, Quot.sound]
+'RHSpectralDuality.aSignature_fromBlocks' depends on axioms: [propext, Classical.choice, Quot.sound]
+'RHSpectralDuality.aSignature_of_frame' depends on axioms: [propext, Classical.choice, Quot.sound]
+'RHSpectralDuality.aNegativeDim_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'RHSpectralDuality.aSignature_fst_unique' depends on axioms: [propext, Classical.choice, Quot.sound]

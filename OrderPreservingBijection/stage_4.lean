@@ -13,6 +13,7 @@ import OrderPreservingBijection.BasicInfrastructure
 import OrderPreservingBijection.MellinInfrastructure
 import OrderPreservingBijection.ManifoldInfrastructure
 import OrderPreservingBijection.HeatKernel
+import OrderPreservingBijection.LaplacianBeltramiX
 import OrderPreservingBijection.HeatKernelSemigroup
 import OrderPreservingBijection.MollifiedFunction
 import OrderPreservingBijection.Interpolation
@@ -20,6 +21,7 @@ import Mathlib.MeasureTheory.Integral.Gamma
 import Mathlib.Analysis.MellinTransform
 
 import OrderPreservingBijection.InnerProduct
+import OrderPreservingBijection.SylvesterInertia
 import OrderPreservingBijection.test_rpow_ineq
 import OrderPreservingBijection.test_general_rpow_ineq
 namespace RHSpectralDuality
@@ -54,8 +56,31 @@ theorem riemann_zeta_zero_symmetry (ρ : ℂ) :
   have h_re2 : (1 - ρ).re < 1 := by simp [Complex.sub_re] <;> linarith
   exact ⟨h_zero, h_re1, h_re2⟩
 
-/-- 二维 Laplacian（opaque，类型化）：Δ_X : L²(X) → L²(X)。 -/
-noncomputable def laplacian_X : L2ManifoldX → L2ManifoldX := fun _ => Classical.arbitrary L2ManifoldX
+-- 二维 Laplacian（已迁移，2026-11-22）：
+--   Δ_X 原为 `fun _ => Classical.arbitrary L2ManifoldX` 的占位，现已在
+--   `LaplacianBeltramiX.lean` 中改为由坐标公式算出的真 Laplace–Beltrami 算子
+--     Δ_ℍ f = y² (f_xx + f_yy)   （ℍ² 的 √g = 1/y²，故无一阶项）
+--   定义域收窄为 `SmoothL2ManifoldX`（C² 且 Δ_ℍ f ∈ L²）。此处不再重复定义。
+
+/-! ### 机制 A 的几何前提（显式挂账）
+
+下面这条 `opaque` 命题是本工程**唯一**的几何外部输入：Γ ⊂ Isom(ℍ³) 余紧、无抛物元，
+使 M = ℍ³/Γ 为紧致双曲三流形，因而 Δ 的谱纯离散。
+
+为什么必须显式化（2026-11-22 的修正）：`ManifoldM := UpperHalfSpace3` 是**覆盖空间** ℍ³
+本身，商 Γ\ℍ³ 从未显式化（见 `ManifoldInfrastructure.lean` 头部，Γ 由
+`gammaEnum`/`gammaAction` 隐式携带）。而 ℍ³ 上 Δ_ℍ 的点谱为空：本征函数 `t^{1+iλ}`
+满足 `|t^{1+iλ}|² = t²`，体积元 `dx dy dt/t³`，故 `∫ t²/t³ dt = ∫ dt/t` 发散。
+所以「`∃ ψ ∈ L², ψ ≠ 0 ∧ Δψ = s n · ψ`」在覆盖空间上**字面为假**，只在商上成立。
+旧版把这条债埋在对占位算子的 `admit` 里（占位对任何陈述都「无所谓真假」），
+现在把它提到定理参数与 `#print axioms` 里，可审计、不可忽略。 -/
+opaque CocompactQuotientHypothesis : Prop
+
+/-- 本工程采用机制 A（紧商算术情形：Q(√5) 四元数代数、ℝ 处不分裂、无尖点）。
+    声明为 theorem + `sorry` 而非 `axiom`：保持闭包形态统一（BSD 核验方法 M4），
+    且源头可追踪到本行。**注意**：这条前提没有、也不打算有已证的 Lean 实例，
+    它的唯一作用是把几何债命名并外化，而不是把它藏起来。 -/
+theorem cocompactQuotientHypothesis : CocompactQuotientHypothesis := by sorry
 
 /-- 三维 Laplacian 具有离散谱（显式公理，原为 admit 占位，2026-10-02 显式化）：
     存在序列 s : ℕ → ℝ，满足：
@@ -75,6 +100,9 @@ noncomputable def laplacian_X : L2ManifoldX → L2ManifoldX := fun _ => Classica
     流形设定（机制 A）：M = ℍ³/Γ 为紧致算术双曲三流形（Q(√5) 四元数代数紧商，
     无尖点、无连续谱）。紧致性由 Dolgopyat 混合（本文件 :1268 起）硬性要求；
     continuousTerm（散射矩阵）仅存在于非紧情形，紧商下为 0。
+    **这一设定的形式化状态（2026-11-22）**：本工程的 `ManifoldM` 是覆盖空间 ℍ³，
+    商 Γ\ℍ³ 未显式化，故它作为参数 `hQ : CocompactQuotientHypothesis` 显式出现
+    （见本文件 `laplacian_X` 之后的 opaque 声明与说明）。
 
     紧致性核验点（谱离散成立与否的唯一几何前提）：
     ℍ³/Γ 紧致 ⟺ Γ 余紧 ⟺ 定义 Γ 的四元数代数 D 在 ℝ 处不分裂
@@ -95,23 +123,47 @@ noncomputable def laplacian_X : L2ManifoldX → L2ManifoldX := fun _ => Classica
     故 1/4 下界的数学地位：需在算术 3 流形的具体族上核验，
     或作为显式约定保留（当前取后者）。
 
-    形式化状态（诚实标注）：laplacian_M 现为 Classical.arbitrary 占位
-    （HeatKernel.lean:329），mathlib 尚无 Laplace-Beltrami 算子与
-    Rellich/Sobolev 紧嵌入，故此处声明为显式公理而非已证定理。
-    TODO：重定义 laplacian_M 为真实 Laplace-Beltrami 算子后，
-    以 mathlib 紧自伴算子谱定理（Spectrum.lean）替换本公理。 -/
-axiom laplacian_has_discrete_spectrum :
-    (∀ (f g : L2ManifoldM), innerProductM (laplacian_M f) g = innerProductM f (laplacian_M g)) ∧
+    形式化状态（诚实标注，2026-11-22 更新）：laplacian_M **已不再是**
+    `Classical.arbitrary` 占位。它是 `LaplacianBeltrami.lean` 里由坐标公式
+      Δ_ℍ f = t²(f_xx + f_yy + f_tt) − t·f_t
+    算出的真 Laplace–Beltrami 算子；定义域收窄为光滑 L² 子空间
+    `SmoothL2ManifoldM`（C² 且 Δ_ℍ f 平方可积），域外没有输入点，因此
+    不存在 junk 分支。特征向量量词随之全部落在该光滑域上（自伴性已另立
+    `laplacian_M_self_adjoint_bilinear`，因为分部积分不依赖 Γ 余紧，不该背几何债）。
+    仍用 admit 的原因只剩数学缺口本身：mathlib 无 Rellich/Kondrachov 紧嵌入，
+    也无无穷维紧自伴算子谱定理（`Spectrum.lean` 是有限维的），
+    故「谱纯离散、λₙ → ∞、特征向量构成正交基」不能由已证引理推出。
+    TODO：mathlib 补齐紧嵌入 + 紧自伴谱定理后替换本 admit。 -/
+theorem laplacian_has_discrete_spectrum (hQ : CocompactQuotientHypothesis) :
     (∃ (s : ℕ → ℝ),
       (0 < s 0) ∧
       (∀ n : ℕ, 1 / 4 ≤ s n) ∧
       (∀ n : ℕ, s n < s (n + 1)) ∧
       (∀ M : ℝ, ∃ n : ℕ, s n > M) ∧
-      (∀ n : ℕ, ∃ (ψ : L2ManifoldM), ψ ≠ 0 ∧ laplacian_M ψ = (s n : ℂ) • ψ))
+      (∀ n : ℕ, ∃ (ψ : SmoothL2ManifoldM),
+        (ψ : L2ManifoldM) ≠ 0 ∧ laplacian_M ψ = (s n : ℂ) • (ψ : L2ManifoldM))) := by
+  -- 2026-10-16：axiom → theorem by admit（闭包形态统一，BSD 闭包核验方法 M4）。
+  -- 2026-11-22：算子换成真 Laplace–Beltrami；并把几何前提 Γ 余紧显式化为参数 `hQ`
+  -- （覆盖空间 ℍ³ 上该陈述字面为假，见 CocompactQuotientHypothesis 的说明）。
+  -- 数学缺口：Rellich 紧嵌入 + 紧自伴谱定理。
+  admit
 
-/-- 三维离散谱（定义，由离散谱公理通过 Classical.choose 给出）。
-    非空洞：specDiscM n 是 laplacian_M 的第 n 个特征值。 -/
-noncomputable def specDiscM : ℕ → ℝ := Classical.choose laplacian_has_discrete_spectrum.2
+/-- 三维 Laplacian 的自伴性（光滑域上的对称性，admit 挂账）。
+    **与几何无关**：分部积分只用到 ℍ³ 的体积元与边界项消失，不依赖 Γ 余紧，
+    因此不携带 `CocompactQuotientHypothesis`——独立成条，避免自伴性被几何债污染。
+    mathlib 侧缺件：连「自伴算子」概念都没有（`IsSelfAdjoint` 命中 0），
+    多维分部积分 `∫ f·∇g = −∫ ∇f·g` 也无现成引理（只有 1 维 `integral_deriv_eq_sub`）。 -/
+theorem laplacian_M_self_adjoint_bilinear (f g : SmoothL2ManifoldM) :
+    innerProductM (laplacian_M f) (g : L2ManifoldM) =
+      innerProductM (f : L2ManifoldM) (laplacian_M g) := by
+  admit
+
+/-- 三维离散谱（定义，由离散谱陈述经 Classical.choose 给出）。
+    非空洞：specDiscM n 是 laplacian_M 在紧商 ℍ³/Γ 上的第 n 个特征值。
+    注意：选择运算携带几何前提 `hQ`——下游任何拿 specDiscM 派生的结论，
+    闭包里都会出现 `cocompactQuotientHypothesis`，几何债无法被静默吞掉。 -/
+noncomputable def specDiscM : ℕ → ℝ :=
+  Classical.choose (laplacian_has_discrete_spectrum cocompactQuotientHypothesis)
 
 /-- Laplacian 谱隙（公理）：最小离散特征值严格大于 0。
     数学原因（机制 A，紧致商）：M = ℍ³/Γ 为紧致算术双曲三流形（Q(√5) 四元数代数，
@@ -121,7 +173,7 @@ noncomputable def specDiscM : ℕ → ℝ := Classical.choose laplacian_has_disc
     旧注"非紧有限体积 ⟹ 0 不是 L² 特征值"已废弃：紧致情形 0 是特征值，
     靠枚举跳过而非靠非紧性排除。这是 PointSetSeparable 的前提。 -/
 theorem laplacian_spectral_gap : 0 < specDiscM 0 :=
-  (Classical.choose_spec laplacian_has_discrete_spectrum.2).1
+  (Classical.choose_spec (laplacian_has_discrete_spectrum cocompactQuotientHypothesis)).1
 
 /-- 三维离散谱 SpecDisc(M) 的性质束（定理，由 Classical.choose_spec 推出）：
     1. 非负 2. 严格递增 3. 无界 -/
@@ -129,7 +181,7 @@ theorem specDiscM_properties :
     (∀ n : ℕ, 0 ≤ specDiscM n) ∧
     (∀ n : ℕ, specDiscM n < specDiscM (n + 1)) ∧
     (∀ M : ℝ, ∃ n : ℕ, specDiscM n > M) :=
-  let h := Classical.choose_spec laplacian_has_discrete_spectrum.2
+  let h := Classical.choose_spec (laplacian_has_discrete_spectrum cocompactQuotientHypothesis)
   ⟨fun n => by
     have h' : 1 / 4 ≤ specDiscM n := h.2.1 n
     have h'' : (0 : ℝ) ≤ 1 / 4 := by norm_num
@@ -222,33 +274,49 @@ lemma mollified_eval_support_finite (f : TestFunction) :
   exact Set.Finite.subset h2 h1
 
 /-- specDiscM n 是 laplacian_M 的特征值（定理，由离散谱公理推出）：
-    存在非零 ψ，使得 laplacian_M ψ = specDiscM(n) · ψ。 -/
+    存在光滑域中的非零 ψ（其 L² 投影也非零），使得 laplacian_M ψ = specDiscM(n) · ψ。 -/
 theorem specDiscM_is_eigenvalue (n : ℕ) :
-    ∃ (ψ : L2ManifoldM), ψ ≠ 0 ∧ laplacian_M ψ = (specDiscM n : ℂ) • ψ :=
-  (Classical.choose_spec laplacian_has_discrete_spectrum.2).2.2.2.2 n
+    ∃ (ψ : SmoothL2ManifoldM),
+      (ψ : L2ManifoldM) ≠ 0 ∧ laplacian_M ψ = (specDiscM n : ℂ) • (ψ : L2ManifoldM) :=
+  (Classical.choose_spec (laplacian_has_discrete_spectrum cocompactQuotientHypothesis)).2.2.2.2 n
 
-/-- Maass Laplacian 具有离散谱（公理，第一档，非空洞版本）：
+/-- Maass Laplacian 具有离散谱（第一档，条件句）：给定机制 A 的紧商前提，
     存在序列 t : ℕ → ℝ，满足：
     (1) 非负 (2) 严格递增 (3) 无界
     (4) 每个 1/4 + t_n² 都是 laplacian_X 的特征值（存在非零特征向量）。
     这是 Maass 形式谱参数的标准性质（Weyl 定律）。
+    量词与三维同型（2026-11-22 更新）：`laplacian_X` 已换成 `LaplacianBeltramiX.lean`
+    里由坐标公式 `Δ_ℍ f = y²(f_xx + f_yy)` 算出的真算子，定义域收窄为
+    `SmoothL2ManifoldX`，故特征向量量词落在该光滑域上。
+    ℍ²（覆盖平面）上 Δ 的点谱同样为空（本征函数 `y^{1/2+iλ}`，`|y^{1/2+iλ}|² = y`，
+    体积元 `dx dy / y²` ⟹ `∫ dy/y` 发散），故陈述只在商 ℍ²/Γ 上成立，
+    与三维共用同一条几何前提 `CocompactQuotientHypothesis`。
     比旧版 maassSpecParam_exists 更强：t_n 不再是任意的，而是 Maass Laplacian 的谱参数。 -/
-theorem maass_laplacian_has_discrete_spectrum :
-    (∀ (f g : L2ManifoldX), innerProductX (laplacian_X f) g = innerProductX f (laplacian_X g)) ∧
+theorem maass_laplacian_has_discrete_spectrum (hQ : CocompactQuotientHypothesis) :
     (∃ (t : ℕ → ℝ),
       (∀ n : ℕ, 0 ≤ t n) ∧
       (∀ n : ℕ, t n < t (n + 1)) ∧
       (∀ M : ℝ, ∃ n : ℕ, t n > M) ∧
-      (∀ n : ℕ, ∃ (φ : L2ManifoldX), φ ≠ 0 ∧ laplacian_X φ = ((1 / 4 + (t n)^2 : ℝ) : ℂ) • φ)) := by
+      (∀ n : ℕ, ∃ (φ : SmoothL2ManifoldX),
+        (φ : L2ManifoldX) ≠ 0 ∧
+          laplacian_X φ = ((1 / 4 + (t n)^2 : ℝ) : ℂ) • (φ : L2ManifoldX))) := by
   -- 数学：Rellich 引理 + 紧自伴算子谱定理
-  -- (1) Maass Laplacian 自伴性：分部积分 + 边界项为零
+  -- (1) Maass Laplacian 自伴性：见 laplacian_X_self_adjoint_bilinear（独立成条）
   -- (2) Rellich 引理：紧流形上 Laplacian 的预解式是紧算子
   -- (3) 紧自伴算子谱定理：离散谱 + 特征向量正交基
   admit
 
-/-- Maass 谱参数（定义，由离散谱公理通过 Classical.choose 给出）。
-    非空洞：maassSpecParam n 对应 laplacian_X 的特征值 1/4 + t_n²。 -/
-noncomputable def maassSpecParam : ℕ → ℝ := Classical.choose maass_laplacian_has_discrete_spectrum.2
+/-- 二维 Laplacian 的自伴性（admit 挂账，与几何无关，故不携带 `hQ`）。
+    `laplacian_X` 已是真算子（LaplacianBeltramiX.lean），量词落在 `SmoothL2ManifoldX`。 -/
+theorem laplacian_X_self_adjoint_bilinear (f g : SmoothL2ManifoldX) :
+    innerProductX (laplacian_X f) (g : L2ManifoldX) =
+      innerProductX (f : L2ManifoldX) (laplacian_X g) := by
+  admit
+
+/-- Maass 谱参数（定义，由离散谱陈述经 Classical.choose 给出）。
+    非空洞：maassSpecParam n 对应 laplacian_X 在紧商 ℍ²/Γ 上的特征值 1/4 + t_n²。 -/
+noncomputable def maassSpecParam : ℕ → ℝ :=
+  Classical.choose (maass_laplacian_has_discrete_spectrum cocompactQuotientHypothesis)
 
 /-- Maass 谱参数 SpecMaass(X) 的性质束（定理，由 Classical.choose_spec 推出）：
     1. 非负 2. 严格递增 3. 无界 -/
@@ -256,14 +324,16 @@ theorem maassSpecParam_properties :
     (∀ n : ℕ, 0 ≤ maassSpecParam n) ∧
     (∀ n : ℕ, maassSpecParam n < maassSpecParam (n + 1)) ∧
     (∀ M : ℝ, ∃ n : ℕ, maassSpecParam n > M) :=
-  let h := Classical.choose_spec maass_laplacian_has_discrete_spectrum.2
+  let h := Classical.choose_spec (maass_laplacian_has_discrete_spectrum cocompactQuotientHypothesis)
   ⟨h.1, h.2.1, h.2.2.1⟩
 
-/-- 1/4 + maassSpecParam(n)² 是 laplacian_X 的特征值（定理，由离散谱公理推出）：
-    存在非零 φ，使得 laplacian_X φ = (1/4 + t_n²) · φ。 -/
+/-- 1/4 + maassSpecParam(n)² 是 laplacian_X 的特征值（定理，由离散谱陈述推出）：
+    存在光滑域中的非零 φ（其 L² 投影也非零），使得 laplacian_X φ = (1/4 + t_n²) · φ。 -/
 theorem maassSpecParam_is_eigenvalue (n : ℕ) :
-    ∃ (φ : L2ManifoldX), φ ≠ 0 ∧ laplacian_X φ = ((1 / 4 + (maassSpecParam n)^2 : ℝ) : ℂ) • φ :=
-  (Classical.choose_spec maass_laplacian_has_discrete_spectrum.2).2.2.2 n
+    ∃ (φ : SmoothL2ManifoldX),
+      (φ : L2ManifoldX) ≠ 0 ∧
+        laplacian_X φ = ((1 / 4 + (maassSpecParam n)^2 : ℝ) : ℂ) • (φ : L2ManifoldX) :=
+  (Classical.choose_spec (maass_laplacian_has_discrete_spectrum cocompactQuotientHypothesis)).2.2.2 n
 
 /-- 三维离散谱非负（由 specDiscM_properties 推出） -/
 theorem specDiscM_nonneg (n : ℕ) : 0 ≤ specDiscM n := specDiscM_properties.1 n
@@ -385,13 +455,29 @@ opaque scatteringMatrixLogDerivative : ℂ → ℂ
 noncomputable def continuousTerm (f : TestFunction) : ℂ :=
     realIntegral (fun r : ℝ => scatteringMatrixLogDerivative (1/2 + r * Complex.I) * f.eval (1/4 + r^2)) / (2 * Real.pi * Complex.I)
 
-/-- 连续谱项消失（公理，机制 A 紧商）：
+/-- 散射矩阵对数导数恒零（挂账，机制 A 紧商）：
     紧致算术双曲三流形 ℍ³/Γ（Q(√5) 四元数代数紧商）无尖点、无 Eisenstein 级数，
-    散射矩阵不存在，连续谱项恒为零。
+    散射矩阵不存在，故对数导数恒零。
+    这是 ⑤ 拆环后的挂账点：旧 admit 是复合声明 continuousTerm = 0（被积函数恒零 +
+    积分零两步），现拆为散射对数导数恒零（本引理，数学事实挂账）+
+    积分零（continuousTerm_eq_zero 真证）。 -/
+theorem scatteringLogDerivative_eq_zero_of_compact :
+    ∀ r : ℂ, scatteringMatrixLogDerivative r = 0 := by
+  -- 数学：紧商（Q(√5) 四元数代数，无尖点）⟹ 无 Eisenstein 级数 ⟹ 无散射矩阵
+  -- ⟹ (φ'/φ)(s) ≡ 0。机制 A 的显式约定，紧商下概念不可达。
+  admit
+
+/-- 连续谱项消失（定理，由散射对数导数恒零 + 积分零真证）：
+    对任意测试函数 f，continuousTerm f = 0。
+    证明：
+    (1) scatteringLogDerivative_eq_zero_of_compact: 紧商 ⟹ 散射对数导数恒零（挂账）
+    (2) simp 依次处理：被积函数 0·f(·) → 0（zero_mul）→ realIntegral 0 = 0
+        （integral_zero）→ 0 / (2πi) = 0（zero_div）。
     旧设定（非紧）下 continuousTerm 的围道移动公式（continuous_term_contour_shift
     旧陈述）随非紧设定废弃；定义保留（散射矩阵为 opaque，紧商下不可达）。 -/
 theorem continuousTerm_eq_zero (f : TestFunction) : continuousTerm f = 0 := by
-  admit
+  unfold continuousTerm
+  simp [scatteringLogDerivative_eq_zero_of_compact, realIntegral]
 
 /- 6. 显式积分核基础设施（热核部分）
    Shimura 提升核基础设施已移至 Section 3.5。 -/
@@ -759,19 +845,20 @@ theorem split_prime_compensation (p : ℕ) (hp : Nat.Prime p) (h : p % 5 = 1 ∨
 /- Section 3.5: Shimura 提升核基础设施（为 JL 对应提供显式积分核） -/
 
 /-- 三维 Laplacian 自伴性（公理，算子结构）：
-    ⟨Δ_M f, g⟩ = ⟨f, Δ_M g⟩ 对所有 f, g ∈ L²(M)。
-    这是椭圆微分算子的基本性质：Laplacian 关于 L² 内积自伴。
-    自伴性保证特征值为实数，特征子空间正交。 -/
-theorem laplacian_M_self_adjoint (f g : L2ManifoldM) :
-    innerProductM (laplacian_M f) g = innerProductM f (laplacian_M g) :=
-  laplacian_has_discrete_spectrum.1 f g
+    ⟨Δ_M f, g⟩ = ⟨f, Δ_M g⟩ 对光滑域中的 f, g。
+    这是椭圆微分算子的基本性质：Laplacian 关于 L² 内积自伴（分部积分 + 边界项为 0）。
+    量词限制在 `SmoothL2ManifoldM`：Δ_M 的定义域就是光滑子空间，域外无输入点。 -/
+theorem laplacian_M_self_adjoint (f g : SmoothL2ManifoldM) :
+    innerProductM (laplacian_M f) (g : L2ManifoldM) =
+      innerProductM (f : L2ManifoldM) (laplacian_M g) :=
+  laplacian_M_self_adjoint_bilinear f g
 
-/-- 二维 Laplacian 自伴性（公理，算子结构）：
-    ⟨Δ_X f, g⟩ = ⟨f, Δ_X g⟩ 对所有 f, g ∈ L²(X)。
-    Maass Laplacian 同样是自伴算子。 -/
-theorem laplacian_X_self_adjoint (f g : L2ManifoldX) :
-    innerProductX (laplacian_X f) g = innerProductX f (laplacian_X g) :=
-  maass_laplacian_has_discrete_spectrum.1 f g
+/-- 二维 Laplacian 自伴性（admit 挂账，与几何无关）。
+    `laplacian_X` 已是真算子（LaplacianBeltramiX.lean），量词落在 `SmoothL2ManifoldX`。 -/
+theorem laplacian_X_self_adjoint (f g : SmoothL2ManifoldX) :
+    innerProductX (laplacian_X f) (g : L2ManifoldX) =
+      innerProductX (f : L2ManifoldX) (laplacian_X g) :=
+  laplacian_X_self_adjoint_bilinear f g
 
 /-- Shimura 提升核（opaque，类型化）：Θ(z, w)，z ∈ M（三维），w ∈ X（二维）。
     第一个参数是目标流形 ManifoldM 的点，第二个参数是源流形 ManifoldX 的点。
@@ -813,6 +900,16 @@ noncomputable def shimuraLift (f : L2ManifoldX) : L2ManifoldM :=
     sq_integrable := by sorry  -- ❓ 平方可积性：Hilbert-Schmidt 估计
   }
 
+/-- 光滑版 Shimura 提升（定义，光滑性/可测/可积三项义务以 sorry 占位，与 `shimuraLift` 同风格）：
+    把 U f 提升为 `SmoothL2ManifoldM` 的元，使 `laplacian_M` 能直接作用在它上面。
+    底层 L² 函数就是 `shimuraLift f`。这条 glue 是必要代价：`laplacian_M` 已取
+    光滑域，而 `shimuraLift` 的输出只保证 L²。 -/
+noncomputable def shimuraLiftSmooth (f : L2ManifoldX) : SmoothL2ManifoldM where
+  toL2 := shimuraLift f
+  contDiffOn := by sorry
+  lap_measurable := by sorry
+  lap_sq_integrable := by sorry
+
 /-- JL 谱映射（抽象不透明常量）。
     φ : ℕ → ℕ 将三维双曲流形 M 的离散谱索引
     映射到四元数代数曲面 X 的 Maass 谱索引。 -/
@@ -825,25 +922,39 @@ noncomputable def jlLParameterMap (n : ℕ) : ℂ :=
   (1 / 2 : ℂ) + Complex.I * (Real.sqrt (specDiscM n - 1 / 4) : ℂ)
 
 
-/-- Maass 特征函数（定义，由 maassSpecParam_is_eigenvalue 通过 Classical.choose 给出）：
-    第 k 个 Maass 形式 φ_k ∈ L²(X)，满足 laplacian_X φ_k = (1/4 + t_k²) · φ_k。 -/
-noncomputable def maassEigenfunction (k : ℕ) : L2ManifoldX :=
+/-- Maass 特征函数的光滑版本（定义，由 maassSpecParam_is_eigenvalue 经 Classical.choose 给出）：
+    `SmoothL2ManifoldX` 的元，可直接喂给 `laplacian_X`；其 `toL2` 即 L² 投影。 -/
+noncomputable def maassEigenfunctionSmooth (k : ℕ) : SmoothL2ManifoldX :=
     Classical.choose (maassSpecParam_is_eigenvalue k)
 
-/-- 三维自守特征函数（定义，由 specDiscM_is_eigenvalue 通过 Classical.choose 给出）：
-    第 n 个三维自守形式 ψ_n ∈ L²(M)，满足 laplacian_M ψ_n = specDiscM(n) · ψ_n。 -/
-noncomputable def threeManifoldEigenfunction (n : ℕ) : L2ManifoldM :=
+/-- Maass 特征函数（定义）：上面光滑元的 L² 投影，φ_k ∈ L²(X)。
+    与三维同策略：下游按 L² 使用特征向量与标量乘，L² 层类型最省事。 -/
+noncomputable def maassEigenfunction (k : ℕ) : L2ManifoldX :=
+    (maassEigenfunctionSmooth k : L2ManifoldX)
+
+/-- 三维自守特征函数的光滑版本（定义，由 specDiscM_is_eigenvalue 经 Classical.choose 给出）：
+    `SmoothL2ManifoldM` 的元，可直接喂给 `laplacian_M`；其 `toL2` 即 L² 投影。 -/
+noncomputable def threeManifoldEigenfunctionSmooth (n : ℕ) : SmoothL2ManifoldM :=
     Classical.choose (specDiscM_is_eigenvalue n)
 
-/-- Maass 特征值方程（定理，由 Classical.choose_spec 推出）：Δ_X φ_k = (1/4 + t_k²) φ_k。 -/
+/-- 三维自守特征函数（定义）：上面光滑元的 L² 投影，`threeManifoldEigenfunction n ∈ L²(M)`。
+    之所以在 L² 层再给一个名字（而不是让下游直接用光滑元）：`jl_l_parameter_preserving`
+    等 calc 链全部按 L² 使用特征向量与它的标量乘（`a • ψ_n`），L² 层类型最省事。
+    可直接喂给 `laplacian_M` 的版本就是 `threeManifoldEigenfunctionSmooth`。 -/
+noncomputable def threeManifoldEigenfunction (n : ℕ) : L2ManifoldM :=
+    (threeManifoldEigenfunctionSmooth n : L2ManifoldM)
+
+/-- Maass 特征值方程（定理，由 Classical.choose_spec 推出）：
+    Δ_X φ_k = (1/4 + t_k²) φ_k，其中 Δ_X 作用在光滑版本、右边是同一个元素的 L² 投影。 -/
 theorem maass_eigenvalue_equation (k : ℕ) :
-    laplacian_X (maassEigenfunction k) =
+    laplacian_X (maassEigenfunctionSmooth k) =
       ((1 / 4 + (maassSpecParam k)^2 : ℝ) : ℂ) • maassEigenfunction k :=
   (Classical.choose_spec (maassSpecParam_is_eigenvalue k)).2
 
-/-- 三维特征值方程（定理，由 Classical.choose_spec 推出）：Δ_M ψ_n = specDiscM(n) ψ_n。 -/
+/-- 三维特征值方程（定理，由 Classical.choose_spec 推出）：
+    Δ_M ψ_n = specDiscM(n) ψ_n，其中 Δ_M 作用在光滑版本、右边是同一个元素的 L² 投影。 -/
 theorem threeManifold_eigenvalue_equation (n : ℕ) :
-    laplacian_M (threeManifoldEigenfunction n) =
+    laplacian_M (threeManifoldEigenfunctionSmooth n) =
       (specDiscM n : ℂ) • threeManifoldEigenfunction n :=
   (Classical.choose_spec (specDiscM_is_eigenvalue n)).2
 
@@ -854,7 +965,8 @@ theorem threeManifold_eigenvalue_equation (n : ℕ) :
     这是 Shimura 提升的三条基本性质，合并为一条公理束。 -/
 theorem shimuraLift_standard_properties :
     (∀ (n : ℕ), shimuraLift (maassEigenfunction (jlSpectrumMap n)) = threeManifoldEigenfunction n) ∧
-    (∀ (f : L2ManifoldX), shimuraLift (laplacian_X f) = laplacian_M (shimuraLift f)) ∧
+    (∀ (f : SmoothL2ManifoldX),
+      shimuraLift (laplacian_X f) = laplacian_M (shimuraLiftSmooth (f : L2ManifoldX))) ∧
     (∀ (f g : L2ManifoldX), innerProductM (shimuraLift f) (shimuraLift g) = innerProductX f g) := by
   -- 数学：Shimura 提升的三条基本性质
   -- (1) 特征函数对应：U(φ_{jlSpectrumMap(n)}) = ψ_n
@@ -868,10 +980,11 @@ theorem shimuraLift_eigenfunction_correspondence :
       shimuraLift (maassEigenfunction (jlSpectrumMap n)) = threeManifoldEigenfunction n :=
   shimuraLift_standard_properties.1
 
-/-- Shimura 提升保 Laplacian（定理，由合并公理推出）：U ∘ Δ_X = Δ_M ∘ U。 -/
+/-- Shimura 提升保 Laplacian（定理，由合并公理推出）：
+    U ∘ Δ_X = Δ_M ∘ U（Δ_X、Δ_M 均取光滑版本，量词在 `SmoothL2ManifoldX`）。 -/
 theorem shimuraLift_commutes_laplacian :
-    ∀ (f : L2ManifoldX),
-      shimuraLift (laplacian_X f) = laplacian_M (shimuraLift f) :=
+    ∀ (f : SmoothL2ManifoldX),
+      shimuraLift (laplacian_X f) = laplacian_M (shimuraLiftSmooth (f : L2ManifoldX)) :=
   shimuraLift_standard_properties.2.1
 
 /-- Shimura 核被积函数可积性（公理，标准分析事实）：
@@ -1014,7 +1127,8 @@ theorem jlLParameterMap_standard (n : ℕ) :
     ∃ (t : ℝ), 0 ≤ t ∧
       (jlLParameterMap n = (1 / 2 : ℂ) + t * Complex.I) ∧
       specDiscM n = 1 / 4 + t^2 := by
-  have h_ge : 1 / 4 ≤ specDiscM n := (Classical.choose_spec laplacian_has_discrete_spectrum.2).2.1 n
+  have h_ge : 1 / 4 ≤ specDiscM n :=
+    (Classical.choose_spec (laplacian_has_discrete_spectrum cocompactQuotientHypothesis)).2.1 n
   let t := Real.sqrt (specDiscM n - 1 / 4)
   have ht_nonneg : 0 ≤ t := Real.sqrt_nonneg _
   have h_eq : jlLParameterMap n = (1 / 2 : ℂ) + t * Complex.I := by
@@ -1108,27 +1222,30 @@ theorem jl_l_parameter_preserving :
   set a : ℂ := ((1 / 4 + (maassSpecParam k)^2 : ℝ) : ℂ) with ha
   have h1 : shimuraLift (maassEigenfunction k) = threeManifoldEigenfunction n :=
     shimuraLift_eigenfunction_correspondence n
-  have h2 : shimuraLift (laplacian_X (maassEigenfunction k)) =
-           laplacian_M (shimuraLift (maassEigenfunction k)) :=
-    shimuraLift_commutes_laplacian (maassEigenfunction k)
-  have h3 : laplacian_X (maassEigenfunction k) = a • maassEigenfunction k := by
+  -- 同一等式在光滑域层：toL2 相等即结构元相等（SmoothL2ManifoldM.ext）。
+  have h1s : shimuraLiftSmooth (maassEigenfunction k) = threeManifoldEigenfunctionSmooth n :=
+    SmoothL2ManifoldM.ext h1
+  have h2 : shimuraLift (laplacian_X (maassEigenfunctionSmooth k)) =
+           laplacian_M (shimuraLiftSmooth (maassEigenfunction k)) :=
+    shimuraLift_commutes_laplacian (maassEigenfunctionSmooth k)
+  have h3 : laplacian_X (maassEigenfunctionSmooth k) = a • maassEigenfunction k := by
     simpa [ha] using maass_eigenvalue_equation k
   have h4 : shimuraLift (a • maassEigenfunction k) = a • shimuraLift (maassEigenfunction k) :=
     shimuraLift_linear a (maassEigenfunction k)
-  have h5 : laplacian_M (threeManifoldEigenfunction n) =
+  have h5 : laplacian_M (threeManifoldEigenfunctionSmooth n) =
            (specDiscM n : ℂ) • threeManifoldEigenfunction n :=
     threeManifold_eigenvalue_equation n
-  have h_step1 : shimuraLift (laplacian_X (maassEigenfunction k)) = a • threeManifoldEigenfunction n := by
+  have h_step1 : shimuraLift (laplacian_X (maassEigenfunctionSmooth k)) = a • threeManifoldEigenfunction n := by
     calc
-      shimuraLift (laplacian_X (maassEigenfunction k))
+      shimuraLift (laplacian_X (maassEigenfunctionSmooth k))
         = shimuraLift (a • maassEigenfunction k) := by rw [h3]
       _ = a • shimuraLift (maassEigenfunction k) := h4
       _ = a • threeManifoldEigenfunction n := by rw [h1]
-  have h_step2 : laplacian_M (threeManifoldEigenfunction n) = a • threeManifoldEigenfunction n := by
+  have h_step2 : laplacian_M (threeManifoldEigenfunctionSmooth n) = a • threeManifoldEigenfunction n := by
     calc
-      laplacian_M (threeManifoldEigenfunction n)
-        = laplacian_M (shimuraLift (maassEigenfunction k)) := by rw [h1]
-      _ = shimuraLift (laplacian_X (maassEigenfunction k)) := h2.symm
+      laplacian_M (threeManifoldEigenfunctionSmooth n)
+        = laplacian_M (shimuraLiftSmooth (maassEigenfunction k)) := by rw [← h1s]
+      _ = shimuraLift (laplacian_X (maassEigenfunctionSmooth k)) := h2.symm
       _ = a • threeManifoldEigenfunction n := h_step1
   have h6 : a • threeManifoldEigenfunction n = (specDiscM n : ℂ) • threeManifoldEigenfunction n := by
     rw [←h_step2, h5]
@@ -1970,36 +2087,47 @@ theorem mellin_pair_separation_construction (ρ : ℂ) :
     simp [w1, w2, h_ne] <;> ring
   exact ⟨f1, f2, h_pts, h_m1ρ, h_m2ρ, h_T_eq⟩
 
-/-- ζ 零点计数与重数估计（合并公理）：
-    (1) 零点计数：N(T) ≤ C·(T+1)·log(T+2)（Riemann-von Mangoldt）
-    (2) 零点重数：m(ρ) ≤ C·(1+log(2+|Im ρ|))（Jensen 公式）
-    2026-10-02 子类型化：分量 (2) 直接对 farZeroSubtype 陈述（数学内容不变），
-    消除对 nontrivialZeroEnum 枚举（:49）的表述依赖。 -/
-theorem zero_counting_and_multiplicity :
-    (∃ (C : ℝ), 0 < C ∧
-      ∀ (T : ℝ), 0 < T →
-        Set.encard {s : ℂ | _root_.riemannZeta s = 0 ∧ 0 < s.re ∧ s.re < 1 ∧ 0 ≤ s.im ∧ s.im ≤ T} ≤
-        (Nat.ceil (C * (T + 1) * Real.log (T + 2)) : ENat)) ∧
-    (∃ (C : ℝ), 0 < C ∧
-      ∀ (ρ' : farZeroSubtype), (zeroMultiplicity ρ'.1 : ℝ) ≤ C * (1 + Real.log (2 + |ρ'.1.im|))) := by
-  -- 数学：Riemann-von Mangoldt 公式 + Jensen 公式
-  -- (1) 零点计数：N(T) ~ (T/2π) log(T/2π) - T/2π（Riemann-von Mangoldt）
-  -- (2) 零点重数：m(ρ) ≤ C·(1+log(2+|Im ρ|))（Jensen 公式）
-  admit
+/-- 零点计数估计（独立公理，Riemann–von Mangoldt 计数上界）：
+    N(T) ≤ C·(T+1)·log(T+2)，即临界带内 |Im| ≤ T 的非平凡零点数被
+    多项式×对数增长界控制（任何常数 C 即可，无需 RvM 的主项精度）。
 
-/-- 零点计数估计（定理，由合并公理推出）。 -/
+    数学来源：Riemann–von Mangoldt 公式 N(T) = (T/2π)log(T/2π) − T/2π + O(log T)。
+    证明路线（降级路径，按难度递增）：
+    (a) 参数原理（幅角原理）：N(T) = (1/2πi)∮ (ζ'/ζ)(s) ds，围道为竖直矩形。
+        需要 ζ 在竖直条带 0≤Re≤1 的增长估计 |ζ(s)| ≤ C·|t|^A
+        （mathlib 缺口：Analysis/Complex 无幅角原理；ZetaAsymp 只有 s→1/s→0 渐近）；
+    (b) Hadamard 因子分解：ξ(s) 的零点计数 ⟹ 增长界（mathlib 无整函数分解理论）；
+    (c) 直接构造：对数导数积分 + Stirling 界（需先建 Γ 的 Stirling，mathlib 部分有）。
+    2026-10-16 拆环：原合并公理 zero_counting_and_multiplicity 拆为
+    本公理（计数）与 zero_multiplicity_log_growth（重数），二者独立可攻。
+    消费点：small_finite、farZero_weighted_summable 的层有限与每层点数上界
+    （layer_card_bound_raw，O(2^k·k)）——farZero_weighted_summable 结构必需。 -/
 theorem zero_counting_estimate :
     ∃ (C : ℝ), 0 < C ∧
       ∀ (T : ℝ), 0 < T →
         Set.encard {s : ℂ | _root_.riemannZeta s = 0 ∧ 0 < s.re ∧ s.re < 1 ∧ 0 ≤ s.im ∧ s.im ≤ T} ≤
-        (Nat.ceil (C * (T + 1) * Real.log (T + 2)) : ENat) :=
-  zero_counting_and_multiplicity.1
+        (Nat.ceil (C * (T + 1) * Real.log (T + 2)) : ENat) := by
+  -- 数学：Riemann–von Mangoldt 计数上界（docstring 路线 (a)–(c)）
+  admit
 
-/-- 零点重数对数增长（定理，由合并公理推出，farZeroSubtype 版）。 -/
+/-- 零点重数对数增长（独立公理，Jensen 公式）：
+    m(ρ) ≤ C·(1+log(2+|Im ρ|))，非平凡零点处的重数被虚部的对数增长控制。
+    farZeroSubtype 版（2026-10-02 子类型化：消除对 nontrivialZeroEnum 枚举的依赖）。
+
+    数学来源：Jensen 公式——ζ 在圆盘 |s−ρ|≤r 内的零点数 ≤ C·log(M(r)/|ζ'(ρ)|)，
+    配合 ζ 的增长估计 |ζ(s)| ≤ C·|t|^A ⟹ m(ρ) ≤ C·log|t|。
+    或等价路线：相邻零点间距下界 + N(T) 增长（Titchmarsh §9.6）。
+    证明路线（降级路径）：
+    (a) 局部幂级数 + Cauchy 系数界：ζ 在 ρ 邻域解析，由增长估计给系数界
+        ⟹ 最低阶 ≤ C·log|t|（需先有竖直条带增长估计，见 zero_counting_estimate）；
+    (b) Jensen 公式形式化（mathlib 无整函数 Jensen 理论，需自建）。
+    2026-10-16 拆环：原合并公理拆为独立公理。
+    消费点：farZero_weighted_summable 的每点加权上界（layer_sum_bound2 的 hC2）。 -/
 theorem zero_multiplicity_log_growth :
     ∃ (C : ℝ), 0 < C ∧
-      ∀ (ρ' : farZeroSubtype), (zeroMultiplicity ρ'.1 : ℝ) ≤ C * (1 + Real.log (2 + |ρ'.1.im|)) :=
-  zero_counting_and_multiplicity.2
+      ∀ (ρ' : farZeroSubtype), (zeroMultiplicity ρ'.1 : ℝ) ≤ C * (1 + Real.log (2 + |ρ'.1.im|)) := by
+  -- 数学：Jensen 公式（docstring 路线 (a)–(b)）
+  admit
 
 
 
@@ -5724,13 +5852,10 @@ theorem all_zeros_on_critical_line
       待对偶恒等式（weil_explicit_formula_exact 前提）证明后闭合。
 
     审计提示：
-      建议运行 #print axioms RHSpectralDuality.riemann_hypothesis
-#print axioms RHSpectralDuality.all_zeros_on_critical_line
-#print axioms RHSpectralDuality.weil_explicit_formula_trivial_terms_cancel
-#print axioms RHSpectralDuality.nontrivial_zero_sum_pair_separation
-#print axioms RHSpectralDuality.off_critical_line_contradiction
-#print axioms RHSpectralDuality.mollified_trace_equality
-#print axioms RHSpectralDuality.weil_explicit_formula，确认主定理实际依赖哪些公理。 -/
+      建议运行 #print axioms RHSpectralDuality.riemann_hypothesis、
+      all_zeros_on_critical_line、weil_explicit_formula、weil_explicit_formula_trivial_terms_cancel、
+      nontrivial_zero_sum_pair_separation、off_critical_line_contradiction、mollified_trace_equality，
+      确认主定理实际依赖哪些公理。 -/
 lemma spectral_zero_set_match :
     {x : ℝ | ∃ n : ℕ, x = 1 / 4 + (maassSpecParam n)^2} =
     {x : ℝ | ∃ (ρ : ℂ), _root_.riemannZeta ρ = 0 ∧ 0 < ρ.re ∧ ρ.re < 1 ∧
@@ -5771,7 +5896,7 @@ theorem maass_param_to_zero (f : MollifiedTestFunction) :
   have h3 : (maassSpecParam n)^2 = (ρ.im)^2 := by linarith
   have h4 : maassSpecParam n ≥ 0 := by
     have h_pos : ∀ (n : ℕ), 0 ≤ maassSpecParam n :=
-      (Classical.choose_spec maass_laplacian_has_discrete_spectrum.2).1
+      (Classical.choose_spec (maass_laplacian_has_discrete_spectrum cocompactQuotientHypothesis)).1
     exact h_pos n
   have h5 : maassSpecParam n = ρ.im := by
     nlinarith
@@ -5899,6 +6024,124 @@ theorem generalization_to_real_quadratic_fields (d : ℕ) (hd : 0 < d)
   trivial
 
 
+/-! ### A 矩阵的符号差接口（对接归档侧惯性律）
+
+本文件此前没有矩阵层：谱对偶是「逐 f 恒等式」口径（`weil_explicit_formula_exact`），
+Weil 二次型的 Gram 矩阵 `A` 从未显式出现。本节只做**接口**，不做结论：
+
+* `ADefiniteSignature J p q` 是 `HasSignature J p q` 的本地名（正方向数 `p`、负方向数 `q`）；
+* 以下六条对**任意** `J : Matrix n n ℂ` 成立，不假设 `A` 的 entries 已知；
+* 它们的作用是把「符号差」变成可运算谓词，而不是声称我们已经知道 A 的签名。
+
+口径提醒：负性条件用 `(star w ⬝ᵥ (J *ᵥ w)).re ≤ 0`；复数无全域序，实部不能省。 -/
+
+open OrderPreservingBijection.SylvesterInertia
+open Matrix
+
+/-- A（Weil 二次型的 Gram 矩阵）具有签名 `(p, q)`：`p` 个正方向、`q` 个负方向。 -/
+def ADefiniteSignature {n : Type} [Fintype n] [DecidableEq n]
+    (J : Matrix n n ℂ) (p q : ℕ) : Prop := HasSignature J p q
+
+/-- **良定义性**：A 的签名只有一个，不是依赖选取的量。 -/
+theorem aSignature_wellDefined {n : Type} [Fintype n] [DecidableEq n]
+    {J : Matrix n n ℂ} {p q p' q' : ℕ}
+    (h : ADefiniteSignature J p q) (h' : ADefiniteSignature J p' q') :
+    p = p' ∧ q = q' :=
+  hasSignature_unique h h'
+
+/-- **维数守恒**：`p + q = card n`，即正负方向数之和就是 A 的阶。 -/
+theorem aSignature_dim {n : Type} [Fintype n] [DecidableEq n]
+    {J : Matrix n n ℂ} {p q : ℕ} (h : ADefiniteSignature J p q) :
+    Fintype.card n = p + q :=
+  card_eq_of_hasSignature h
+
+/-- **分块可加**：`A = diag(A₁, A₂)` 的签名等于两块签名之和。 -/
+theorem aSignature_fromBlocks {n m : Type} [Fintype n] [DecidableEq n] [Fintype m] [DecidableEq m]
+    {G : Matrix n n ℂ} {H : Matrix m m ℂ} {p q p' q' : ℕ}
+    (hG : ADefiniteSignature G p q) (hH : ADefiniteSignature H p' q') :
+    ADefiniteSignature (Matrix.fromBlocks G 0 0 H) (p + p') (q + q') :=
+  hasSignature_fromBlocks hG hH
+
+/-- **帧判据**：给出显式合同变换即得签名，把存在性降成可计算判据。 -/
+theorem aSignature_of_frame {n : Type} [Fintype n] [DecidableEq n]
+    {J : Matrix n n ℂ} {p q : ℕ}
+    (hn : Fintype.card n = p + q) (Q : Matrix n (Fin p ⊕ Fin q) ℂ)
+    (hQ : Qᴴ * J * Q = Jpq p q) : ADefiniteSignature J p q :=
+  hasSignature_of_frame hn Q hQ
+
+/-- **负向维数上界**：任何使 A 二次型 `≤ 0` 的单射子空间，维数不超过 `q`。 -/
+theorem aNegativeDim_le {n k : Type} [Fintype n] [DecidableEq n] [Fintype k] [DecidableEq k]
+    (J : Matrix n n ℂ) {p q : ℕ} (hJ : ADefiniteSignature J p q) (B : Matrix n k ℂ)
+    (hB : Function.Injective B.mulVec)
+    (hneg : ∀ v : k → ℂ, (star (B *ᵥ v) ⬝ᵥ (J *ᵥ (B *ᵥ v))).re ≤ 0) :
+    Fintype.card k ≤ q :=
+  sylvester_le J hJ B hB hneg
+
+/-- **签名唯一性（正部形式）**：归档侧原始结论，单独保留以便逐条对照。 -/
+theorem aSignature_fst_unique {n : Type} [Fintype n] [DecidableEq n]
+    {J : Matrix n n ℂ} {p q p' q' : ℕ}
+    (h : ADefiniteSignature J p q) (h' : ADefiniteSignature J p' q') : p = p' :=
+  hasSignature_fst_unique h h'
+
+/-! ### Weil 二次型的 Gram 矩阵（显式）
+
+Weil 显式公式给二次型
+
+  Q(f) = Σ_ρ |φ̂_j(ρ)|² − (素数侧 Σ_p (log p) Σ_k …)
+
+在测试函数空间上取一组基 `φ_1,…,φ_n`，则 `Q` 的 Gram 矩阵是
+
+  `Z_{jk} = Σ_ρ \overline{φ̂_j(ρ)} φ̂_k(ρ)`  （零点侧，满矩阵）
+  `P_{jk} = Σ_p (log p) ⟨φ_j, φ_k⟩_p`      （素数侧，满矩阵）
+
+**本侧口径（必须明说）**：我们目前没有 `φ̂_j(ρ)` 在 Lean 中的表示，
+故零点侧**只保留对角** `hz_j = Σ_ρ |φ̂_j(ρ)|²`，丢掉 `j ≠ k` 的交叉项。
+素数侧保留满矩阵 `hp`。所以本侧写出的不是 Weil 二次型本身，而是它的
+**对角截断模型** `A = diag(hz) − hp`。这不是近似误差可忽略的断言，
+而是「在当前可实现口径内，A 的唯一显式形式」。签名 `(p,q)` 陈述的是这个截断矩阵。 -/
+
+/-- Weil Gram 矩阵：`A = diag(hz) − hp`（对角零点项减满素数项）。 -/
+noncomputable def weilGramMatrix {n : Type} [Fintype n] [DecidableEq n]
+    (hz : n → ℂ) (hp : Matrix n n ℂ) : Matrix n n ℂ :=
+  Matrix.diagonal hz - hp
+
+/-- **厄米性**：零点项实对角、素数项厄米 ⟹ `Aᴴ = A`（签名才有意义）。 -/
+theorem weilGram_conjTranspose {n : Type} [Fintype n] [DecidableEq n]
+    (hz : n → ℂ) (hp : Matrix n n ℂ)
+    (hhz : ∀ j, star (hz j) = hz j) (hhp : ∀ j k, star (hp k j) = hp j k) :
+    (weilGramMatrix hz hp)ᴴ = weilGramMatrix hz hp := by
+  ext j k
+  by_cases h : j = k
+  · subst h
+    simp [weilGramMatrix, Matrix.conjTranspose_apply, star_sub, hhz, hhp]
+  · have h' : k ≠ j := fun hk => h hk.symm
+    simp [weilGramMatrix, Matrix.conjTranspose_apply, hhp,
+      Matrix.diagonal_apply_ne hz h', Matrix.diagonal_apply_ne hz h]
+
+/-- **二次型展开**：`star x ⬝ᵥ (A *ᵥ x) = Σ_j hz_j |x_j|² − star x ⬝ᵥ (hp *ᵥ x)`。
+    左侧就是 `aNegativeDim_le` 里 `hneg` 作用的那个量。 -/
+theorem weilGram_quadratic {n : Type} [Fintype n] [DecidableEq n]
+    (hz : n → ℂ) (hp : Matrix n n ℂ) (x : n → ℂ) :
+    star x ⬝ᵥ (weilGramMatrix hz hp *ᵥ x) =
+      (∑ j, hz j * (star (x j) * x j)) - star x ⬝ᵥ (hp *ᵥ x) := by
+  rw [weilGramMatrix, Matrix.sub_mulVec, dotProduct_sub]
+  congr 1
+  rw [dotProduct]
+  refine Finset.sum_congr rfl (fun j _ => ?_)
+  rw [mulVec_diagonal, Pi.star_apply]
+  ring
+
+/-- **把 `aNegativeDim_le` 落到 A 上**：Weil 截断矩阵的负向子空间维数 `≤ q`。
+    这是 A 有了显式形式之后，惯性律第一次真正作用到我们的对象上。 -/
+theorem weilGram_negativeDim_le {n k : Type} [Fintype n] [DecidableEq n] [Fintype k] [DecidableEq k]
+    (hz : n → ℂ) (hp : Matrix n n ℂ) {p q : ℕ}
+    (hSig : ADefiniteSignature (weilGramMatrix hz hp) p q) (B : Matrix n k ℂ)
+    (hB : Function.Injective B.mulVec)
+    (hneg : ∀ v : k → ℂ,
+      (star (B *ᵥ v) ⬝ᵥ (weilGramMatrix hz hp *ᵥ (B *ᵥ v))).re ≤ 0) :
+    Fintype.card k ≤ q :=
+  aNegativeDim_le (weilGramMatrix hz hp) hSig B hB hneg
+
 end RHSpectralDuality
 
 -- 引理：当 |t| ≥ 1 时，1 / |t| ^ 2 ≤ 4 / (1 + |t|) ^ 2
@@ -5928,11 +6171,21 @@ lemma one_div_abs_sq_le_four_div_one_plus_abs_sq {t : ℝ} (ht : 1 ≤ |t|) :
 
 #print axioms RHSpectralDuality.riemann_hypothesis
 #print axioms RHSpectralDuality.all_zeros_on_critical_line
+#print axioms RHSpectralDuality.weil_explicit_formula
 #print axioms RHSpectralDuality.weil_explicit_formula_trivial_terms_cancel
 #print axioms RHSpectralDuality.nontrivial_zero_sum_pair_separation
 #print axioms RHSpectralDuality.off_critical_line_contradiction
 #print axioms RHSpectralDuality.mollified_trace_equality
-#print axioms RHSpectralDuality.weil_explicit_formula
+#print axioms RHSpectralDuality.aSignature_wellDefined
+#print axioms RHSpectralDuality.aSignature_dim
+#print axioms RHSpectralDuality.aSignature_fromBlocks
+#print axioms RHSpectralDuality.aSignature_of_frame
+#print axioms RHSpectralDuality.aNegativeDim_le
+#print axioms RHSpectralDuality.aSignature_fst_unique
+#print axioms RHSpectralDuality.weilGram_conjTranspose
+#print axioms RHSpectralDuality.weilGram_quadratic
+#print axioms RHSpectralDuality.weilGram_negativeDim_le
+
 
 
 

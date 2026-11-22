@@ -1,0 +1,36 @@
+QRH/S7_1_Stage3.lean:494:8: error(lean.unknownIdentifier): Unknown identifier `tsum_sub`
+QRH/S7_1_Stage3.lean:493:53: error: unsolved goals
+f g : ℂ × ℂ → ℝ
+hf : Summable f
+hg : Summable g
+⊢ |∑' (p : ℂ × ℂ), f p - ∑' (p : ℂ × ℂ), g p| ≤ ∑' (p : ℂ × ℂ), |f p - g p|
+QRH/S7_1_Stage3.lean:535:10: error(lean.unknownIdentifier): Unknown constant `Summable.mono`
+QRH/S7_1_Stage3.lean:549:10: error(lean.unknownIdentifier): Unknown constant `Summable.mono`
+QRH/S7_1_Stage3.lean:569:10: error(lean.unknownIdentifier): Unknown constant `Summable.mono`
+QRH/S7_1_Stage3.lean:589:7: error(lean.invalidField): Invalid field `const_mul`: The environment does not contain `Exists.const_mul`, so it is not possible to project the field `const_mul` from an expression
+  hy
+of type
+  ∃ a,
+    HasSum
+      (fun p => if p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2 then |f0 (δ * (p.1 - p.2).im) - f_eps ε (δ * (p.1 - p.2).im)| else 0) a
+Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+QRH/S7_1_Stage3.lean:622:40: error(lean.unknownIdentifier): Unknown identifier `tsum_le_tsum`
+QRH/S7_1_Stage3.lean:656:4: error: 'change' tactic failed, pattern
+  |pairConstant (f_eps ε) δ δ zerosLChi5 - pairConstant f0 δ δ zerosLChi5| ≤ 4 * M ^ 2 * D * ε
+is not definitionally equal to target
+  |(fun T =>
+          |pairConstant (f_eps ε) (log T / (2 * π)) (log T / (2 * π)) zerosLChi5 -
+              pairConstant f0 (log T / (2 * π)) (log T / (2 * π)) zerosLChi5|)
+        T| ≤
+    4 * M ^ 2 * D * (fun _T => ε) T
+Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.

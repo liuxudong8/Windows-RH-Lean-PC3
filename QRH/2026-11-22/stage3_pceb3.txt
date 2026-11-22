@@ -1,0 +1,158 @@
+QRH/S7_1_Stage3.lean:498:56: error: (deterministic) timeout at `isDefEq`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+QRH/S7_1_Stage3.lean:547:8: error: linarith failed to find a contradiction
+case pos
+ε δ N : ℝ
+Z : ZeroSet
+hN : 0 < N
+hsum :
+  Summable fun p =>
+    if p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2 then
+      |f0 (δ * (p.1 - p.2).im)| + |f_eps ε (δ * (p.1 - p.2).im)| +
+        |f0 (δ * (p.1 - p.2).im) - f_eps ε (δ * (p.1 - p.2).im)|
+    else 0
+M : ℝ := (√2 * |sin (1 / √2)|)⁻¹
+hM0 : 0 ≤ M
+hterm :
+  ∀ (p : ℂ × ℂ),
+    |(if p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2 then f_eps ε (δ * (p.1 - p.2).im) ^ 2 else 0) -
+          if p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2 then f0 (δ * (p.1 - p.2).im) ^ 2 else 0| ≤
+      2 * M * if p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2 then |f0 (δ * (p.1 - p.2).im) - f_eps ε (δ * (p.1 - p.2).im)| else 0
+p : ℂ × ℂ
+hz : p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2
+hc0 :
+  0 ≤
+    |f0 (δ * (p.1 - p.2).im)| + |f_eps ε (δ * (p.1 - p.2).im)| +
+      |f0 (δ * (p.1 - p.2).im) - f_eps ε (δ * (p.1 - p.2).im)|
+a✝ : |f0 (δ * (p.1.im - p.2.im))| + |f_eps ε (δ * (p.1.im - p.2.im))| < 0
+⊢ False
+failed
+QRH/S7_1_Stage3.lean:567:10: error: invalid 'calc' step, left-hand side is
+  |f_eps ε a ^ 2| : ℝ
+but is expected to be
+  f_eps ε (δ * (p.1.im - p.2.im)) ^ 2 : ℝ
+QRH/S7_1_Stage3.lean:569:45: error: Application type mismatch: The argument
+  f_eps_abs_le ε a
+has type
+  |f_eps ε a| ≤ (√2 * |sin (1 / √2)|)⁻¹
+but is expected to have type
+  npowRec 1 |f_eps ε a| ≤ M
+in the application
+  mul_le_mul_of_nonneg_right (f_eps_abs_le ε a)
+QRH/S7_1_Stage3.lean:591:10: error: invalid 'calc' step, left-hand side is
+  |f0 a ^ 2| : ℝ
+but is expected to be
+  f0 (δ * (p.1.im - p.2.im)) ^ 2 : ℝ
+QRH/S7_1_Stage3.lean:593:45: error: Application type mismatch: The argument
+  f0_abs_le a
+has type
+  |f0 a| ≤ (√2 * |sin (1 / √2)|)⁻¹
+but is expected to have type
+  npowRec 1 |f0 a| ≤ M
+in the application
+  mul_le_mul_of_nonneg_right (f0_abs_le a)
+Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+QRH/S7_1_Stage3.lean:639:40: error(lean.unknownIdentifier): Unknown identifier `tsum_le_tsum`
+QRH/S7_1_Stage3.lean:546:18: warning: This simp argument is unused:
+  abs_of_nonneg hc0
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [hz]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+QRH/S7_1_Stage3.lean:564:18: warning: This simp argument is unused:
+  abs_of_nonneg hM0
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [hz, abs_of_nonneg hc0]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+QRH/S7_1_Stage3.lean:564:37: warning: This simp argument is unused:
+  abs_of_nonneg hc0
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [hz, abs_of_nonneg hM0]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+QRH/S7_1_Stage3.lean:588:18: warning: This simp argument is unused:
+  abs_of_nonneg hM0
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [hz, abs_of_nonneg hc0]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+QRH/S7_1_Stage3.lean:588:37: warning: This simp argument is unused:
+  abs_of_nonneg hc0
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [hz, abs_of_nonneg hM0]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+QRH/S7_1_Stage3.lean:678:91: error: Tactic `rfl` failed: The left-hand side
+  |(fun T =>
+        |pairConstant (f_eps ε) (log T / (2 * π)) (log T / (2 * π)) zerosLChi5 -
+            pairConstant f0 (log T / (2 * π)) (log T / (2 * π)) zerosLChi5|)
+      T|
+is not definitionally equal to the right-hand side
+  |pairConstant (f_eps ε) δ δ zerosLChi5 - pairConstant f0 δ δ zerosLChi5|
+
+T0 ε : ℝ
+hT0 : 1 < T0
+hε : 0 < ε
+D : ℝ
+hD0 : 0 ≤ D
+hPC :
+  ∀ (T : ℝ),
+    T0 ≤ T →
+      let δ := log T / (2 * π);
+      (Summable fun p =>
+          if p.1 ∈ zerosLChi5 ∧ p.2 ∈ zerosLChi5 ∧ p.1 ≠ p.2 then
+            |f0 (δ * (p.1 - p.2).im)| + |f_eps ε (δ * (p.1 - p.2).im)| +
+              |f0 (δ * (p.1 - p.2).im) - f_eps ε (δ * (p.1 - p.2).im)|
+          else 0) ∧
+        (∑' (p : ℂ × ℂ),
+            if p.1 ∈ zerosLChi5 ∧ p.2 ∈ zerosLChi5 ∧ p.1 ≠ p.2 then
+              |f0 (δ * (p.1 - p.2).im) - f_eps ε (δ * (p.1 - p.2).im)|
+            else 0) ≤
+          D * (log T / (2 * π)) * normL1 fun x => f0 x - f_eps ε x
+M : ℝ := (√2 * |sin (1 / √2)|)⁻¹
+hMpos : 0 < M
+hM0 : 0 ≤ M
+T : ℝ
+hT : T0 ≤ T
+hT1 : 1 < T
+hlog : 0 < log T
+δ : ℝ := log T / (2 * π)
+hδpos : 0 < δ
+hsum :
+  Summable fun p =>
+    if p.1 ∈ zerosLChi5 ∧ p.2 ∈ zerosLChi5 ∧ p.1 ≠ p.2 then
+      |f0 (log T / (2 * π) * (p.1 - p.2).im)| + |f_eps ε (log T / (2 * π) * (p.1 - p.2).im)| +
+        |f0 (log T / (2 * π) * (p.1 - p.2).im) - f_eps ε (log T / (2 * π) * (p.1 - p.2).im)|
+    else 0
+hcnt :
+  (∑' (p : ℂ × ℂ),
+      if p.1 ∈ zerosLChi5 ∧ p.2 ∈ zerosLChi5 ∧ p.1 ≠ p.2 then
+        |f0 (log T / (2 * π) * (p.1 - p.2).im) - f_eps ε (log T / (2 * π) * (p.1 - p.2).im)|
+      else 0) ≤
+    D * (log T / (2 * π)) * normL1 fun x => f0 x - f_eps ε x
+⊢ |(fun T =>
+          |pairConstant (f_eps ε) (log T / (2 * π)) (log T / (2 * π)) zerosLChi5 -
+              pairConstant f0 (log T / (2 * π)) (log T / (2 * π)) zerosLChi5|)
+        T| =
+    |pairConstant (f_eps ε) δ δ zerosLChi5 - pairConstant f0 δ δ zerosLChi5|
+QRH/S7_1_Stage3.lean:689:8: error: No goals to be solved
+Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.

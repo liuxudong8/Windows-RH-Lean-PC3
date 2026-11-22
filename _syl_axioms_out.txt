@@ -1,0 +1,25 @@
+'OrderPreservingBijection.SylvesterInertia.fst_le_of_hasSignature' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'OrderPreservingBijection.SylvesterInertia.hasSignature_fst_unique' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'OrderPreservingBijection.SylvesterInertia.card_eq_of_hasSignature' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'OrderPreservingBijection.SylvesterInertia.hasSignature_unique' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'OrderPreservingBijection.SylvesterInertia.hasSignature_of_frame' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'OrderPreservingBijection.SylvesterInertia.sylvester_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OrderPreservingBijection.SylvesterInertia.card_eq_add_and_exists_conj_eq_Jpq_of_hasSignature' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'OrderPreservingBijection.SylvesterInertia.Jpq_eq_diagonal_elim_one_neg_one' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'OrderPreservingBijection.SylvesterInertia.hasSignature_fromBlocks' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
