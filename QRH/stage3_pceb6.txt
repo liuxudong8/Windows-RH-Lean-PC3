@@ -1,0 +1,33 @@
+QRH/S7_1_Stage3.lean:502:60: error: (deterministic) timeout at `isDefEq`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+QRH/S7_1_Stage3.lean:578:12: error: Type mismatch: After simplification, term
+  mul_le_mul_of_nonneg_right (f_eps_abs_le ε a) (abs_nonneg ?m.1382)
+ has type
+  |f_eps ε a| * |?m.1382| ≤ |sin (√2)⁻¹|⁻¹ * (√2)⁻¹ * |?m.1382|
+but is expected to have type
+  f_eps ε a * f_eps ε a ≤ M * |f_eps ε a|
+QRH/S7_1_Stage3.lean:605:12: error: Type mismatch: After simplification, term
+  mul_le_mul_of_nonneg_right (f0_abs_le a) (abs_nonneg ?m.1882)
+ has type
+  |f0 a| * |?m.1882| ≤ |sin (√2)⁻¹|⁻¹ * (√2)⁻¹ * |?m.1882|
+but is expected to have type
+  f0 a * f0 a ≤ M * |f0 a|
+Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+QRH/S7_1_Stage3.lean:693:10: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+QRH/S7_1_Stage3.lean:704:8: error: No goals to be solved
+Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.

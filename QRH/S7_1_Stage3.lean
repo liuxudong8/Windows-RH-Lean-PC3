@@ -718,13 +718,9 @@ theorem zerosLChi5_bounded_finite (T : ℝ) :
    理由同该处注释：`bgs3_pair_expansion` 需要真实计数分母，Main 不可 import Stage3）。
    本文件及下游继续直接使用这两个名字，无需另行声明。 -/
 
-/-- N_L 对数增长下界（statement）：∃c>0，N_L(T) ≥ c·T·logT。
-    数论件（L(s,χ5) 零点计数显式下界，S6 框架 / Riemann–von Mangoldt 方向）——
-    **2026-11-23 起 `N_L` 已是真实计数定义**，故本条不再是「对某个未知算子成立」，
-    而是「对真实零点数成立」的数学命题：`c·T·log T ≤ #{ρ : L(ρ,χ₅)=0, |Im ρ| ≤ T}`
-    （axiom 挂账，形式化长线；RvM 主项 `(T/π) log(T/2π) − T/π` 方向）。 -/
-axiom N_L_lower_bound :
-  ∃ c : ℝ, 0 < c ∧ ∀ T : ℝ, 1 ≤ T → c * T * Real.log T ≤ N_L T
+/- **`N_L_lower_bound`——2026-11-23 第五刀已上移至 `S7_1_Main`**（离线项收尾
+    `offcrit_remainder_le_one` 需要该计数下界，而 Main 不可 import Stage3）。
+    本文件及下游继续直接使用该名字（经 `import QRH.S7_1_Main` 取得），无需另行声明。 -/
 
 /-- 数论结构件（axiom；数学真、形式化长线）：竖直差带配对计数界。
     对 δ = logT/(2π)，竖直差 |Δ| = |im(z₁−z₂)| ≤ 1/(2δ) 的配对总数 ≤ Dcnt·N_L(T)：

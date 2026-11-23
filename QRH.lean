@@ -19,12 +19,14 @@ import QRH.S7_1_Stage3
 namespace QRH
 
 /-- 项目自检：主定理陈述存在（由 `s71_main` 直接给出；2026-11-23 随 `bgs3` 口径手术
-    同步：归一化分母为真实零点计数 `N_L T`，求和域为有限截断集 `zerosLChi5UpTo T`）。 -/
+    同步：归一化分母为真实零点计数 `N_L T`，求和域为有限截断集 `zerosLChi5UpTo T`；
+    **第五刀后**离线项已是具体项 `offCriticalError T / N_L T`，故额外要求阈值条件
+    `offcritThreshold ≤ T`——「T 足够大」这一步现在是显式前提，不是藏在 ∃ 里）。 -/
 example (T : ℝ) (hT : (1 : ℝ) ≤ T) (hweak : WeakRealPart T zerosLChi5)
-    (ε : ℝ) (hε0 : 0 < ε) :
+    (hbig : offcritThreshold ≤ T) (ε : ℝ) (hε0 : 0 < ε) :
     ∃ (C₁ C₂ : ℝ), 0 ≤ C₁ ∧ 0 ≤ C₂ ∧
-      pairConstant Khat (Real.log T / (2 * Real.pi)) (N_L T) (zerosLChi5UpTo T)
+      pairConstant triKer (Real.log T / (2 * Real.pi)) (N_L T) (zerosLChi5UpTo T)
         ≤ C_MT + C₁ * ε + C₂ :=
-  s71_main T hT hweak ε hε0
+  s71_main T hT hweak hbig ε hε0
 
 end QRH

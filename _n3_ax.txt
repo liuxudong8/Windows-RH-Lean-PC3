@@ -1,0 +1,19 @@
+'QRH.kernelAdmissible_of_apply_zero' depends on axioms: [propext, Classical.choice, bgs5_khat_fourier_supp, Quot.sound]
+'QRH.bgs4_offcrit_split' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.offcritical_small' depends on axioms: [propext, Classical.choice, bgs4_offcrit_high, bgs4_offcrit_low, Quot.sound]
+'QRH.offcrit_remainder_le_one' depends on axioms: [propext,
+ Classical.choice,
+ N_L_lower_bound,
+ bgs4_offcrit_high,
+ bgs4_offcrit_low,
+ Quot.sound]
+'QRH.pair_sum_expansion' depends on axioms: [propext, Classical.choice, bgs3_pair_expansion, Quot.sound]
+'QRH.s71_main' depends on axioms: [propext,
+ Classical.choice,
+ N_L_lower_bound,
+ bgs3_pair_expansion,
+ bgs4_offcrit_high,
+ bgs4_offcrit_low,
+ Quot.sound]
+'QRH.pairCount_L1_bound' depends on axioms: [propext, Classical.choice, N_L_lower_bound, pair_count_bound, Quot.sound]
+'QRH.zerosLChi5_bounded_finite' depends on axioms: [propext, Classical.choice, Quot.sound]

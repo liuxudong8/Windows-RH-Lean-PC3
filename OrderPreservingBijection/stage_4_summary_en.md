@@ -225,32 +225,3 @@ Custom `axiom`: **0** in active files; only `test_interval_indicator.lean` / `te
 3. **Justify the `hz` caliber**: whether the diagonal truncation (dropping `j ≠ k`) needs an explicit error bound.
 4. **K-GRH landing**: switch zero infrastructure from Riemann ζ to ζ_K (needs Dedekind zeta / L(χ₅) / K-prime von Mangoldt — mathlib lacks them).
 5. Progressively discharge the 38 statement-level assumptions in `stage_4.lean`; unbounded self-adjointness of `laplacian_M`/`laplacian_X` remains `admit` pending mathlib.
-
----
-
-## S. 2026-11-23: calibrations after reading the Alpöge–Claude exposition (164 pp, 2026-11-21)
-
-Source: `C:\proj2\Alpoge_Paper_Compare.md` (full comparison and evidence).
-
-**S.1 Route correction (overrides the earlier wording).**
-The paper states its chain as `(M) + B + C ⇒ Estimate A ⇒ G(x) ≤ x^{1/2+ε} on [Y, Y^{3/2}] ⇒ RH`. Announcement steps 4 and 6 (Weil-type positivity `W(f) ≥ 0`, zero-free region from positivity) are described there as "an earlier form of our first step"; the final argument uses a Landau-type one-sided lemma instead. **Consequence**: the spectral-duality chain in sections M–R of this summary (Weil explicit formula, A-signature, hyperbolic Laplacian, Weil Gram) is the Weil/Lax–Phillips positivity route and does **not** intersect the final proof. It remains valid mathematics, but it must no longer be described as "aligned with Alpöge–Claude".
-
-**S.2 The boundary of (M) is layered.**
-The paper admits (M) `is not proved here`. In the formal layer, however, (M) has an object: `AskMainBalance` (`Formalism/SizeWindowBrackets/FirstPrimeNeSecondPrime.lean:98`, content `ASK − MAIN = De`, i.e. the exact identity (5.3) of Part II), discharged by `colour_balance` (`…/ChainSlopeWindows/StronglyIrreducible.lean:695`), with 0 sorry archive-wide. So: **the human-readable layer lacks (M); the formal layer does not; but the formal layer is unreviewed and cannot be re-checked on this machine**. Three confidence levels must be stated separately.
-
-**S.3 Measurements taken this round (replacing older numbers).**
-- SHA-256 of the joined 14 parts = `9631b4f0…f49c7fc`, byte-identical to the digest printed on p. 53 of the paper;
-- `.lean` files: **175,187** (the earlier figure 174,793 was a pre-fix unpack count, off by 394; the old "full-tree scan" covered 0.22% less and has been redone on the complete tree);
-- total lines: **17,374,215**, matching "about 17 million lines";
-- numbered citations [1]–[29]: **29/29 present** ([22] is `DataParams₂.lean`, U+2082); 64 distinct `X.lean` names, 64/64 found; line-number spot check: `def VWin` sits at `ExistsPageN.lean:49`, exactly as cited;
-- source-level declaration count **1,066,087** (theorem 784,092 / def 212,819 / lemma 34,663 / abbrev 13,202 / structure 8,286 / instance 8,199 / example 4,662 / inductive 121 / class 43); the paper's dependency closure is **1,478,198**, i.e. 412,111 (38.7%) more — kernel-generated declarations (`match_`/`_proof_`/projections/recursors) that occupy no source line; **not verifiable without oleans**;
-- static rescan of all 175,187: `axiom/constant/opaque/unsafe/sorry/admit/native_decide` all 0; `partial def` 2 (metaprogramming).
-
-**S.4 New module (compiled, zero warnings).**
-`OrderPreservingBijection/WeilGramSharp.lean`: on the upper half-plane (`0 ≤ Im ρ`) the phase has modulus `≤ 1`, tightening the `hz` bound from `card S · (exp T)² · (∫‖φ‖)²` to `card S · (∫‖φ‖)²`. Six theorems, axioms all `[propext, Classical.choice, Quot.sound]` (log `_wgs_out.txt`). Hard boundaries: upper half-plane only (the lower half needs the conjugation pairing, not written); the diagonal truncation and the missing `j ≠ k` terms are unchanged.
-
-**S.5 `ASK`/`MAIN` are the paper's (I.25)/(I.26).**
-`ASK = Σ_{inert p} 2 log p · [Σ_i max(a/p^i − w)₊] + log d · askD`, `MAIN = a(log a − 1 − γ + ℓ(chC) − ⟨log w⟩)`. These are the same objects as the paper's `P` and `M`, not merely analogous ones.
-
-**S.6 Next-step calibration.**
-Old next-step 3 (justifying the `hz` caliber) is superseded by S.4; new priority order (per `Alpoge_Paper_Compare.md` §6): finish `hz` (lower half-plane + cross terms) → adopt the budget-style template (the `SizeWindows`/`GrowthBound` shape of archive file [6]) → replace the prime-side weight by a `primVal`/`cosetMean` weight → formalize the Landau one-sided lemma (interval version) independently.

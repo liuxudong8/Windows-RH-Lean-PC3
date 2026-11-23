@@ -1,0 +1,5 @@
+'QRH.triKer_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.triKer_supp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.triKer_abs_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.triKer_lipschitz' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.prime_weight_bounds_tri' depends on axioms: [propext, Classical.choice, Quot.sound]

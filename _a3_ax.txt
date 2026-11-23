@@ -1,0 +1,12 @@
+'QRH.triKer_admissible' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.primeSum_window_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.prime_sum_bound' depends on axioms: [propext, Classical.choice, siegel_walfisz_chi5, Quot.sound]
+'QRH.pair_sum_expansion' depends on axioms: [propext, Classical.choice, bgs3_pair_expansion, Quot.sound]
+'QRH.bgs3_pair_expansion' depends on axioms: [propext, Classical.choice, bgs3_pair_expansion, Quot.sound]
+'QRH.s71_main' depends on axioms: [propext,
+ Classical.choice,
+ N_L_lower_bound,
+ bgs3_pair_expansion,
+ bgs4_offcrit_high,
+ bgs4_offcrit_low,
+ Quot.sound]

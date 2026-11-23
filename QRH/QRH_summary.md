@@ -154,7 +154,7 @@ QRH 常数 0.6725 → 7/8 需要 A ≤ 1.125。A→1 远强于 A ≤ 1.125，故
 - **审计**：`lake build QRH` 3836 jobs / 0 error（`build_qrh_K.txt`）；列 0 `axiom` 声明 = **10**；`_n3_ax.lean` 五条无回归（`pairCount_L1_bound`/`pair_const_eps_bias` = 3+`N_L_lower_bound`+`pair_count_bound`；`offcritical_small` = 3+`bgs4` 三件；`s71_main` = 3+`bgs3`+`bgs5`；`zerosLChi5_bounded_finite` 零 axiom）。
 - **台账更正**：`offcritSum` 原为 `axiom` 而非 `opaque`，此前「4 个 opaque」记录有误——现 opaque 为 3 个（`offCriticalError`、`offcritLow`、`offcritHigh`）。
 - **明账**：N3 状态 = **未形式化**（非「已证」）。补真前置：引理 5 本体（`w` + 复自变量 `r̂`）、`x` 尺度参数、主项相减口径。
-- **当前账目**：10 条命名 axiom + 3 个 opaque + 1 条明确登记的未形式化项（N3）。
+- **当前账目**：9 条命名 axiom + 2 个 opaque + 1 条明确登记的未形式化项（N3）。
 
 ### 增量㉑（2026-11-23）：`bgs3_pair_expansion` 口径手术（含 `s71_main` 与根模块自检连带）
 
@@ -162,5 +162,44 @@ QRH 常数 0.6725 → 7/8 需要 A ≤ 1.125。A→1 远强于 A ≤ 1.125，故
 - **修正**：`pairConstant K δ (N_L T) (zerosLChi5UpTo T) = diag + prime + offcrit`；`diag ≤ C_MT + C₁ε`、`|prime|,|offcrit| ≤ 1` 保留。`s71_main` 结论与 `QRH.lean` 自检 `example` 同步。
 - **前置结构改动**：`zerosLChi5UpTo` / `N_L` / `N_L_nonneg` 从 Stage3 **上移至 Main**（Stage3 依赖 Main，不可反向 import）；Stage3 仅留注释占位，`zerosLChi5_bounded_finite` / `N_L_lower_bound` / `pair_count_bound` 仍在 Stage3。
 - **语义**：归一化改为真实零点计数（与 Stage3 `pair_const_eps_bias` 口径统一）；求和域改为有限截断集（`tsum`→有限和，无须 Summable 假设）。**陈述变强**。
-- **审计**：`lake build QRH` 3836 jobs / 0 error（`build_qrh_L.txt`）；`_s71_ax.lean` 显示 `s71_main` 公理集与术前相同（3 + `bgs3_pair_expansion` + `bgs5_khat_fourier_supp`）；`pair_sum_expansion` = 3 + `bgs3`；`N_L` = 3 基础（定义）；axiom 总数仍 10、opaque 3。
+- **审计**：`lake build QRH` 3836 jobs / 0 error（`build_qrh_L.txt`）；`_s71_ax.lean` 显示 `s71_main` 公理集与术前相同（3 + `bgs3_pair_expansion` + `bgs5_khat_fourier_supp`）；`pair_sum_expansion` = 3 + `bgs3`；`N_L` = 3 基础（定义）；axiom 总数 9、opaque 2（经增量㉒）。
 - **备忘（第三次）**：删除声明后的原位注释必须 `/- -/`，不能 `/-- -/`（否则紧跟 docstring 报 `unexpected token '/--'; expected 'lemma'`）。
+
+### 增量㉒（2026-11-23）：第四刀——`bgs4_offcrit_split` axiom → theorem（`offcritHigh` 降为定义）
+
+- **病灶**：`offCriticalError` / `offcritLow` / `offcritHigh` 三件都是自由算子，不是某个真实数论对象的切片；于是「余项 = 低频 + 高频」不是数学事实，而是**命名约定**。用 axiom 声明命名约定 ⟹ 既不可被推翻、也不提供任何证明信息。
+- **落刀**：`noncomputable def offcritHigh (T : ℝ) : ℝ := offCriticalError T - offcritLow T`（高频段 = 余项减低频段）；`bgs4_offcrit_split` 原位改 `theorem`，`intro s; unfold offcritHigh; ring`。
+- **内容守恒**：`bgs4_offcrit_low` / `bgs4_offcrit_high` 两条 √log 段界仍在 axiom 层（未弱化）；`offcritical_small` 的证明与结论逐字未改（`abs_add_le` + `add_le_add` + `ring`，R = R₁+R₂）。
+- **审计**：`lake build QRH` 3836 jobs / 0 error（`build_qrh_M.txt`）；`#print axioms bgs4_offcrit_split` = `[propext, Classical.choice, Quot.sound]`（公理级清零）；`#print axioms offcritical_small` = `[propext, Classical.choice, bgs4_offcrit_high, bgs4_offcrit_low, Quot.sound]`；列 0 计数 axiom **10 → 9**、opaque **3 → 2**。
+- **顺手抓到的缺口（未动）**：`offcritical_small` 全库**零下游消费**；而 `bgs3_pair_expansion` 注释里「离线项 `|offcrit| ≤ 1` 由 `offcritical_small` 除以 `N_L`」是文档层承诺、形式层无连线（`bgs3` 的 `offcrit` 是 `∃` 绑定的自由实数）。两条收尾（接线 / 退役）见 `Findings_GRH_Interface.md` §十八.5，需拍板后再动。**该缺口已在增量㉓接线消除。**
+- **当前账目**：9 条命名 axiom + 2 个 opaque + 1 条明确登记的未形式化项（N3）。
+
+### 增量㉓（2026-11-23）：第五刀——L4 链接入主定理（`bgs3` 离线项改为具体项）
+
+- **病灶**：`bgs3_pair_expansion` 的离线项是 `∃ offcrit` 绑定的自由实数，与 `offCriticalError` 无名可通，「`|offcrit| ≤ 1`」只是公理里的一句话；同时 `offcritical_small` 全库零下游（L4 链悬空）。
+- **改动**：① `bgs3`/`pair_sum_expansion` 的离线项改为具体项 `offCriticalError T / N_L T`，**删掉 `|offcrit| ≤ 1`**；② `bgs4_offcrit_low/high` 改为**绝对常数**（`∃R, ∀T, …`——原 `∀T, ∃R` 允许常数随 T 增长，比 BGS 原文弱且不可用）；③ 新增真证 `offcrit_remainder_le_one : T ≥ offcritThreshold → |E T / N_L T| ≤ 1`；④ `N_L_lower_bound` 从 Stage3 **上移**到 Main（收尾定理需要，且 Main 不可 import Stage3），Stage3 留注释。
+- **阈值显式化**：`offcritConst := Classical.choose offcritical_small`、`NLc := Classical.choose N_L_lower_bound`、`offcritThreshold := max (exp 1) (max 1 (offcritConst / NLc))`，配 `offcritConst_spec` / `NLc_spec` / `one_le_offcritThreshold`。
+- **证明链**：`R·√log T ≤ R·log T`（`√x ≤ x`，`log T ≥ 1` 由 `T ≥ e`）`≤ c·T·log T`（`R ≤ c·T` 由阈值）`≤ N_L T`（`N_L_lower_bound`）；再 `abs_div` + `div_le_one`（`N_L T = 0` 分支 Lean `x/0 = 0` 平凡成立）。
+- **代价（诚实记账）**：`s71_main` 增加前提 `hbig : offcritThreshold ≤ T`（「T 足够大」）；`QRH.lean` 自检 `example` 同步。
+- **审计**：`lake build QRH` 3836 jobs / 0 error（`build_qrh_N.txt`）；`#print axioms s71_main` = 3 + `N_L_lower_bound` + `bgs3_pair_expansion` + `bgs4_offcrit_low` + `bgs4_offcrit_high` + `bgs5_khat_fourier_supp`（**闭包由 2 条 axiom 扩到 5 条，L4 首次进入主定理依赖**）；`pair_sum_expansion` = 3 + `bgs3`；`offcrit_remainder_le_one` = 3 + `N_L_lower_bound` + 两条段界。列 0 计数：axiom 仍 **9**（换内容不换条数）、opaque **2**。
+
+### 增量㉔（2026-11-23）：第六刀——`bgs3` 不能降定理（它是假命题），改为固定核 `Khat`
+
+- **纠正上一轮误判**：`bgs3` 不是「组合恒等式」——恒等式部分可空（任意 A 都能拆），内容全在 `diag ≤ C_MT + C₁ε` 与 `|prime| ≤ 1` 两条界；合起来即 `pairConstant ≤ C_MT + C₁ε + 1 + E/N_L`，是分析心脏（MV 大筛 + SW），不可由当前定义证出。
+- **更严重的病灶（机器证据）**：`KernelAdmissible K := K 0 = 1 ∧ ∀ u, 1 < |u| → fourierCos Khat u = 0`，第二个合取项**与 K 无关**。新增真证 `kernelAdmissible_of_apply_zero : K 0 = 1 → KernelAdmissible K`，说明「可容许」对 K 的唯一约束是 `K 0 = 1`。而 `pairConstant` 是 K 在配对点上的取值平方和 ⟹ 取 `K := fun u => if u = 0 then 1 else M` 可使配对和无界，结论界与 M 无关 ⟹ **原语句对一般 K 为假**（同 `lfun_dirichlet_series` 病灶：自由参数进量词）。
+- **修法**：`bgs3_pair_expansion` / `pair_sum_expansion` 固定核为 `Khat`（去 `K`/`hK`），与 Stage3 `prime_sum_bound` 的既定做法一致；`s71_main` 调用点同步。
+- **审计**：`lake build QRH` 3836 jobs / 0 error（`build_qrh_O.txt`）；`#print axioms s71_main` = 3 + `N_L_lower_bound` + `bgs3` + 两条段界（**用户 axiom 5 → 4，`bgs5_khat_fourier_supp` 退出主定理闭包**）；`pair_sum_expansion` = 3 + `bgs3`；列 0 计数 axiom **9**、opaque **2**（`bgs5` 仍在账、仍被 Stage3 使用）。
+- **待定口径（未动）**：`ε` 在形式层空转——`pairConstant` 不含 `ε`，`C₁` 与 `ε` 同在一个 ∃，`C₁ε` 松弛可任意吸收；N2 联动尚未接线。对外说「C_MT + O(ε)」时须注明该项当前不承载内容。
+
+### 增量㉕（2026-11-23）：第七刀——`fourierCos_Khat` 是假命题（且使整库不一致），S7.6 换三角核，axiom 9 → 7
+
+- **机检先赢一次**：`axiom fourierCos_Khat : fourierCos Khat u = Khat u`（Core 原 :705）为**假**。`Khat` 只按 `1/|u|` 衰减（合并 sinc 主导项常数 ≈ 0.767 ≠ 0）⟹ `∫|Khat| = ∞` ⟹ mathlib 按 `integral_undef` 取 0 ⟹ `fourierCos Khat ≡ 0`，而 `Khat (4/3) < 0`。
+- **库级不一致（这是本条真正的分量）**：`bgs5_khat_fourier_supp`（`1<|u| → fourierCos Khat u = 0`）因 `fourierCos Khat ≡ 0` 对一切 `u` 成立——不是「频域窄支撑」，是**空话**；两条合起来给 `∀ u, 1<|u| → Khat u = 0`。根级探针 `_incons_ax.lean` 真证 `qrh_axioms_inconsistent : False`，`#print axioms` = `[propext, Classical.choice, bgs5_khat_fourier_supp, fourierCos_Khat, Quot.sound]`。**第七刀前账本上的 9 条不是 9 条假设，是 8 条 + 1 条使库不一致的假命题。**
+- **先试「符号替换 1→2」并失败（记录在案）**：把权重区间 30 处 `fourierCos Khat (e)` 直接改成 `Khat (e)`，`Main:985` 类型不匹配（`dsimp [primeSum]` 展开出 `fourierCos Khat` 与 `hps` 的 `Khat` 不合），并暴露结构性问题：`K` 在 S7.6 被当成两种东西（`pairConstant` = 频率 profile、`primeSum` = 时域核再取变换）；素数项 `b_n ≈ 0.767/(πδ√n log n)` 配 `|Λ| ~ log n` 后 $\sum$ 发散如 $\sqrt X$，全靠 `X' = min(X, e^{1/δ})` 截断硬撑，而截断之正确性又依赖「Khat 支撑紧」这个 `bgs5` 假装给出、实际没给的性质。已整体回滚（`build_qrh_P0.txt` 3836 绿；回滚点 `bak_20261123_142148`）。
+- **方案 (A)：三角核**。`def triKer (u : ℝ) : ℝ := max 0 (1 - |u|)`（Core §4c）。归一/紧支撑/有界/1-Lipschitz 四条全真证（3 基础公理），**无需 sin 估计、无需 `S_smooth` 奇点延拓**——原 `khat_lipschitz` 要 `π/(√2|sin(1/√2)|)` + 均值定理，三角核只要 `abs_max_sub_max_le_max` + `abs_abs_sub_abs_le_abs_sub`。
+- **A2**：`prime_weight_bounds_tri`，`M = δ + 1`（B = sup Γ = 1、L = Lip Γ = 1），证明结构同构、sin 估计换成 `triKer_abs_le_one`/`triKer_lipschitz`，3 基础公理（`_tri_ax.txt`）。
+- **A3 九处**：① `primeSum` 定义改为直接取 profile（`(√n)⁻¹·K(δ log n)`，不再外套 `fourierCos`），消掉「一个 K 两种含义」；② 撤 `axiom bgs5_khat_fourier_supp`（改存档块，替代物 `triKer_supp`）；③ `primeSum_window_eq` 前提改 `∀ u, 1<|u| → K u = 0`，调用点 `(fun _ h => triKer_supp h)`——**求和截断第一次有真实依据**；④ 删 `prime_weight_bounds_Khat`（109 行）；⑤ `prime_sum_bound` 区间替换；⑥ `KernelAdmissible` 重定义为 `K 0 = 1 ∧ ∀ u, 1<|u| → K u = 0`（第二个合取项从此真的关于 K），删 `Khat_admissible` 与 `kernelAdmissible_of_apply_zero`，新增 `theorem triKer_admissible`；⑦ `bgs3`/`pair_sum_expansion`/`s71_main`/`QRH.lean` 根自检换核；⑧ 撤 `axiom fourierCos_Khat`（存档块含两路证伪 + 真命题 `fourierCos f0 u = Khat u` 的四段真证路线）；⑨ `:585` 措辞改「与已撤的 Khat 版同构」。
+- **审计**：`lake build QRH` **3836 jobs / 0 error**（`build_qrh_R.txt`、`build_qrh_R2.txt`，job 数与术前一致）；`_a3_ax.lean`/`_a3_ax.txt`：`triKer_admissible`、`primeSum_window_eq` = 3 基础；`prime_sum_bound` = 3 + `siegel_walfisz_chi5`；`pair_sum_expansion` = 3 + `bgs3`；`s71_main` = 3 + `N_L_lower_bound` + `bgs3` + `bgs4_offcrit_low` + `bgs4_offcrit_high`（**用户 axiom 仍 4，换核没让主定理多背假设**）。列 0 计数：**axiom 7**、**opaque 2**。
+- **新账**：`siegel_walfisz_chi5`、`landau_explicit_L`、`bgs3_pair_expansion`、`N_L_lower_bound`、`pair_count_bound`、`bgs4_offcrit_low`、`bgs4_offcrit_high`；opaque `offCriticalError`、`offcritLow`；未形式化 N3。撤掉的两条：一条假、一条空。
+- **连带义务（未做）**：`C_MT` 与 `0.6725 = 2 − C_MT` 须按三角核重算（新核频域变换为 `(sin πu/πu)² ≥ 0`），**7/8 的数值在重算前不能对外说**；`ε`/`C₁ε` 空转未动。
+

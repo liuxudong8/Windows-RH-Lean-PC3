@@ -694,19 +694,84 @@ lemma f0_measurable : Measurable f0 := by
 
 /-- 余弦傅里叶变换（实数核、频域 z）：K̂(z) = ∫ K(x)cos(2πzx)dx（Bochner 积分，ℝ 上 volume；
     文档 S7.3 §3）。2026-10-29 由 axiom 降为真定义——基础 Bochner 积分件在本环境可编译
-    （normL1 同款机制）；不可积时积分按 mathlib 惯例为 0。
-    定义一致件 `fourierCos_Khat` 与光滑件 `khat_lipschitz` 仍为命名 axiom（解析闭式/导数件）。 -/
+    （normL1 同款机制）；不可积时积分按 mathlib 惯例为 0。 -/
 noncomputable def fourierCos (K : ℝ → ℝ) (z : ℝ) : ℝ :=
   ∫ x : ℝ, K x * Real.cos (2 * Real.pi * z * x)
 
-/-- 定义一致件（axiom，积分层）：fourierCos 对最优核 Khat 的解析实现 = Khat
-    （文档 S7.3 §3：K̂(u) = ∫ f₀(x)cos(2πux)dx 的闭式；Lean 侧 fourierCos 为抽象算子、
-    积分定义在文档层，此件把抽象算子与解析式挂钩——`prime_weight_bounds` 降定理的前置件）。 -/
-axiom fourierCos_Khat (u : ℝ) : fourierCos Khat u = Khat u
+/- 第七刀撤除的原 axiom（存档；`axiom` 行缩进以避开列 0 计数扫描）：
+
+    2026-11-23 机检结论：`fourierCos Khat u = Khat u` 是**假命题**，且与
+    `bgs5_khat_fourier_supp` 合起来推出 `False`（根级探针 `_incons_ax.lean`：
+
+      theorem qrh_axioms_inconsistent : False
+
+    `#print axioms` = [propext, Classical.choice, bgs5_khat_fourier_supp,
+                        fourierCos_Khat, Quot.sound]）。
+
+    理由（两路，任一路已足够）：
+    (i)  `Khat` 只按 1/|u| 衰减：合并两项得
+         K̂(u) ≈ cos(1/√2)/(√2 sin(1/√2)) · sin(πu)/(πu)，逼近常数 ≈ 0.767 ≠ 0，
+         故 ∫|Khat| = ∞，mathlib 的 Bochner 积分按 `MeasureTheory.integral_undef` 取 0；
+         于是 `fourierCos Khat u = 0` 对**一切** u 成立，与 Khat 非零（如
+         `Khat (4/3) < 0`，真证见 `_incons_ax.lean` 的 `khat_four_thirds_neg`，仅 3 条基础公理）冲突。
+    (ii) `bgs5_khat_fourier_supp` 断言 `∀ u, 1 < |u| → fourierCos Khat u = 0`，
+         与本条合成 `∀ u, 1 < |u| → Khat u = 0`，而 `Khat (4/3) < 0`。
+
+    文档 S7.3 §3 的本意应是 `fourierCos f0 u = Khat u`（即 ∫ f₀(x)cos(2πux)dx 的闭式，
+    真命题）。若将来要把「频率核 = 时域核 f0 的余弦变换」重新入账，语句应取该形式，
+    真证路线四段：f0 紧支撑于 [−1/2,1/2] ⟹ 化区间积分 → 积化和差 → ∫cos 初等积分 →
+    拼闭式（奇点 √2 ± 2πu = 0 处由 `S_smooth` 的延拓值 1/2 自动吻合）。
+
+    第七刀处置：S7.6 的核改用三角核 `triKer`（`S7_1_Core` §4c，`supp ⊆ [−1,1]` 由定义即得），
+    素数侧与配对侧统一以 profile 自身入式，故本条与 `bgs5` 一并退出账本（ax 9 → 7）。 -/
 
 /-! 光滑件（2026-10-30 真证）：`khat_lipschitz` theorem 已由 §3b/§3c 导数件
 （S_smooth 奇点延拓 + |deriv S_smooth| ≤ 1/4 + 凸集均值定理）替换原命名 axiom；
 显式 L = π/(√2·|sin(1/√2)|)——`prime_weight_bounds` 平滑分支前置件已闭合。 -/
+
+/-! ## 4c. 三角核（S7.6 频域 profile 的正式载体，2026-11-23 第七刀） -/
+
+/-- 三角核（Fejér 型）：Γ(u) = max 0 (1 − |u|)，即 |u| ≤ 1 时取 1 − |u|，否则取 0。
+    S7.6 的 λ ≤ 1/2 核族改用它作频域 profile：`Γ 0 = 1`、`supp Γ ⊆ [−1,1]`（**由定义直接得到**，
+    不再需要解析支撑论证）、`|Γ| ≤ 1`、Lipschitz 常数 1。其频域变换 Γ̂(x) = (sin(πx)/(πx))² ≥ 0。
+    启用它后：`bgs5` 由 axiom 变为 `triKer_supp` 真定理，prime 侧的求和截断
+    （`min ⌊X⌋ ⌊e^{1/δ}⌋`）第一次有了真实依据；`Khat`（cos-window 的 sinc 梳）退回文档层解析式。 -/
+def triKer (u : ℝ) : ℝ := max 0 (1 - |u|)
+
+theorem triKer_zero : triKer 0 = 1 := by
+  rw [triKer, abs_zero, sub_zero]
+  exact max_eq_right zero_le_one
+
+theorem triKer_supp {u : ℝ} (h : 1 < |u|) : triKer u = 0 := by
+  have hneg : 1 - |u| < 0 := by linarith
+  rw [triKer]
+  exact max_eq_left hneg.le
+
+theorem triKer_nonneg (u : ℝ) : 0 ≤ triKer u := le_max_left _ _
+
+theorem triKer_le_one (u : ℝ) : triKer u ≤ 1 := by
+  rw [triKer]
+  exact max_le zero_le_one (by linarith [abs_nonneg u])
+
+theorem triKer_abs_le_one (u : ℝ) : |triKer u| ≤ 1 := by
+  rw [abs_of_nonneg (triKer_nonneg u)]
+  exact triKer_le_one u
+
+/-- 三角核 1-Lipschitz：`|Γ a − Γ b| ≤ |a − b|`（`max 0` 的 1-Lipschitz 性 +
+    `||a|−|b|| ≤ |a−b|`）。 -/
+theorem triKer_lipschitz (a b : ℝ) : |triKer a - triKer b| ≤ |a - b| := by
+  have hmax : |max 0 (1 - |a|) - max 0 (1 - |b|)|
+      ≤ max |(0 : ℝ) - 0| |(1 - |a|) - (1 - |b|)| :=
+    abs_max_sub_max_le_max 0 (1 - |a|) 0 (1 - |b|)
+  have hval : |(1 - |a|) - (1 - |b|)| ≤ |a - b| := by
+    have hsub : (1 - |a|) - (1 - |b|) = |b| - |a| := by ring
+    rw [hsub]
+    calc |(|b| - |a|)| = |(|a| - |b|)| := abs_sub_comm _ _
+      _ ≤ |a - b| := abs_abs_sub_abs_le_abs_sub a b
+  calc |triKer a - triKer b|
+      = |max 0 (1 - |a|) - max 0 (1 - |b|)| := by simp only [triKer]
+    _ ≤ max 0 |(1 - |a|) - (1 - |b|)| := by simpa using hmax
+    _ ≤ |a - b| := max_le (abs_nonneg _) hval
 
 /-- L¹ 范数（真定义，2026-10-27 由 axiom 降级）：‖f‖₁ = ∫|f|（Bochner 积分，ℝ 上 volume）。
     不可积时 mathlib 积分按惯例为 0；scaleKernel_L1_invariant 等不变性质在 Stage3 真证。 -/

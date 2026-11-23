@@ -1,0 +1,10 @@
+_incons_ax.lean:63:6: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+_incons_ax.lean:63:32: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+_incons_ax.lean:124:6: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+_incons_ax.lean:125:6: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+'qrh_axioms_inconsistent' depends on axioms: [propext,
+ Classical.choice,
+ bgs5_khat_fourier_supp,
+ fourierCos_Khat,
+ Quot.sound]
+'khat_four_thirds_neg' depends on axioms: [propext, Classical.choice, Quot.sound]

@@ -1,0 +1,1 @@
+QRH\S7_1_Main.lean:1:0: error: object file 'C:\proj2\QRH\S7_1_Core.olean' of module QRH.S7_1_Core does not exist
