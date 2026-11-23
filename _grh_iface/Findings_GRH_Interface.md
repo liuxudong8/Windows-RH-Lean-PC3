@@ -846,13 +846,19 @@ $$
 | 数据型 | `offCriticalError`、`offcritLow` | opaque（无定义体） | 需 `w(ρ−ρ')` 权重机制 |
 | 未形式化 | N3 主不等式 (M) | — | 与 Alpöge–Claude 同位置 |
 
-### 21.8 连带的表述义务（未做，须拍板）
+### 21.8 常数重算：口径 A 定稿（2026-11-23 已做，未机检）
 
-- **`C_MT` 与 0.6725 要重算，而重算的输入本身还是待证**。现数 `1.3275 = 1/2 + (1/√2)cot(1/√2)` 是 cos-window（`Khat`）的口径；三角核侧要用的量是它的余弦变换闭式：
+- **口径裁定**：库内的三角核是**配对核**（`pairConstant triKer`，K = Γ 直接入 ΣK(δΔ)²），记为口径 A，采用。口径 B（Γ 作密度、配对核取 sinc²）保留旧文，日后单独改。
+- **泛函**：C(K) = 1 + ∫ K(u)² ρ₂(u) du，ρ₂ = 1 − (sin πu/πu)²。两锚点验证：f₀（cos-window 最优核）→ 1.3274983（账面 1.3274992963，差 1e−6）；均匀核 → 4/3 精确。
+- **口径 A 的结果**：∫Γ² = 2/3；J₁ = ∫₋₁¹ (1−|u|)²( sin πu/πu)² du = 2[−½log(4π²) − γ + Ci(2π) + ½ + π Si(2π)]/π² = 0.5101726630（20 位，sympy 闭式与 mpmath 分裂积分独立吻合）。故 **C_A = 1.1564940036**，**QRH 常数 = 0.8435059964**。对 7/8：差 0.0314940（需 C ≤ 1.125）。
+- **无条件分支不变**：λ ≤ 1/2 的 C_MT = 1.3274993 ⟹ 0.6725。Γ 的 supp = [−1,1] ⟹ λ_eff = 1，属超支撑，需拟随机 (H2′_λ)。
+- **口径 B 的数（备查，未采用）**：sinc² 作配对核时 ∫ sinc⁴ = 2/3、∫ sinc⁶ = 11/20，C = 67/60 = 1.1166667 ⟹ 0.8833333（过 7/8，余量 1/120）；代价是 sinc² 非紧支撑，A3 的求和截断失去依据。
+- **形式状态**：解析闭式 + 20 位数值，未 Lean 机检；axiom 计数不变（7 axiom / 2 opaque / 1 明账）。口径 A 下 A4（`fourierCos triKer`）不在 C_A 里出现，其消费者是口径 B（待启用）。
+- 三角核余弦变换闭式本身已机检（`fourierCos_triKer`，见下条原文）：
 
   `fourierCos triKer z = ∫₋₁¹ (1 − |x|) cos(2πzx) dx = 2·(1 − cos 2πz)/(2πz)² = (sin πz / πz)²`，
 
-（`z = 0` 取 1，与 `∫Γ = 1` 自洽）。这条此前属**注释层断言（待证）**，已于 2026-11-23 **机检闭环**：`QRH/S7_1_Core.lean` §4c′ 的 `fourierCos_triKer : fourierCos triKer u = if u = 0 then 1 else (sin πu / πu)²` 为真定理，配套 10 件辅助引理（支撑化区间、偶性降半区间、反导数清分母、`∫Γ = 1`），11 件 `#print axioms` 全部 = 3 基础公理（`_a4_ax.txt`），且**不进 `s71_main` 闭包**。技术路线与旧预测一致（支撑落 [−1,1] ⟹ 化到 Icc / 分部积分）；旧预测中的风险「`IntervalIntegral` olean 缺失」已证为误判——聚合模块缺、子模块齐备（`FundThmCalculus` 可 import），落地另加 `Mathlib.MeasureTheory.Integral.Bochner.Set`（`setIntegral_eq_integral_of_forall_compl_eq_zero`，`Bochner/Set.lean:488`）。**结论：重算 `C_MT` 的前置件已到手，剩下的纯粹是手算；但 7/8 那句话的数值仍等重算，不能不重算就引用。**
+（`z = 0` 取 1，与 `∫Γ = 1` 自洽）。这条此前属**注释层断言（待证）**，已于 2026-11-23 **机检闭环**：`QRH/S7_1_Core.lean` §4c′ 的 `fourierCos_triKer` 为真定理，配套 10 件辅助引理，11 件 `#print axioms` 全部 = 3 基础公理（`_a4_ax.txt`），且**不进 `s71_main` 闭包**。技术路线与旧预测一致；旧预测中的风险「`IntervalIntegral` olean 缺失」已证为误判（聚合模块缺、子模块齐备，另加 `Mathlib.MeasureTheory.Integral.Bochner.Set`）。
 - `Khat` 此刻在库里只剩「历史件载体」身份；若日后要把「频率核 = $f_0$ 的余弦变换」重新入账，语句应取 `fourierCos f0 u = Khat u`（真命题），而不是旧的那条。
 - `ε` / `C₁ε` 空转（§20.6）未动。
 

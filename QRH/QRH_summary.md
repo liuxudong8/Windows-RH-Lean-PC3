@@ -30,13 +30,16 @@
 
 目标：证明 L(s, χ₅) 单族配对常数 A(λ) → 1。这是 QRH（拟随机假设）常数机制攻坚的唯一现实通道：
 QRH 常数 0.6725 → 7/8 需要 A ≤ 1.125。A→1 远强于 A ≤ 1.125，故「干到 1」一次性打通 7/8。
+2026-11-23 口径 A（三角核）重算后：常数 0.8435060、A = 1.1564940，仍差 7/8 一步（0.0314940）。
 
 ## 2. 判定链
 
 - 配对常数：A_L(K) = 1 + (Σ_{Δ≠0} K(δΔ)²)/N_Z，δ = logT/(2π)。
-- 常数机制：C_MT = 1/2 + (1/√2)·cot(1/√2) = 1.3274992963；0.6725 = 2 − C_MT（QRH 常数）。
+- 常数机制：C_MT = 1/2 + (1/√2)·cot(1/√2) = 1.3274992963；0.6725 = 2 − C_MT（cos-window / λ≤1/2 无条件口径）。
+- **三角核口径（2026-11-23 定稿，见增量㉗）**：C_A = 1.1564940036，QRH 常数 2 − C_A = 0.8435059964（超支撑 λ_eff = 1，需拟随机前提）。
 - 定理 S7.1（L 版 BGS 型配对公式，弱实部假设下）：A_L(K) ≤ C_MT + O(ε) + o(1)。
-- A ≤ 1.125 ⟺ 7/8 成立（0.6725 → 7/8 通道）；A → 1 为最强情形。
+- A ≤ 1.125 ⟺ 7/8 成立（0.6725 → 7/8 通道）；A → 1 为最强情形。三角核口径现为 A = 1.1564940，距 1.125 还差 0.0314940（比例 0.8435060 vs 0.875）。
+
 - 现阶段数值：Fejer 窄核 λ→0 极限 A → 1.0079（T = 6×10⁵）；窄核专项推进后 A ≈ 0.990；5 子区间漂移 ≤ 0.005。
 
 ## 3. 数学主线（攻防 XLII S0–S7.6，d1 已落档）
@@ -201,7 +204,7 @@ QRH 常数 0.6725 → 7/8 需要 A ≤ 1.125。A→1 远强于 A ≤ 1.125，故
 - **A3 九处**：① `primeSum` 定义改为直接取 profile（`(√n)⁻¹·K(δ log n)`，不再外套 `fourierCos`），消掉「一个 K 两种含义」；② 撤 `axiom bgs5_khat_fourier_supp`（改存档块，替代物 `triKer_supp`）；③ `primeSum_window_eq` 前提改 `∀ u, 1<|u| → K u = 0`，调用点 `(fun _ h => triKer_supp h)`——**求和截断第一次有真实依据**；④ 删 `prime_weight_bounds_Khat`（109 行）；⑤ `prime_sum_bound` 区间替换；⑥ `KernelAdmissible` 重定义为 `K 0 = 1 ∧ ∀ u, 1<|u| → K u = 0`（第二个合取项从此真的关于 K），删 `Khat_admissible` 与 `kernelAdmissible_of_apply_zero`，新增 `theorem triKer_admissible`；⑦ `bgs3`/`pair_sum_expansion`/`s71_main`/`QRH.lean` 根自检换核；⑧ 撤 `axiom fourierCos_Khat`（存档块含两路证伪 + 真命题 `fourierCos f0 u = Khat u` 的四段真证路线）；⑨ `:585` 措辞改「与已撤的 Khat 版同构」。
 - **审计**：`lake build QRH` **3836 jobs / 0 error**（`build_qrh_R.txt`、`build_qrh_R2.txt`，job 数与术前一致）；`_a3_ax.lean`/`_a3_ax.txt`：`triKer_admissible`、`primeSum_window_eq` = 3 基础；`prime_sum_bound` = 3 + `siegel_walfisz_chi5`；`pair_sum_expansion` = 3 + `bgs3`；`s71_main` = 3 + `N_L_lower_bound` + `bgs3` + `bgs4_offcrit_low` + `bgs4_offcrit_high`（**用户 axiom 仍 4，换核没让主定理多背假设**）。列 0 计数：**axiom 7**、**opaque 2**。
 - **新账**：`siegel_walfisz_chi5`、`landau_explicit_L`、`bgs3_pair_expansion`、`N_L_lower_bound`、`pair_count_bound`、`bgs4_offcrit_low`、`bgs4_offcrit_high`；opaque `offCriticalError`、`offcritLow`；未形式化 N3。撤掉的两条：一条假、一条空。
-- **连带义务（A4 已闭环，剩重算）**：`C_MT` 与 `0.6725 = 2 − C_MT` 须按三角核重算，**7/8 的数值在重算前不能对外说**。重算的输入是「三角核余弦变换 = sinc²」这条恒等式，现已**在库内真证**（增量㉖：`fourierCos_triKer : fourierCos triKer u = if u = 0 then 1 else (sin πu / πu)²`，`#print axioms` = 3 基础公理），故重算这是纯手算活，不再是形式债。`ε`/`C₁ε` 空转未动。
+- **连带义务（已于增量㉗ 清偿）**：`C_MT` 与 `0.6725 = 2 − C_MT` 的三角核重算已做，口径 A（Γ 作配对核）给出 C_A = 1.1564940036、常数 0.8435059964（未机检，纯解析闭式 + 20 位数值）；重算并未使 7/8 成立（差 0.0314940）。`ε`/`C₁ε` 空转未动。
 
 ### 增量㉖（2026-11-23）：A4 真证——三角核余弦变换闭式（明账 2 → 1）
 
@@ -212,6 +215,20 @@ QRH 常数 0.6725 → 7/8 需要 A ≤ 1.125。A→1 远强于 A ≤ 1.125，故
 - **数学路线（与注释层原推导一致）**：支撑落于 [−1,1] ⟹ 全空间积分化到 `∫₋₁¹`（`setIntegral_eq_integral_of_forall_compl_eq_zero` + `integral_Icc_eq_integral_Ioc` + `intervalIntegral.integral_of_le`）⟹ 偶性降半区间（`integral_comp_neg` + 相邻区间可加）⟹ 反导数 `F(y) = c(1−y)sin(cy) − cos(cy)`，`F' = c²((1−x)cos cx)`，清分母后走 `eq_div_iff` ⟹ `∫₀¹(1−x)cos(cx)dx = (1−cos c)/c²` ⟹ `1 − cos a = 2sin²(a/2)`（`Real.sin_sq_eq_half_sub`）⟹ sinc²。`u = 0` 分支单算 `∫Γ = 1`。
 - **审计**：`lake build QRH` **3836 jobs / 0 error**（`build_qrh_T.txt`）；列 0 计数 **axiom 7、opaque 2、明账 1**（只剩 N3）。
 - **环境备注（推翻旧结论）**：`Mathlib.MeasureTheory.Integral.IntervalIntegral` 聚合 olean 本机仍缺，但其子模块 olean 齐备，`import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus` 可用；`setIntegral_eq_integral_of_forall_compl_eq_zero` 在 `Mathlib.MeasureTheory.Integral.Bochner.Set`（`Bochner/Set.lean:488`）。两条已加入 Core 头部 import；Core 内新增 `open MeasureTheory`（仅此块需要 `volume` 裸名）。
-- **剩余义务**：`C_MT` 与 `0.6725 = 2 − C_MT` 按 sinc²（配对侧 sinc⁴，`∫ sinc⁴ = 2/3`）重算；重算前 7/8 的数值不对外引用。此时 A4 已从「待证注释」升级为可引用的机检件。
+- **剩余义务（已于增量㉗ 执行）**：`C_MT` 与 `0.6725 = 2 − C_MT` 的三角核重算已做，见增量㉗；A4 在此口径下不做常数输入（详见 ㉗ 末条）。
 
 
+
+### 增量㉗（2026-11-23）：C_MT 按三角核重算（口径 A 定稿）——C = 1.1564940036，QRH 常数 0.8435059964
+
+- **口径裁定（用户拍板）**：三角核 `triKer` 在库里作**配对核**（A3 后的 `pairConstant triKer`），即 K = Γ 直接入 Σ K(δΔ)²，记为口径 A。口径 B（Γ 作密度、配对核取 sinc²，即旧文「配对侧 sinc⁴」那句）**暂留旧文，日后单独改**。
+- **泛函（已用两个锚点验证）**：C(K) = 1 + ∫ K(u)² ρ₂(u) du，ρ₂(u) = 1 − (sin πu/πu)²。
+  - 锚点 1：cos-window 最优核 f₀（supp [−1/2,1/2]）→ C = 1.3274983，与账面 1.3274992963 = 1/2 + (1/√2)cot(1/√2) 差 1e−6（纯积分误差）；
+  - 锚点 2：均匀核（[−1/2,1/2] 上取 1）→ C = 4/3 精确，与 `C_MT_lt_four_thirds` 那条链自洽。
+- **三角核算术**：∫Γ² du = ∫₋₁¹ (1−|u|)² du = 2/3（精确）；J₁ = ∫₋₁¹ (1−|u|)²·(sin πu/πu)² du = 2[−½log(4π²) − γ + Ci(2π) + ½ + π Si(2π)]/π² = 0.5101726630（20 位；sympy 闭式与 mpmath 分裂积分独立吻合到 20 位）。
+  ⟹ **C_A = 1 + 2/3 − 0.5101726630 = 1.1564940036**，**QRH 常数 2 − C_A = 0.8435059964**。
+- **对 7/8 的判定**：0.8435060 < 0.875，**差 0.0314940**（等价口径：需 C ≤ 1.125，现 1.1564940，超 0.0314940）。无条件分支不变：λ ≤ 1/2 的 C_MT = 1.3274993 ⟹ 0.6725。
+- **为何 Γ 超出无条件域**：supp Γ = [−1,1] ⟹ λ_eff = 1 > 1/2（Lamzouri 变分域端点之外），属超支撑分支，需拟随机前提 (H2′_λ)。这不是口径错误，而是 7/8 通道本来就付的价；反过来说，A3 用 Γ 换来的「K 紧支撑 ⟹ 截断有依据」也正是超支撑域的入场券。
+- **口径 B（保留旧文，未采用）**：若把 Γ 当密度、配对核取 sinc²，则 ∫K² = ∫ sinc⁴(πu) du = 2/3、⟨Γ*Γ,Γ⟩ = ∫ sinc⁶(πu) du = 11/20（经典 ∫₀^∞ sinc⁶ = 11π/20，独立数值复核 0.5500000000），得 C = 67/60 = 1.1166667 ⟹ 常数 53/60 = 0.8833333（过 7/8，余量 1/120）。未采用的代价条款：sinc² 非紧支撑，A3 的求和截断 `min ⌊X⌋ ⌊e^{1/δ}⌋` 立刻失去依据，素数侧要重证一份 sinc² 版 weight bounds。
+- **形式状态（必须注明）**：以上两数是**解析闭式 + 20 位数值复核**，**未经 Lean 机检**；不改变 axiom 7 / opaque 2 / 明账 1 的计数，也暂不登记为明账。若日后要机检，需把 J₁ 的 Ci/Si 闭式与 sinc 积分形式化，属独立一件活（成本不低于 A4）。
+- **A4 的处置（口径 A 下的连带结论）**：`fourierCos triKer` 在 C_A 里不再出现（C_A 只用 ∫Γ² 与 J₁），故「A4 是 C_MT 重算前置件」这句话在口径 A 下作废——A4 实际是**口径 B 的预备件**。A4 本身不是废件（sinc² 仍是 profile 的频域描述，也是日后改 B 时的唯一入口），但账上要如实改成：A4 = 已机检、消费者 = 口径 B（待启用）。
