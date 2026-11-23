@@ -733,7 +733,11 @@ noncomputable def fourierCos (K : ℝ → ℝ) (z : ℝ) : ℝ :=
 
 /-- 三角核（Fejér 型）：Γ(u) = max 0 (1 − |u|)，即 |u| ≤ 1 时取 1 − |u|，否则取 0。
     S7.6 的 λ ≤ 1/2 核族改用它作频域 profile：`Γ 0 = 1`、`supp Γ ⊆ [−1,1]`（**由定义直接得到**，
-    不再需要解析支撑论证）、`|Γ| ≤ 1`、Lipschitz 常数 1。其频域变换 Γ̂(x) = (sin(πx)/(πx))² ≥ 0。
+    不再需要解析支撑论证）、`|Γ| ≤ 1`、Lipschitz 常数 1。
+    **频域侧（待证，注释层）**：余弦变换在解析层应为 `fourierCos triKer x = (sin(πx)/(πx))²`（x = 0 取 1），
+    即 sinc²（三角窗的经典结果，推导：偶性降半区间 → ∫₀¹(1−x)cos(2πux)dx = (1−cos 2πu)/(2πu)²·2 →
+    1 − cos a = 2sin²(a/2)）。**本库尚未形式化此闭式**（`fourierCos triKer` 目前只有定义、无取值定理），
+    故上式为注释层断言，不得与 `triKer_lipschitz` 等机检件混排；后续若重算 `C_MT`，须先补此件（A4）。
     启用它后：`bgs5` 由 axiom 变为 `triKer_supp` 真定理，prime 侧的求和截断
     （`min ⌊X⌋ ⌊e^{1/δ}⌋`）第一次有了真实依据；`Khat`（cos-window 的 sinc 梳）退回文档层解析式。 -/
 def triKer (u : ℝ) : ℝ := max 0 (1 - |u|)
