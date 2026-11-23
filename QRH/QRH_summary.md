@@ -201,5 +201,17 @@ QRH 常数 0.6725 → 7/8 需要 A ≤ 1.125。A→1 远强于 A ≤ 1.125，故
 - **A3 九处**：① `primeSum` 定义改为直接取 profile（`(√n)⁻¹·K(δ log n)`，不再外套 `fourierCos`），消掉「一个 K 两种含义」；② 撤 `axiom bgs5_khat_fourier_supp`（改存档块，替代物 `triKer_supp`）；③ `primeSum_window_eq` 前提改 `∀ u, 1<|u| → K u = 0`，调用点 `(fun _ h => triKer_supp h)`——**求和截断第一次有真实依据**；④ 删 `prime_weight_bounds_Khat`（109 行）；⑤ `prime_sum_bound` 区间替换；⑥ `KernelAdmissible` 重定义为 `K 0 = 1 ∧ ∀ u, 1<|u| → K u = 0`（第二个合取项从此真的关于 K），删 `Khat_admissible` 与 `kernelAdmissible_of_apply_zero`，新增 `theorem triKer_admissible`；⑦ `bgs3`/`pair_sum_expansion`/`s71_main`/`QRH.lean` 根自检换核；⑧ 撤 `axiom fourierCos_Khat`（存档块含两路证伪 + 真命题 `fourierCos f0 u = Khat u` 的四段真证路线）；⑨ `:585` 措辞改「与已撤的 Khat 版同构」。
 - **审计**：`lake build QRH` **3836 jobs / 0 error**（`build_qrh_R.txt`、`build_qrh_R2.txt`，job 数与术前一致）；`_a3_ax.lean`/`_a3_ax.txt`：`triKer_admissible`、`primeSum_window_eq` = 3 基础；`prime_sum_bound` = 3 + `siegel_walfisz_chi5`；`pair_sum_expansion` = 3 + `bgs3`；`s71_main` = 3 + `N_L_lower_bound` + `bgs3` + `bgs4_offcrit_low` + `bgs4_offcrit_high`（**用户 axiom 仍 4，换核没让主定理多背假设**）。列 0 计数：**axiom 7**、**opaque 2**。
 - **新账**：`siegel_walfisz_chi5`、`landau_explicit_L`、`bgs3_pair_expansion`、`N_L_lower_bound`、`pair_count_bound`、`bgs4_offcrit_low`、`bgs4_offcrit_high`；opaque `offCriticalError`、`offcritLow`；未形式化 N3。撤掉的两条：一条假、一条空。
-- **连带义务（未做，且含一条待证断言）**：`C_MT` 与 `0.6725 = 2 − C_MT` 须按三角核重算，**7/8 的数值在重算前不能对外说**。重算的输入是「三角核余弦变换 = sinc²」这条恒等式：解析上它成立（`fourierCos triKer x = (sin πx/(πx))²`，x=0 取 1；偶性降半区间 + 分部积分 + `1 − cos a = 2sin²(a/2)`），但**本库未形式化此闭式**——`fourierCos triKer` 现在只有定义、无取值定理，故该式属**注释层断言（待证）**，不得与 `triKer_lipschitz` 那类 3 基础公理的机检件混排；重算前须先补此件（代号 A4）。`ε`/`C₁ε` 空转未动。
+- **连带义务（A4 已闭环，剩重算）**：`C_MT` 与 `0.6725 = 2 − C_MT` 须按三角核重算，**7/8 的数值在重算前不能对外说**。重算的输入是「三角核余弦变换 = sinc²」这条恒等式，现已**在库内真证**（增量㉖：`fourierCos_triKer : fourierCos triKer u = if u = 0 then 1 else (sin πu / πu)²`，`#print axioms` = 3 基础公理），故重算这是纯手算活，不再是形式债。`ε`/`C₁ε` 空转未动。
+
+### 增量㉖（2026-11-23）：A4 真证——三角核余弦变换闭式（明账 2 → 1）
+
+- **目标语句**：`fourierCos triKer u = if u = 0 then 1 else (Real.sin (πu) / (πu))²`。此前它只写在 `triKer` docstring 的注释层（被审计台登记为明账 A4）。
+- **A4 组 11 件全部机检通过**（`QRH/S7_1_Core.lean` §4c′，紧随 `triKer_lipschitz` 之后）：
+  `triKer_eq_zero_of_notMem_Icc`、`triKer_of_abs_le_one`、`continuous_triKer`、`integral_one_sub_mul_cos`、`integral_symm_zero_one`、`integral_triKer_mul_cos`、`integral_triKer`、`integral_eq_intervalIntegral_of_support`、`fourierCos_triKer_zero`、`fourierCos_triKer_ne`、`fourierCos_triKer`。
+- **`#print axioms`**（`_a4_ax.txt`）：上述 11 件**全部 = `[propext, Classical.choice, Quot.sound]`**；`s71_main` 闭包不变（3 基础 + `N_L_lower_bound` + `bgs3_pair_expansion` + `bgs4_offcrit_low` + `bgs4_offcrit_high`），**A4 不进主定理依赖闭包**（它是 `C_MT` 重算的前置输入，不在 S7.6 语句里）。
+- **数学路线（与注释层原推导一致）**：支撑落于 [−1,1] ⟹ 全空间积分化到 `∫₋₁¹`（`setIntegral_eq_integral_of_forall_compl_eq_zero` + `integral_Icc_eq_integral_Ioc` + `intervalIntegral.integral_of_le`）⟹ 偶性降半区间（`integral_comp_neg` + 相邻区间可加）⟹ 反导数 `F(y) = c(1−y)sin(cy) − cos(cy)`，`F' = c²((1−x)cos cx)`，清分母后走 `eq_div_iff` ⟹ `∫₀¹(1−x)cos(cx)dx = (1−cos c)/c²` ⟹ `1 − cos a = 2sin²(a/2)`（`Real.sin_sq_eq_half_sub`）⟹ sinc²。`u = 0` 分支单算 `∫Γ = 1`。
+- **审计**：`lake build QRH` **3836 jobs / 0 error**（`build_qrh_T.txt`）；列 0 计数 **axiom 7、opaque 2、明账 1**（只剩 N3）。
+- **环境备注（推翻旧结论）**：`Mathlib.MeasureTheory.Integral.IntervalIntegral` 聚合 olean 本机仍缺，但其子模块 olean 齐备，`import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus` 可用；`setIntegral_eq_integral_of_forall_compl_eq_zero` 在 `Mathlib.MeasureTheory.Integral.Bochner.Set`（`Bochner/Set.lean:488`）。两条已加入 Core 头部 import；Core 内新增 `open MeasureTheory`（仅此块需要 `volume` 裸名）。
+- **剩余义务**：`C_MT` 与 `0.6725 = 2 − C_MT` 按 sinc²（配对侧 sinc⁴，`∫ sinc⁴ = 2/3`）重算；重算前 7/8 的数值不对外引用。此时 A4 已从「待证注释」升级为可引用的机检件。
+
 

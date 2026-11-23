@@ -2,7 +2,7 @@
 
 ## 现状、已机检的部分、未证的部分，以及与 Alpöge–Claude 论文的接口
 
-编制：2026-11-23　|　工具链：Lean 4 `v4.34.0-rc2` + mathlib（`lake build QRH` **3836 jobs 全绿、0 error**；命名 axiom **7** 条、opaque **2** 个、明账 **2** 条（未形式化 N3 + 待证注释 A4）；`BSD` 库仍为 2026-10-06 口径 16 条，未重审）
+编制：2026-11-23　|　工具链：Lean 4 `v4.34.0-rc2` + mathlib（`lake build QRH` **3836 jobs 全绿、0 error**；命名 axiom **7** 条、opaque **2** 个、明账 **1** 条（未形式化 N3；三角核谱闭式 A4 当日已真证）；`BSD` 库仍为 2026-10-06 口径 16 条，未重审）
 
 ---
 
@@ -97,11 +97,11 @@ axiom bgs3_pair_expansion (δ T ε : ℝ) (hweak : WeakRealPart T zerosLChi5) :
 2. **统一口径**：`primeSum` 改为直接以 profile 入式（不再外套 `fourierCos`），`primeSum_window_eq` 的前提由 `fourierCos K = 0` 改为 `K = 0`——求和截断第一次有真实依据（`triKer_supp` 是定义即得的定理）。`KernelAdmissible` 重定义为 `K 0 = 1 ∧ ∀u, 1<|u| → K u = 0`，第二个合取项从此**真的关于 `K`**，并新增真证 `triKer_admissible`。
 3. **撤两条 axiom**：`fourierCos_Khat`、`bgs5_khat_fourier_supp` 一并退出账本，**axiom 9 → 7**。`s71_main` 的用户 axiom 仍是 4 条（换核没让主定理多背任何假设），`#print axioms` 实测：`triKer_admissible`、`primeSum_window_eq` = 3 基础；`prime_sum_bound` = 3 + `siegel_walfisz_chi5`；`pair_sum_expansion` = 3 + `bgs3`。
 
-**必须同步的一句话（附一条待证）**：三角核的余弦变换在解析上是 sinc² ——
+**必须同步的一句话（前置件已真证）**：三角核的余弦变换在解析上是 sinc² ——
 
 `fourierCos triKer z = ∫₋₁¹ (1 − |x|)cos(2πzx)dx = 2(1 − cos 2πz)/(2πz)² = (sin πz / πz)²`（z = 0 取 1），
 
-与原 cos-window 口径不同，**C_MT 与 0.6725 = 2 − C_MT 都要按它重算**。但这条闭式**在本库里还没证**：`fourierCos triKer` 只有定义（Bochner 积分），没有取值定理。所以它是**注释层断言（待证）**，按我们的分层规矩不得与 `triKer_lipschitz`、`prime_weight_bounds_tri`（均 3 基础公理）并列；重算前须先补此件（代号 A4，见 §3.5）。在新的数出来之前，「A ≤ 1.125 ⟺ 7/8」这句话里的常数不能对外引用。
+与原 cos-window 口径不同，**C_MT 与 0.6725 = 2 − C_MT 都要按它重算**。这条闭式已于 2026-11-23 **在库内真证**（`fourierCos_triKer`，配套 10 件辅助引理，11 件 `#print axioms` 全为 3 基础公理，且不进 `s71_main` 闭包），按分层规矩可与 `triKer_lipschitz`、`prime_weight_bounds_tri` 并列引用。**剩下的只是手算**：但在新数出来之前，「A ≤ 1.125 ⟺ 7/8」这句话里的常数仍不能对外引用。
 
 ### 3.3 本轮清除的旧账（附理由，供合伙人复核）
 
@@ -127,11 +127,21 @@ axiom bgs3_pair_expansion (δ T ε : ℝ) (hweak : WeakRealPart T zerosLChi5) :
 
 剩下的建议：`offcritLow` 仍是无定义算子，若要再进一步，可把它定义成「按 T^{3/8} 切割后零点高度的加权和」——但需要 `w(ρ−ρ')` 权重与复自变量 `r̂` 的机制，与 N3 同源，属长线。
 
-### 3.5 明账：2 条（1 条未形式化 + 1 条待证注释）
+### 3.5 明账：1 条（N3 未形式化）
 
 **N3（离线项跨 λ 一致）**：登记为「未形式化」，不是「已证」。补真前置三件（引理 5 本体含 `w`/`r̂`、`x` 尺度参数、主项相减口径）全部在「L 版 BGS 假设」层。
 
-**A4（三角核谱闭式，2026-11-23 第七刀新增）**：解析断言「`fourierCos triKer z = (sin πz / πz)²`（z = 0 取 1）」——推导是偶性降半区间 → `∫₀¹(1−x)cos(2πzx)dx = (1−cos 2πz)/(2πz)²·2` → `1 − cos a = 2sin²(a/2)`，解析上无争议；**但本库未形式化**，`fourierCos triKer` 目前只有定义、无取值定理，故属**注释层断言**。它不是主定理依赖链上的洞（`s71_main` 闭包不含它），只在两处起作用：① `C_MT` 重算的前置件；② 「λ ≤ 1/2 核族」的谱形状描述。真证路线：支撑落于 [−1,1] ⟹ 化到 Icc 上的积分 ⟹ 分部积分 `∫x cos(ax)` ⟹ `1 − cos a = 2sin²(a/2)` ⟹ 拼闭式；已知风险是 `IntervalIntegral` olean 在本机缺失，需走 `setIntegral` 口径。
+### 3.5′ A4（三角核谱闭式）：曾入明账，当日由真证清偿（2026-11-23）
+
+**语句**：`fourierCos triKer z = if z = 0 then 1 else (sin πz / πz)²`（三角窗经典结果）。
+
+**清偿形态**：`QRH/S7_1_Core.lean` §4c′ 的真定理 `fourierCos_triKer`，配套 10 件辅助引理——`triKer_eq_zero_of_notMem_Icc`、`triKer_of_abs_le_one`、`continuous_triKer`、`integral_one_sub_mul_cos`、`integral_symm_zero_one`、`integral_triKer_mul_cos`、`integral_triKer`、`integral_eq_intervalIntegral_of_support`、`fourierCos_triKer_zero`、`fourierCos_triKer_ne`。`#print axioms` 11 件全 = 3 基础公理（`_a4_ax.txt`）；`s71_main` 闭包不变，**A4 不进主定理依赖链**。
+
+**证明路线**：支撑落 [−1,1] ⟹ 全空间积分化到 `∫₋₁¹` ⟹ 偶性降半区间 ⟹ 反导数 `F(y) = c(1−y)sin(cy) − cos(cy)`、`F' = c²((1−x)cos cx)`，清分母走 `eq_div_iff` ⟹ `∫₀¹(1−x)cos(cx)dx = (1−cos c)/c²` ⟹ `1 − cos a = 2sin²(a/2)` ⟹ sinc²；`z = 0` 分支单算 `∫Γ = 1`。
+
+**对审计台的交代**：这条此前被写成既成事实（属「注释层断言冒充机检结论」），是审计台抓住的第四类病灶；清偿后它重新变回可引用的机检件。**剩下的义务只有一条手算**：`C_MT` 与 `0.6725 = 2 − C_MT` 按 sinc²（配对侧 sinc⁴，`∫ sinc⁴ = 2/3`）重算。
+
+**环境修正**：此前记录的风险「`IntervalIntegral` olean 本机缺失」是误判——聚合模块缺，子模块齐备（`FundThmCalculus` 可 import）；另加 `Mathlib.MeasureTheory.Integral.Bochner.Set` 取 `setIntegral_eq_integral_of_forall_compl_eq_zero`。
 
 ---
 
@@ -148,7 +158,7 @@ axiom bgs3_pair_expansion (δ T ε : ℝ) (hweak : WeakRealPart T zerosLChi5) :
 | C | 9 | 数学已证、mathlib 无理论 | 最深的是 `rank_E5_Q_eq_zero_of_L_E5_ne_zero`（Kolyvagin Euler 系统，已条件化接线） |
 | D | 2 | 已消除（axiom → theorem） | `coefficient_bound_aE5`、`summable_fE5` |
 
-**必须声明的时间差**：以上是 2026-10-06 的口径。此后目录里新增了 `RankTwo389`、`ShaFreeLayer`、`ShaPComponent`、`GrHChain389`、`Positivity`/`PositivityGRH`/`ZeroGap` 等模块，**这批尚未重审**。对外引用前必须重跑一次 axiom 闭包审计，否则数字不可信。（QRH 侧的 7/2/2 是本轮实测数字，可直接引用。）
+**必须声明的时间差**：以上是 2026-10-06 的口径。此后目录里新增了 `RankTwo389`、`ShaFreeLayer`、`ShaPComponent`、`GrHChain389`、`Positivity`/`PositivityGRH`/`ZeroGap` 等模块，**这批尚未重审**。对外引用前必须重跑一次 axiom 闭包审计，否则数字不可信。（QRH 侧的 7/2/1 是本轮实测数字，可直接引用。）
 
 ## 5. 两条线共同的形状（与 Alpöge–Claude 论文对照）
 

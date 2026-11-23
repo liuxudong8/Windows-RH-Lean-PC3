@@ -1,0 +1,18 @@
+'QRH.triKer_eq_zero_of_notMem_Icc' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.triKer_of_abs_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.continuous_triKer' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.integral_one_sub_mul_cos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.integral_symm_zero_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.integral_triKer_mul_cos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.integral_triKer' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.integral_eq_intervalIntegral_of_support' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.fourierCos_triKer_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.fourierCos_triKer_ne' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.fourierCos_triKer' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.s71_main' depends on axioms: [propext,
+ Classical.choice,
+ N_L_lower_bound,
+ bgs3_pair_expansion,
+ bgs4_offcrit_high,
+ bgs4_offcrit_low,
+ Quot.sound]

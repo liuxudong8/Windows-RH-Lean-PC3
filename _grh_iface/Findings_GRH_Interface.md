@@ -852,7 +852,7 @@ $$
 
   `fourierCos triKer z = ∫₋₁¹ (1 − |x|) cos(2πzx) dx = 2·(1 − cos 2πz)/(2πz)² = (sin πz / πz)²`，
 
-（`z = 0` 取 1，与 `∫Γ = 1` 自洽）。这条在解析上毫无疑义，**但在本库里没有形式化**：`fourierCos triKer` 目前只有定义（Bochner 积分），没有任何取值定理，故上式属**注释层断言（待证）**，不得与 `triKer_lipschitz`、`prime_weight_bounds_tri` 那类 3 基础公理的机检件并列。它同时是 `C_MT` 重算的前置件（代号 A4：`fourierCos triKer u = if u = 0 then 1 else (sin πu/πu)^2`；技术路线为支撑落于 [−1,1] ⟹ 化到 Icc / 分部积分；已知风险是 `IntervalIntegral` olean 本机缺失，需绕 `setIntegral` 口径）。**结论：7/8 那句话的数值不仅「等重算」，而且重算前还欠一条真证——两件事都不能跳过。**
+（`z = 0` 取 1，与 `∫Γ = 1` 自洽）。这条此前属**注释层断言（待证）**，已于 2026-11-23 **机检闭环**：`QRH/S7_1_Core.lean` §4c′ 的 `fourierCos_triKer : fourierCos triKer u = if u = 0 then 1 else (sin πu / πu)²` 为真定理，配套 10 件辅助引理（支撑化区间、偶性降半区间、反导数清分母、`∫Γ = 1`），11 件 `#print axioms` 全部 = 3 基础公理（`_a4_ax.txt`），且**不进 `s71_main` 闭包**。技术路线与旧预测一致（支撑落 [−1,1] ⟹ 化到 Icc / 分部积分）；旧预测中的风险「`IntervalIntegral` olean 缺失」已证为误判——聚合模块缺、子模块齐备（`FundThmCalculus` 可 import），落地另加 `Mathlib.MeasureTheory.Integral.Bochner.Set`（`setIntegral_eq_integral_of_forall_compl_eq_zero`，`Bochner/Set.lean:488`）。**结论：重算 `C_MT` 的前置件已到手，剩下的纯粹是手算；但 7/8 那句话的数值仍等重算，不能不重算就引用。**
 - `Khat` 此刻在库里只剩「历史件载体」身份；若日后要把「频率核 = $f_0$ 的余弦变换」重新入账，语句应取 `fourierCos f0 u = Khat u`（真命题），而不是旧的那条。
 - `ε` / `C₁ε` 空转（§20.6）未动。
 
