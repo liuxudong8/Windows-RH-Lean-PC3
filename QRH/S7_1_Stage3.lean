@@ -1,5 +1,6 @@
 import QRH.S7_1_Core
 import QRH.S7_1_Main
+import OrderPreservingBijection.DirichletLZeroWindow
 import Mathlib.Analysis.SpecialFunctions.Exp
 import Mathlib.Analysis.SpecialFunctions.Log.Basic
 import Mathlib.Data.Complex.Basic
@@ -686,24 +687,44 @@ lemma f_eps_abs_le (ε x : ℝ) : |f_eps ε x| ≤ (sqrt 2 * |sin (1 / sqrt 2)|)
     （2026-10-31 增量⑧：N_L / N_L_lower_bound 前移至 N2b 挂钩之前——
     pairCount_L1_bound / pair_count_bound 组装依赖其定义，原位置在文件后部。） -/
 
-/-- L(s,χ₅) 零点计数函数（抽象算子）。 -/
-axiom N_L : ℝ → ℝ
+/- L(s,χ₅) 零点计数函数（**2026-11-23：原数据型 `axiom N_L : ℝ → ℝ` 已降为真定义**，
+   置于 `zerosLChi5UpTo` / `zerosLChi5_bounded_finite` 之后——定义必须引用零点集本身）。 -/
+
+/- 截断零点集 Z_T := zerosLChi5 ∩ {|Im z| ≤ T}——**2026-11-23 已上移至 `S7_1_Main`**
+   （同 `N_L` / `N_L_nonneg`：`bgs3_pair_expansion` 需要真实计数分母 `N_L T`，
+   而 Main 不可 import Stage3）。本文件及下游继续直接使用这些名字。 -/
+
+/-- 数论结构件（**2026-11-23：axiom → theorem，口径搬运 A 方案**）：截断零点集 Z_T 有限。
+    旧口径：整条平坦 axiom（"L(s,χ₅) 零点局部有限 ⟹ 紧竖带内有限"）。
+    新口径：不由 `opaque LFun` 假设结构，而是搬运外部已证件
+    `QRHZeroWindow.finite_zeros`（归档 `DirichletLZerosInWindowFiniteAndPosOrder`，
+    对**任意**模 q、任意特征 χ、任意窗口成立，公理集仅 [propext, Classical.choice, Quot.sound]）。
+    所需唯一输入：`LFun` 与某个 `DirichletCharacter ℂ 5` 的 L 函数逐点同一（`hL`）。
+    债务从「一条平坦假设」降为「一条同一性 + 已证定理」；同一性本身待 B 方案（真定义）消解。
+    **2026-11-23 B 方案已落地**：`LFun` 现为真定义 `DirichletCharacter.LFunction chi5Dirichlet`，
+    `χ`/`hL` 两个参数已删，同一性由 `rfl` 自动成立 ⟹ 本定理**无条件**成立。 -/
+theorem zerosLChi5_bounded_finite (T : ℝ) :
+    Set.Finite (zerosLChi5UpTo T) := by
+  have hset : zerosLChi5UpTo T
+      = { ρ : ℂ | 0 < ρ.re ∧ ρ.re < 1 ∧ |ρ.im - 0| ≤ T ∧ LFun ρ = 0 } := by
+    ext z
+    simp only [zerosLChi5UpTo, zerosLChi5, Set.mem_ofPred_eq, sub_zero, and_left_comm,
+      and_comm]
+  rw [hset]
+  exact QRHZeroWindow.finite_zeros_of_eq_LFunction
+    OrderPreservingBijection.chi5Dirichlet LFun (fun z => rfl) 0 T
+
+/- **`N_L` / `N_L_nonneg`——2026-11-23 已上移至 `S7_1_Main`**（随 `zerosLChi5UpTo` 一起；
+   理由同该处注释：`bgs3_pair_expansion` 需要真实计数分母，Main 不可 import Stage3）。
+   本文件及下游继续直接使用这两个名字，无需另行声明。 -/
 
 /-- N_L 对数增长下界（statement）：∃c>0，N_L(T) ≥ c·T·logT。
-    数论件（L(s,χ5) 零点计数显式下界，S6 框架）——axiom 挂账（数学已证、形式化长线）。 -/
+    数论件（L(s,χ5) 零点计数显式下界，S6 框架 / Riemann–von Mangoldt 方向）——
+    **2026-11-23 起 `N_L` 已是真实计数定义**，故本条不再是「对某个未知算子成立」，
+    而是「对真实零点数成立」的数学命题：`c·T·log T ≤ #{ρ : L(ρ,χ₅)=0, |Im ρ| ≤ T}`
+    （axiom 挂账，形式化长线；RvM 主项 `(T/π) log(T/2π) − T/π` 方向）。 -/
 axiom N_L_lower_bound :
   ∃ c : ℝ, 0 < c ∧ ∀ T : ℝ, 1 ≤ T → c * T * Real.log T ≤ N_L T
-
-/-- 截断零点集 Z_T := zerosLChi5 ∩ {|Im z| ≤ T}（BGS 配对公式的有限口径：
-    零点局部有限 + 紧竖带 ⟹ 有限集（`zerosLChi5_bounded_finite`）；
-    配对和只在 Z_T 上跑，Summable 自动为 Finset 和。 -/
-def zerosLChi5UpTo (T : ℝ) : Set ℂ := { z : ℂ | z ∈ zerosLChi5 ∧ |z.im| ≤ T }
-
-/-- 数论结构件（axiom；数学真、形式化长线）：截断零点集 Z_T 有限。
-    依据：L(s,χ₅) 全纯的零点离散（亚纯函数零点无聚点 ⟹ 局部有限），
-    紧竖带 {0<Re<1, |Im|≤T} ∩ 零点集有限——复分析标准事实
-    （显式计数 N_Z(T) ≤ C·T·logT 为 RvM 长线，此处仅需有限性）。 -/
-axiom zerosLChi5_bounded_finite (T : ℝ) : Set.Finite (zerosLChi5UpTo T)
 
 /-- 数论结构件（axiom；数学真、形式化长线）：竖直差带配对计数界。
     对 δ = logT/(2π)，竖直差 |Δ| = |im(z₁−z₂)| ≤ 1/(2δ) 的配对总数 ≤ Dcnt·N_L(T)：
@@ -959,7 +980,8 @@ lemma normL1_sub_pos (ε : ℝ) (hε : 0 < ε) :
       → 逐项 2M 界（支撑外 g=0，支撑内 |g| ≤ 2M）→ tsum 链 → D 归一化到 N_Z(T)。
     旧口径两处硬伤已修：(i) zerosLChi5 全零点集无限、竖直差带窗口内配对无限多 ⟹ Summable 假；
     (ii) D·δ 归一化参数 N:=δ 与文档层 N:=N_Z 不一致，D 无法对 T 一致。 -/
-theorem pairCount_L1_bound (T0 ε : ℝ) (hT0 : 1 < T0) (hε : 0 < ε) :
+theorem pairCount_L1_bound
+    (T0 ε : ℝ) (hT0 : 1 < T0) (hε : 0 < ε) :
   ∃ D : ℝ, 0 ≤ D ∧
     ∀ T : ℝ, T0 ≤ T →
       let δ := Real.log T / (2 * Real.pi)
@@ -1321,7 +1343,8 @@ lemma pairConst_sub_pairL1 (ε δ N : ℝ) (Z : ZeroSet) (hN : 0 < N)
     → L¹ 界（f0_sub_feps_L1_bound）；C₁ = 4M²D（D 由挂钩定理给出、对 T 一致）。
     口径修正（2026-10-31 增量⑧）：归一化参数 N 从 δ 改为 N_Z(T)（文档 S7.1 §2「N = 零点数」），
     零点集从 zerosLChi5 改为截断集 zerosLChi5UpTo T（有限 ⟹ Summable 真证）；Bound 仍 = ε。 -/
-theorem pair_const_eps_bias (T0 ε : ℝ) (hT0 : 1 < T0) (hε : 0 < ε) :
+theorem pair_const_eps_bias
+    (T0 ε : ℝ) (hT0 : 1 < T0) (hε : 0 < ε) :
   ∃ C₁ : ℝ,
     Bound C₁ T0
       (fun T => |pairConstant (f_eps ε) (Real.log T / (2 * Real.pi)) (N_L T) (zerosLChi5UpTo T)
@@ -1367,18 +1390,30 @@ theorem pair_const_eps_bias (T0 ε : ℝ) (hT0 : 1 < T0) (hε : 0 < ε) :
           (mul_nonneg (mul_nonneg (by norm_num : (0 : ℝ) ≤ 2) hM0) hD0)
       _ = (4 * M ^ 2 * D) * ε := by ring
 
-/-! ## N3：离线项一致版本（文档 S7.5 定理 N3） -/
+/-! ## N3：离线项一致版本（文档 S7.5 定理 N3）
 
-/-- 离线（off-critical）误差算子：BGS 余项结构，核无关（S7.5 §2 判定）。 -/
-axiom offcritSum : (ℝ → ℝ) → ℝ → ℝ
+**2026-11-23：本节两条 axiom（`offcritSum` / `n3_remainder_uniform`）已删除——空条目。**
+理由（审计结论，详见 `_grh_iface/Findings_GRH_Interface.md` §十六）：
 
-/-- N3-余项跨 λ 一致（statement，S7.5 定理 N3(i)(iii)，Bound 显式界化）：
-    BGS 余项 O(T√logT) 对 supp⊂[−1,1] 一切核一致（核只在零点侧 L(x,T)，经 L=R 吸收）；
-    R 对 K 一致（外层 ∃R，∀ K supp → Bound R …）、T 侧套 Bound（∀ T ≥ T₀）。 -/
-axiom n3_remainder_uniform (T0 : ℝ) (hT0 : 1 ≤ T0) :
-  ∃ R : ℝ, 0 ≤ R ∧
-    ∀ K : ℝ → ℝ, (∀ u : ℝ, 1 < |u| → fourierCos K u = 0) →
-      Bound R T0 (fun T => |offcritSum K T|) (fun T => T * Real.sqrt (Real.log T))
+1. 它们是无任何下游引用的死代码（`offcritSum` 仅出现在 `n3_remainder_uniform` 语句内，
+   `n3_remainder_uniform` 全库 0 处使用）；
+2. 作为「自由算子 `(ℝ→ℝ)→ℝ→ℝ` + 一条关于它的 ∃R 有界声明」，该对**可被 `offcritSum ≡ 0`
+   同时满足**（`|0| ≤ R·T√logT`，`T ≥ T₀ ≥ 1` 时右端非负）⟹ 不含任何数学内容；
+3. 文档对象不可如实定义：`Roff` 是 BGS 配对公式减去主项后的**余项**（`Roff = O((logT)^{-1/2})·N_L`，
+   S7.5 §3.1 (iii)），依赖 `w(ρ−ρ')` 权重、复自变量 `r̂(i(ρ−ρ')logT/2π)` 与 `x` 尺度下的相减抵消；
+   这三件本工程均未形式化。按字面写「离线零点两两原始求和」会让量级变成 `O((T logT)²)`
+   （与 `O(T√logT)` 的声明冲突），即写成假命题。
+
+N3 作为**未形式化项**登记在 Findings §十六，等引理 5 配对公式本体（含 `w`/`r̂`）落地后一次性补真定义。
+原语句（供复核，勿复活）：
+
+```
+    axiom offcritSum : (ℝ → ℝ) → ℝ → ℝ
+    axiom n3_remainder_uniform (T0 : ℝ) (hT0 : 1 ≤ T0) :
+      ∃ R : ℝ, 0 ≤ R ∧
+        ∀ K : ℝ → ℝ, (∀ u : ℝ, 1 < |u| → fourierCos K u = 0) →
+          Bound R T0 (fun T => |offcritSum K T|) (fun T => T * Real.sqrt (Real.log T))
+``` -/
 
 /-! ## 三条真证明件（超支撑素数项层；清单 §4 Stage 3+） -/
 
@@ -2088,8 +2123,10 @@ lemma sum_abel (N : ℕ) (a b : ℕ → ℝ) :
       |∫(f_ε−f₀)| ≤ normL1(f₀−f_ε)（Bochner 全空间积分绝对界 norm_integral_le_integral_norm
       + integral_sub + 四辅助件 f0_integrable / f0_sub_feps_abs_integrable /
       f0_sub_feps_integrable / fourierCos_sub_f0_feps_abs_le）⟹ ≤2εT·M）。
-- [ ] `n3_remainder_uniform` / `N_L_lower_bound`：结构件——文档层论证已闭合
-      （S7.5 定理 N3、S6 零点计数）；Lean 侧保留 axiom 语义。
+- [ ] `N_L_lower_bound`：结构件——文档层论证已闭合（S6 零点计数，RvM 方向）；
+      Lean 侧保留 axiom 语义（`N_L` 已是真实计数定义）。
+- [x] ~~`n3_remainder_uniform`~~：**2026-11-23 撤除**（空条目，无下游引用；N3 未形式化登记于
+      `Findings_GRH_Interface.md` §十六）。
 - [x] `f0_sub_feps_L1_bound`：**真证**（axiom → theorem；|1−w_ε| 支撑界 + 被积函数界
       + 长度 ≤ 2ε：normL1(f₀−f_ε) ≤ 2ε·M）。
 - [x] `pair_const_eps_bias`：**真证**（2026-10-30，axiom → theorem；N2b：

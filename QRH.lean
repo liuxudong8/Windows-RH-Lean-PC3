@@ -18,11 +18,12 @@ import QRH.S7_1_Stage3
 
 namespace QRH
 
-/-- 项目自检：主定理陈述存在（骨架态，证明体 sorry 占位）。 -/
+/-- 项目自检：主定理陈述存在（由 `s71_main` 直接给出；2026-11-23 随 `bgs3` 口径手术
+    同步：归一化分母为真实零点计数 `N_L T`，求和域为有限截断集 `zerosLChi5UpTo T`）。 -/
 example (T : ℝ) (hT : (1 : ℝ) ≤ T) (hweak : WeakRealPart T zerosLChi5)
     (ε : ℝ) (hε0 : 0 < ε) :
     ∃ (C₁ C₂ : ℝ), 0 ≤ C₁ ∧ 0 ≤ C₂ ∧
-      pairConstant Khat (Real.log T / (2 * Real.pi)) (Real.log T / (2 * Real.pi)) zerosLChi5
+      pairConstant Khat (Real.log T / (2 * Real.pi)) (N_L T) (zerosLChi5UpTo T)
         ≤ C_MT + C₁ * ε + C₂ :=
   s71_main T hT hweak ε hε0
 

@@ -1,0 +1,176 @@
+{
+ "files": 175187,
+ "mods": 175187,
+ "targets": {
+  "Statements": {
+   "closure": 1,
+   "missing": [],
+   "mathlib_roots": 1,
+   "mathlib_names": [
+    "Mathlib"
+   ]
+  },
+  "Main": {
+   "closure": 174791,
+   "missing": [
+    "Batteries.Tactic.OpenPrivate",
+    "CompanionTheory.AutomorphicTheory.SegmentRepresentations.JacquetShalikaBounds.lift_levelP_alt",
+    "Development.AbelianVarietyTheory.PublishedTheorems.AdelicLattices",
+    "Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms",
+    "Development.AbelianVarietyTheory.PublishedTheorems.DiscreteSeries",
+    "Development.AbelianVarietyTheory.PublishedTheorems.DiscreteSeriesUnitary",
+    "Development.AbelianVarietyTheory.PublishedTheorems.Divisors",
+    "Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology",
+    "Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry",
+    "Development.AbelianVarietyTheory.PublishedTheorems.Landherr",
+    "Development.AbelianVarietyTheory.PublishedTheorems.SemistableReduction",
+    "Development.AbelianVarietyTheory.PublishedTheorems.SiegelWeil",
+    "Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.HypothesesZ",
+    "Development.AutomorphicSpectrum.PublishedTheorems.Algebra",
+    "Development.AutomorphicSpectrum.PublishedTheorems.Divisibility",
+    "Development.AutomorphicSpectrum.PublishedTheorems.Geometry",
+    "Development.AutomorphicSpectrum.PublishedTheorems.Jets",
+    "Development.AutomorphicSpectrum.PublishedTheorems.Metrics",
+    "Development.AutomorphicSpectrum.PublishedTheorems.SiegelWeil",
+    "Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaBound.lift_levelP_alt"
+   ],
+   "mathlib_roots": 344,
+   "mathlib_names": [
+    "Mathlib",
+    "Mathlib.Algebra.Algebra.Subalgebra.Centralizer",
+    "Mathlib.Algebra.BigOperators.Fin",
+    "Mathlib.Algebra.Category.CommAlgCat.FiniteType",
+    "Mathlib.Algebra.Category.Ring.Constructions",
+    "Mathlib.Algebra.Category.Ring.FilteredColimits",
+    "Mathlib.Algebra.Category.Ring.FinitePresentation",
+    "Mathlib.Algebra.DualNumber",
+    "Mathlib.Algebra.Homology.DerivedCategory.HomologySequence",
+    "Mathlib.Algebra.Homology.DerivedCategory.KInjective",
+    "Mathlib.Algebra.Homology.DerivedCategory.TStructure",
+    "Mathlib.Algebra.Homology.HomotopyCategory.Acyclic",
+    "Mathlib.Algebra.Homology.HomotopyCategory.KInjective",
+    "Mathlib.Algebra.Homology.Localization",
+    "Mathlib.Algebra.Module.Lattice"
+   ]
+  },
+  "Formalism.SizeWindowBrackets.FirstPrimeNeSecondPrime": {
+   "closure": 14,
+   "missing": [],
+   "mathlib_roots": 2,
+   "mathlib_names": [
+    "Mathlib",
+    "Mathlib.Analysis.Fourier.FiniteAbelian.PontryaginDuality"
+   ]
+  },
+  "Formalism.SizeWindowBrackets.GrowthBoundGivesRiemannHypothesis": {
+   "closure": 18,
+   "missing": [],
+   "mathlib_roots": 3,
+   "mathlib_names": [
+    "Mathlib",
+    "Mathlib.Analysis.Fourier.FiniteAbelian.PontryaginDuality",
+    "Mathlib.NumberTheory.LSeries.RiemannZeta"
+   ]
+  },
+  "Formalism.SizeWindowBrackets.ChainSlopeWindows.StronglyIrreducible": {
+   "closure": 16,
+   "missing": [],
+   "mathlib_roots": 2,
+   "mathlib_names": [
+    "Mathlib",
+    "Mathlib.Analysis.Fourier.FiniteAbelian.PontryaginDuality"
+   ]
+  },
+  "Formalism.LandauZeroFreeBounds.NoZeroComplex": {
+   "closure": 68,
+   "missing": [],
+   "mathlib_roots": 4,
+   "mathlib_names": [
+    "Mathlib",
+    "Mathlib.Analysis.Complex.BorelCaratheodory",
+    "Mathlib.Analysis.Complex.HasPrimitives",
+    "Mathlib.Analysis.Complex.Liouville"
+   ]
+  },
+  "Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DirichletLZerosInWindowFiniteAndPosOrder": {
+   "closure": 291,
+   "missing": [],
+   "mathlib_roots": 1,
+   "mathlib_names": [
+    "Mathlib"
+   ]
+  },
+  "Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Psi0ZeroFreeRegionBound": {
+   "closure": 298,
+   "missing": [
+    "Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms"
+   ],
+   "mathlib_roots": 1,
+   "mathlib_names": [
+    "Mathlib"
+   ]
+  },
+  "Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PsiChiPowerSavingBound": {
+   "closure": 298,
+   "missing": [
+    "Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms"
+   ],
+   "mathlib_roots": 1,
+   "mathlib_names": [
+    "Mathlib"
+   ]
+  },
+  "Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PsiChiSqrtLogBound": {
+   "closure": 299,
+   "missing": [
+    "Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms"
+   ],
+   "mathlib_roots": 1,
+   "mathlib_names": [
+    "Mathlib"
+   ]
+  },
+  "Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExceptionalDirichletZeroUniqueZeroFreeRegion": {
+   "closure": 29,
+   "missing": [],
+   "mathlib_roots": 1,
+   "mathlib_names": [
+    "Mathlib"
+   ]
+  },
+  "Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.LogFreeZeroDensityDirichletOneModulus": {
+   "closure": 424,
+   "missing": [],
+   "mathlib_roots": 1,
+   "mathlib_names": [
+    "Mathlib"
+   ]
+  },
+  "Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExplicitFormulaDirichletZerosRightHalf": {
+   "closure": 343,
+   "missing": [
+    "Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms"
+   ],
+   "mathlib_roots": 1,
+   "mathlib_names": [
+    "Mathlib"
+   ]
+  },
+  "Development.AutomorphicArithmetic.DedekindLFunctions.LandauTheorems.landauWindow": {
+   "closure": 16,
+   "missing": [],
+   "mathlib_roots": 1,
+   "mathlib_names": [
+    "Mathlib"
+   ]
+  },
+  "GroundTheory.GlobalFields.TateThesis.HeckeLFunction": {
+   "closure": 10,
+   "missing": [],
+   "mathlib_roots": 1,
+   "mathlib_names": [
+    "Mathlib"
+   ]
+  }
+ }
+}

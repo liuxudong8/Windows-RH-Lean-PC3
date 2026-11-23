@@ -1,0 +1,17 @@
+local modules: 175187
+
+Statements                                                                                      closure=     1  mathlib_imports=   1  missing=0
+Main                                                                                            closure=174791  mathlib_imports= 344  missing=27
+Formalism.SizeWindowBrackets.FirstPrimeNeSecondPrime                                            closure=    14  mathlib_imports=   2  missing=0
+Formalism.SizeWindowBrackets.GrowthBoundGivesRiemannHypothesis                                  closure=    18  mathlib_imports=   3  missing=0
+Formalism.SizeWindowBrackets.ChainSlopeWindows.StronglyIrreducible                              closure=    16  mathlib_imports=   2  missing=0
+Formalism.LandauZeroFreeBounds.NoZeroComplex                                                    closure=    68  mathlib_imports=   4  missing=0
+Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DirichletLZerosInWindowFiniteAndPosOrder closure=   291  mathlib_imports=   1  missing=0
+Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Psi0ZeroFreeRegionBound            closure=   298  mathlib_imports=   1  missing=1
+Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PsiChiPowerSavingBound             closure=   298  mathlib_imports=   1  missing=1
+Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PsiChiSqrtLogBound                 closure=   299  mathlib_imports=   1  missing=1
+Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExceptionalDirichletZeroUniqueZeroFreeRegion closure=    29  mathlib_imports=   1  missing=0
+Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.LogFreeZeroDensityDirichletOneModulus closure=   424  mathlib_imports=   1  missing=0
+Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExplicitFormulaDirichletZerosRightHalf closure=   343  mathlib_imports=   1  missing=1
+Development.AutomorphicArithmetic.DedekindLFunctions.LandauTheorems.landauWindow                closure=    16  mathlib_imports=   1  missing=0
+GroundTheory.GlobalFields.TateThesis.HeckeLFunction                                             closure=    10  mathlib_imports=   1  missing=0

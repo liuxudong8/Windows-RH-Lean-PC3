@@ -1,4 +1,10 @@
 import QRH.S7_1_Core
+import OrderPreservingBijection.stage_3
+import OrderPreservingBijection.Chi5Real
+import OrderPreservingBijection.LSeriesConj
+import Mathlib.NumberTheory.LSeries.DirichletContinuation
+import Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt
+import Mathlib.Analysis.Calculus.LogDeriv
 import Mathlib.Analysis.SpecialFunctions.Exp
 import Mathlib.Analysis.SpecialFunctions.Log.Basic
 import Mathlib.Analysis.SpecialFunctions.Pow.Real
@@ -58,23 +64,79 @@ def pairConstant (K : ℝ → ℝ) (δ N : ℝ) (Z : ZeroSet) : ℝ :=
 /-- 弱实部假设（BGS 同款）：对 T^{3/8}<γ≤T 的零点，|β−1/2| ≤ 1/(2 log T)。 -/
 def WeakRealPart (_T : ℝ) (_Z : ZeroSet) : Prop := True
 
-/-- 模 5 实特征 χ_5(n)（二次特征；L(s,χ_5) 的 Dirichlet 系数，Lean 侧抽象常量）。 -/
-opaque chi5 : ℕ → ℝ
+/-- 模 5 实特征 χ_5(n)。**2026-11-23（B 方案）：原 `opaque chi5 : ℕ → ℝ` 已换为真定义**——
+    取 `OrderPreservingBijection.chi5Dirichlet`（= `MulChar.ofUnitHom chi5UnitHom`，`stage_3.lean:1155`，
+    其乘法性由 `chi5UnitFun_mul` 16 情形枚举证出）在 `ZMod 5` 上的值再投影到 ℝ；
+    模 5 二次特征取值 ∈ {0, ±1}，实值投影与 `chi5UnitFun` 一致。 -/
+noncomputable def chi5 : ℕ → ℝ := fun n =>
+  (OrderPreservingBijection.chi5Dirichlet (n : ZMod 5)).re
 
-/-- L(s, χ₅)（模 5 实特征）：正式对象（opaque 载体；Dirichlet 卷积表示见 `lfun_dirichlet_series`，
-    为长线真证目标）。 -/
-opaque LFun : ℂ → ℂ
+/-- 口径自检（2026-11-23，`lfun_conj_symm` 第 ① 步）：`chi5 : ℕ → ℝ` 的实数投影与
+    `DirichletCharacter ℂ 5` 的取值完全一致——即上一行的 `.re` 不是「丢信息」，
+    而是真的把实值特征写成实数（依据 `OrderPreservingBijection.chi5Dirichlet_eq_re`，
+    该引理已证、公理集仅 `[propext, Classical.choice, Quot.sound]`）。 -/
+lemma chi5_eq_chi5Dirichlet (n : ℕ) : (chi5 n : ℂ) = OrderPreservingBijection.chi5Dirichlet (n : ZMod 5) := by
+  simpa [chi5] using (OrderPreservingBijection.chi5Dirichlet_eq_re n).symm
+
+/-- L(s, χ₅)。**2026-11-23（B 方案）：原 `opaque LFun : ℂ → ℂ` 已换为真定义**——
+    即 mathlib `DirichletCharacter.LFunction χ₅`（Hurwitz ζ 线性组合给出的解析延拓，
+    定义于 `Mathlib/NumberTheory/LSeries/DirichletContinuation.lean:61`）。
+    口径边界：`LFunction` 与 `LSeries χ₅` 只在 `1 < re s` 上一致（`LFunction_eq_LSeries`），
+    `LSeries` 在 `re s ≤ 1` 被**定义**为 0，故原假 axiom `lfun_dirichlet_series` 无法以
+    `0 < re s` 口径回归（已于增量⑪撤除）。 -/
+noncomputable def LFun : ℂ → ℂ := fun z =>
+  DirichletCharacter.LFunction OrderPreservingBijection.chi5Dirichlet z
 
 /-- L(s, χ_5) 的零点集：临界带 0 < Re s < 1 内 L 的零点（差型配对关心的零点域；
     原占位 `{z | True}` 已替换为真实对象）。 -/
 def zerosLChi5 : ZeroSet := { z : ℂ | 0 < z.re ∧ z.re < 1 ∧ LFun z = 0 }
 
-/-- (L0a) L 的共轭对称：L(s,χ₅) 实系数（模 5 实特征）⟹ L(conj s) = conj(L(s))。 -/
-axiom lfun_conj_symm : ∀ z : ℂ, LFun (starRingEnd ℂ z) = starRingEnd ℂ (LFun z)
+/-- 截断零点集 `Z_T := zerosLChi5 ∩ {|Im z| ≤ T}`（BGS 配对公式的**有限口径**：配对和只在
+    零点局部有限 + 紧竖带内跑，`∑'` 自动退化为 Finset 和）。
+    **2026-11-23：本定义自 `S7_1_Stage3` 上移至本文件**——`bgs3_pair_expansion` 的归一化分母
+    必须是真实零点计数 `N_L T`，而 Stage3 依赖 Main（不可反向 import），故计数件随定义一起上移。 -/
+def zerosLChi5UpTo (T : ℝ) : Set ℂ := { z : ℂ | z ∈ zerosLChi5 ∧ |z.im| ≤ T }
 
-/-- (L0b) L 的 Dirichlet 卷积表示：Re s > 0 时 L(s) = Σ_{n≥1} χ₅(n)/n^s。 -/
-axiom lfun_dirichlet_series :
-  ∀ s : ℂ, 0 < s.re → LFun s = ∑' n : ℕ, (chi5 n : ℂ) * Complex.cpow (n : ℂ) (-s)
+/-- **L(s,χ₅) 零点计数函数（2026-11-23：原数据型 `axiom N_L : ℝ → ℝ` 已降为真定义）**——
+    临界带内 `|Im z| ≤ T` 的零点个数，即 `Z_T` 的基数。
+    用 `Set.ncard`（数学惯例：无穷集取 0；`Z_T` 对**任意** `T` 有限——`zerosLChi5_bounded_finite`
+    （Stage3），故此处恒等于真计数）。
+    **口径后果（比原 axiom 更强）**：`N_L_lower_bound` / `pair_count_bound` /
+    `bgs3_pair_expansion` 从此引用**真实零点数**，不再引用自由浮动的算子。 -/
+noncomputable def N_L (T : ℝ) : ℝ := ((zerosLChi5UpTo T).ncard : ℝ)
+
+/-- `N_L` 非负（真证）：零数个数的 ℝ 值投影 ≥ 0。 -/
+lemma N_L_nonneg (T : ℝ) : 0 ≤ N_L T := by
+  unfold N_L
+  exact Nat.cast_nonneg _
+
+/-- (L0a) L 的共轭对称：L(s,χ₅) 实系数（模 5 实特征）⟹ L(conj s) = conj(L(s))。
+    **2026-11-23：已从 axiom 降为 theorem（全平面，无条件）**。
+    链：`LSeriesConj.LFunction_conj_global`（χ 实值 + χ ≠ 1 ⟹ `L(conj s) = conj(L s)` 对全 `s`；
+    其内部走「`f` 与 `conj∘f∘conj` 均在 `univ` 上解析 + `{1 < re z}` 上相等 + `AnalyticOnNhd.eq_of_eventuallyEq`
+    解析延拓唯一性」，与 mathlib `riemannZeta_conj` 同款）
+    ∘ χ₅ 实性（`chi5Dirichlet_im_zero`，第 ① 步）
+    ∘ χ₅ ≠ 1（`chi5Dirichlet_ne_one`，第 ① 步，保证 `LFunction` 全纯）
+    ∘ 收敛半平面相等（`LFunction_conj_of_real_coeff`，第 ② 步）。 -/
+theorem lfun_conj_symm : ∀ z : ℂ, LFun (starRingEnd ℂ z) = starRingEnd ℂ (LFun z) := by
+  intro z
+  exact LSeriesConj.LFunction_conj_global OrderPreservingBijection.chi5Dirichlet
+    OrderPreservingBijection.chi5Dirichlet_im_zero OrderPreservingBijection.chi5Dirichlet_ne_one z
+
+/-- (L0a) 的**收敛半平面版本**（`1 < re z`）——真证；上面那条现已是 theorem，本条作为独立短链保留。
+    链：`LFunction_conj_of_real_coeff`（`LSeriesConj` 模块，第 ② 步）
+    ∘ χ₅ 实性（`chi5Dirichlet_im_zero`，第 ① 步）
+    ∘ `LFunction = LSeries`（`LFunction_eq_LSeries`，`1 < re s`）。 -/
+theorem lfun_conj_symm_of_one_lt_re (z : ℂ) (hz : 1 < z.re) :
+    LFun (starRingEnd ℂ z) = starRingEnd ℂ (LFun z) :=
+  LSeriesConj.LFunction_conj_of_real_coeff OrderPreservingBijection.chi5Dirichlet
+    OrderPreservingBijection.chi5Dirichlet_im_zero hz
+
+/- (L0b) 【2026-11-23 已撤除：原 `axiom lfun_dirichlet_series` 断言 `0 < re s` 时
+    `LFun s = Σ χ₅(n) n^{-s}`，该命题在 `0 < re s ≤ 1` 区间为**假**（原始级数只在 `re s > 1` 收敛），
+    且全库 **0 处代码使用**（仅文档提及）。撤除不动任何证明。
+    B 方案重开口径时以真定理形式回归：`1 < s.re → LFun s = LSeries χ₅ s`
+    （mathlib `DirichletCharacter.LFunction_eq_LSeries` 直接给）。 -/
 
 /-- 复共轭不变性（零点关于实轴对称——差型配对转和型的依据；由 L0a 推出）。 -/
 lemma zerosLChi5_conj_closed : ConjClosed zerosLChi5 := by
@@ -95,8 +157,11 @@ lemma zerosLChi5_conj_closed : ConjClosed zerosLChi5 := by
 数学陈述的 axiom，名字与陈述一一对应（非空洞占位）；形式化真证为长线目标
 （PNT in AP 量级）。-/
 
-/-- von Mangoldt 函数 Λ(n)（素数幂对数计数；数论实际对象，Lean 侧抽象常量）。 -/
-opaque vonMangoldt : ℕ → ℝ
+/-- von Mangoldt 函数 Λ(n)。**2026-11-23（B 方案续）：原 `opaque vonMangoldt : ℕ → ℝ` 已换为真定义**——
+    即 mathlib `ArithmeticFunction.vonMangoldt : ArithmeticFunction ℝ`
+    （`Mathlib/NumberTheory/VonMangoldt.lean:65`；`n = p^k` 上取 `log p`，否则 0），
+    经 `ArithmeticFunction` 到函数的强制转换落成 `ℕ → ℝ`。 -/
+noncomputable def vonMangoldt : ℕ → ℝ := fun n => ArithmeticFunction.vonMangoldt n
 
 /-- 零点加权和（Yildirim 公式 (6) 左侧）：Σ_ρ x^{ρ−r}/(ρ−r)——真实定义：复和取实部
     （Complex.cpow 实数底；零点和的无条件收敛需 N(T) 计数估计——(L1c) 长线，此处为语义落位；
@@ -114,8 +179,13 @@ def primePowerSum (χ : ℕ → ℝ) (r x : ℝ) : ℝ :=
 def trivialTerm (r x : ℝ) : ℝ :=
   ∑' ℓ : ℕ, Real.rpow x (-((2 * (ℓ : ℝ)) + r)) / ((2 * (ℓ : ℝ)) + r)
 
-/-- 对数导数值项：(L′/L)(r,χ)（Yildirim 公式 (6) 右侧末项）。 -/
-opaque logDerivTerm (r : ℝ) : ℝ
+/-- 对数导数值项 `(L′/L)(r,χ₅)`。**2026-11-23（B 方案续二）：原 `opaque logDerivTerm (r : ℝ) : ℝ`
+    已换为真定义**——`(logDeriv LFun r).re`，其中 mathlib `logDeriv f := deriv f / f`
+    （`Mathlib/Analysis/Calculus/LogDeriv.lean:32`，`𝕜 = 𝕜' = ℂ`）。
+    取实部：`r` 为实数点时 L 与 L′ 均为实值（由 χ₅ 系数实 ⟹ 共轭对称 `lfun_conj_symm` 保证），
+    故 `.re` 与 `(L′/L)(r,χ₅)` 的实数口径一致；该口径的严格证明依赖 `lfun_conj_symm`（真命题，待证），
+    此处先落定为实部以保持类型为 ℝ。 -/
+noncomputable def logDerivTerm (r : ℝ) : ℝ := (logDeriv LFun (r : ℂ)).re
 
 /-- (L4) 离线（off-critical）误差项：BGS 引理 4 机制的 L 版余项（抽象算子）。 -/
 opaque offCriticalError (T : ℝ) : ℝ
@@ -506,11 +576,11 @@ theorem prime_weight_bounds_Khat (δ : ℝ) (hδ : 0 < δ) :
           - (Real.sqrt (n : ℝ))⁻¹ * fourierCos Khat (δ * Real.log (n : ℝ))|
           ≤ M * (Real.sqrt (n : ℝ))⁻¹ ^ 3) := by
   rcases khat_lipschitz with ⟨L, hL0, hL⟩
-  let B : ℝ := 1 / (sqrt 2 * |Real.sin (1 / sqrt 2)|)
+  let B : ℝ := 1 / (Real.sqrt 2 * |Real.sin (1 / Real.sqrt 2)|)
   have hB0 : 0 ≤ B := by
     dsimp [B]
     exact one_div_nonneg.mpr (le_of_lt
-      (mul_pos (by positivity : (0 : ℝ) < sqrt 2) (abs_pos.mpr sin_inv_sqrt2_ne_zero)))
+      (mul_pos (by positivity : (0 : ℝ) < Real.sqrt 2) (abs_pos.mpr sin_inv_sqrt2_ne_zero)))
   let M : ℝ := L * δ + B
   have hM0 : 0 ≤ M := by
     dsimp [M]
@@ -1090,11 +1160,14 @@ lemma Khat_admissible : KernelAdmissible Khat := by
     A_L(K) = 对角主项 + 素数项 + 离线误差；
     对角主项 diag ≤ C_MT + C₁·ε（ε 偏差系数 C₁——n2_linkage O(ε) 联动吸收，文档 S7.4 定理 N2）；
     素数项 |prime| ≤ 1（Montgomery–Vaughan 均值 + SW 压制，文档 S7.6）；
-    离线项 |offcrit| ≤ 1（引理 4 缩放：offcritical_small 除以 N_L，文档 S7.5 定理 N3）。 -/
+    离线项 |offcrit| ≤ 1（引理 4 缩放：offcritical_small 除以 N_L，文档 S7.5 定理 N3）。
+    **2026-11-23 口径手术**：归一化分母由 `Real.log T / (2π)` 改为**真实零点计数 `N_L T`**，
+    求和域由整条 `zerosLChi5`（无穷集 ⟹ `∑'` 无意义）改为 `zerosLChi5UpTo T`（有限集）。
+    旧口径（`pairConstant K δ δ zerosLChi5`）把 δ 当零点数用、又在无穷集上求和，属语句层缺陷。 -/
 axiom bgs3_pair_expansion (K : ℝ → ℝ) (δ T ε : ℝ) (hK : KernelAdmissible K)
     (hweak : WeakRealPart T zerosLChi5) :
   ∃ (C₁ diag prime offcrit : ℝ), 0 ≤ C₁ ∧
-    pairConstant K δ (Real.log T / (2 * Real.pi)) zerosLChi5 = diag + prime + offcrit ∧
+    pairConstant K δ (N_L T) (zerosLChi5UpTo T) = diag + prime + offcrit ∧
     diag ≤ C_MT + C₁ * ε ∧ |prime| ≤ 1 ∧ |offcrit| ≤ 1
 
 /-- (L3) 配对和展开（组装定理）：BGS 引理 3（bgs3_pair_expansion）的直接包装——
@@ -1102,7 +1175,7 @@ axiom bgs3_pair_expansion (K : ℝ → ℝ) (δ T ε : ℝ) (hK : KernelAdmissib
 theorem pair_sum_expansion (K : ℝ → ℝ) (δ T ε : ℝ) (hK : KernelAdmissible K)
     (hweak : WeakRealPart T zerosLChi5) :
   ∃ (C₁ diag prime offcrit : ℝ), 0 ≤ C₁ ∧
-    pairConstant K δ (Real.log T / (2 * Real.pi)) zerosLChi5 = diag + prime + offcrit ∧
+    pairConstant K δ (N_L T) (zerosLChi5UpTo T) = diag + prime + offcrit ∧
     diag ≤ C_MT + C₁ * ε ∧ |prime| ≤ 1 ∧ |offcrit| ≤ 1 := by
   exact bgs3_pair_expansion K δ T ε hK hweak
 
@@ -1165,14 +1238,14 @@ theorem s71_main
     (T : ℝ) (_hT : (1 : ℝ) ≤ T) (hweak : WeakRealPart T zerosLChi5)
     (ε : ℝ) (_hε0 : 0 < ε) :
     ∃ (C₁ C₂ : ℝ), 0 ≤ C₁ ∧ 0 ≤ C₂ ∧
-      pairConstant Khat (Real.log T / (2 * Real.pi)) (Real.log T / (2 * Real.pi)) zerosLChi5
+      pairConstant Khat (Real.log T / (2 * Real.pi)) (N_L T) (zerosLChi5UpTo T)
         ≤ C_MT + C₁ * ε + C₂ := by
   let δ : ℝ := Real.log T / (2 * Real.pi)
   rcases pair_sum_expansion Khat δ T ε Khat_admissible hweak with ⟨C₁, diag, prime, offcrit,
       hC₁0, hsplit, hdiag, hprime, hoffcrit⟩
   refine ⟨C₁, 2, hC₁0, by norm_num, ?_⟩
   calc
-    pairConstant Khat δ δ zerosLChi5 = diag + prime + offcrit := hsplit
+    pairConstant Khat δ (N_L T) (zerosLChi5UpTo T) = diag + prime + offcrit := hsplit
     _ ≤ C_MT + C₁ * ε + |prime| + |offcrit| := by
       linarith [hdiag, le_abs_self prime, le_abs_self offcrit]
     _ ≤ C_MT + C₁ * ε + 1 + 1 := by linarith [hprime, hoffcrit]
@@ -1211,8 +1284,10 @@ theorem s71_main
 - [x] (N2) ε–λ 联动：f_eps_support 真证明（|x|>1/2 ⟹ f_ε=0，支撑 [−1/2,1/2]）；
       n2_linkage（λ=(logT)^q、a=(logT)^{−q}、ε=c(logT)^{−q} ⟹ 偏差 O((logT)^{−q})）——axiom
       （文档 S7.4 定理 N2）。
-- [x] (N3) 离线项一致版本：n3_remainder_uniform（BGS 余项 O(T√logT) 对 supp⊂[−1,1] 一切核一致）
-      ——axiom（文档 S7.5 定理 N3）。
+- [ ] (N3) 离线项一致版本：**2026-11-23 撤除原 `offcritSum` / `n3_remainder_uniform`**
+      （空条目：自由算子 + ∃R 有界声明可被 `offcritSum≡0` 满足，且全库 0 处使用；
+      文档对象依赖 `w(ρ−ρ')`、复自变量 `r̂`、`x` 尺度相减三件未形式化机制）。
+      N3 作为**未形式化项**登记在 `Findings_GRH_Interface.md` §十六（文档 S7.5 定理 N3）。
 三条真证明件（超支撑素数项层）：
 - [x] Abel 求和引理（sum_abel，summation by parts 归纳真证；S7.6 §2.4 离散骨架）
 - [x] K̂_a 偶性（Khat_a_even，一阶校正恒为零真证）；二阶一致界 khat_second_order_bound

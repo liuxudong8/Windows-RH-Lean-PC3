@@ -1,0 +1,167 @@
+FILES 175187  LINES 17374215  SECS 90.1
+
+== dchar : 5457 hits in 1132 files ==
+     122  Formalism/SharpRestriction/GlobalSchurBounds/FirstClaimLemmaTwoFourOfLemmaTwoThree.lean
+      51  Formalism/SharpRestriction/GlobalSchurBounds/Joints.lean
+      46  Formalism/SharpRestriction/GlobalSchurBounds/ShortIntervalPrimes.lean
+      43  Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTDHLocal.lean
+      39  Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ExplicitFormula/GoodHeightExists.lean
+      39  Development/AutomorphicArithmetic/MeanSquareBounds/PsiThin.lean
+      37  Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTExplLF.lean
+      37  Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/DirichletPrimeToLPartMulLPowerPart.lean
+      34  PositivityTheory/AutomorphicForms/PublishedInputs/CuspidalContinuity/ArchimedeanCuspidal/StripEstimates/FaceMapCompSuccAboveCastSucc.lean
+      33  Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/EqOfEqOnCoprime.lean
+      30  Formalism/GL3MeanSquares/HookFormulaTorsion/NumericalZeroDensityBound.lean
+      30  Development/AutomorphicArithmetic/AutomorphicVarieties/SymplecticGSp4/DataEx.lean
+
+== growth : 3320 hits in 1747 files ==
+      61  Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/TensorOfPairLift.lean
+      40  Formalism/SharpRestriction/GrowthBounds/BinomialRatio.lean
+      25  Formalism/SharpRestriction/GrowthBounds/ColumnSpanDensity/TheoremIOfLatticeFunctorComparison.lean
+      24  Formalism/SizeWindowBrackets/GrowthBracketBoundOfSizeWindows.lean
+      24  Formalism/SharpRestriction/GrowthBounds/PlaneCountTheoremWithConstants.lean
+      21  Formalism/SharpRestriction/GrowthBounds/GLWeightTheory.lean
+      20  Formalism/SharpRestriction/GrowthBounds/PlaneCoefficients.lean
+      17  Development/AbelianVarietyTheory/Definitions/GaloisGeometry/BlockRowSubstitutionPreservesComplexSpan.lean
+      16  Formalism/SizeWindowBrackets/FixedEpsilonConcreteGrowthBound.lean
+      16  Formalism/LocalToGlobal/GroupLattices/AdmissibleFamilyNoKernel.lean
+      15  Formalism/SharpRestriction/GrowthBounds/SegmentDegree.lean
+      15  Formalism/SharpRestriction/GrowthBounds/Joints.lean
+
+== zero_free : 1249 hits in 356 files ==
+      75  Formalism/GL3MeanSquares/ZeroFreeRegionGl2PrimeChoiceResults.lean
+      66  Formalism/SharpRestriction/GlobalSchurBounds/Joints.lean
+      26  Formalism/SizeWindowBrackets/SmoothedRemainderRealIntegralFormula.lean
+      26  Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/TailContourB.lean
+      21  Formalism/SharpRestriction/GlobalSchurBounds/JointsF.lean
+      21  Formalism/SharpRestriction/GlobalSchurBounds/FirstClaimLemmaTwoFourOfLemmaTwoThree.lean
+      20  Formalism/SizeWindowBrackets/ChainSlopeWindows/PrimeCongruenceConditions.lean
+      20  Formalism/LocalToGlobal/GlobalTheory/AnalyticConclusionOfProp25.lean
+      20  Formalism/GL3MeanSquares/HookFormulaTorsion/TwistIsPrimitiveCharacter.lean
+      18  Formalism/LandauZeroFreeBounds/NoZeroComplex.lean
+      18  Formalism/GL3MeanSquares/HookFormulaTorsion/NoExceptionalOfNoRealZero.lean
+      16  Formalism/LandauZeroFreeBounds/SiegelWalfiszAPOfSiegelLower.lean
+
+== rvm : 666 hits in 124 files ==
+      40  Formalism/SizeWindowBrackets/ChainSlopeWindows/AdmissibleSchurLemma.lean
+      38  Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/InertiaGaloisSymmetry/RdBound.lean
+      37  Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/PerronChi.lean
+      28  Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/MSqDiagA.lean
+      25  Formalism/SizeWindowBrackets/SecondKindBucket.lean
+      22  Formalism/PeriodIntegrals/UnitaryGroupMassFormula/MertensLogSum/PrimeLogOverPWork.lean
+      16  Development/AutomorphicArithmetic/MeanSquareBounds/GIntegral.lean
+      15  Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/InertiaGaloisSymmetry/RdArith.lean
+      15  Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/DirichletLFewZerosSmallDisc.lean
+      14  Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/mertensUpper.lean
+      12  Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/InertiaGaloisSymmetry/RdDiff.lean
+      11  Formalism/GL3MeanSquares/HookFormulaTorsion/SmallPrimeFactorSumBound.lean
+
+== conductor : 628 hits in 160 files ==
+      24  GroundTheory/GlobalFields/TateThesis/HeckeLFunction.lean
+      21  GroundTheory/GlobalFields/TateThesis/EulerFactorsFinite.lean
+      20  GroundTheory/GlobalFields/TateThesis/EulerFactorsFourierFinite.lean
+      17  GroundTheory/GlobalFields/TateThesis/RootNumberLocalFinite.lean
+      16  GroundTheory/GlobalFields/TateThesis/HeckeChar.lean
+      16  Development/AutomorphicArithmetic/AutomorphicVarieties/SymplecticGSp4/DataEx.lean
+      14  Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/CompCond.lean
+      12  Formalism/GL3MeanSquares/HookFormulaTorsion/NumericalZeroDensityBound.lean
+      12  Development/AutomorphicArithmetic/CharacterBoxes/RealSplit.lean
+      11  Formalism/SizeWindowBrackets/ChainSlopeWindows/PrimeCongruenceConditions.lean
+      11  Development/AutomorphicArithmetic/CyclotomicBounds/ClassNumberBounds/InertiaRamification/HostPrimes.lean
+      10  GroundTheory/AutomorphicForms/GL2/GodementSectionFactor.lean
+
+== chi_field : 391 hits in 86 files ==
+      62  Development/AutomorphicSpectrum/Proofs/BlockDecomposition/GodementFunctionalEquation.lean
+      24  Formalism/ThickAverageLoss/ThickAverageProofs/Balance.lean
+      23  Formalism/SizeWindowBrackets/ChainSlopeWindows/StronglyIrreducible.lean
+      19  Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/FrameFacts.lean
+      16  Development/AutomorphicSpectrum/Proofs/BlockDecomposition/TateLocalL1.lean
+      13  Formalism/HermitianCurvature/HermitianCurvatureProofs/IsOpenDetBottomLeftNeZero.lean
+      12  Formalism/SizeWindowBrackets/ChainSlopeWindows/GaloisMapComplexConjugation.lean
+      11  Formalism/ThickAverageLoss/ThickAverageProofs/ThickAverage.lean
+      10  Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ThetaRankTwoFunctionalEquation.lean
+       9  Formalism/SizeWindowBrackets/ChainSlopeWindows/LipschitzWeightAndMinimum.lean
+       6  PositivityTheory/AutomorphicForms/PublishedInputs/CuspidalContinuity/ArchimedeanCuspidal/KFiniteVectors/LocallyConstantMajorants/GammaSplitting/UnipotentTateFunctionalEquation.lean
+       6  Formalism/SharpRestriction/GlobalSchurBounds/RamificationTwoAndConjugationAtQAndD.lean
+
+== legendre : 376 hits in 141 files ==
+       9  GroundTheory/HeightsAndTheta/Theta/EisensteinZeta/MirabolicInduction/CfunOmStatements.lean
+       8  GroundTheory/GlobalFields/AnalyticClassNumber/QuadraticLegendre.lean
+       8  Formalism/TameInertiaTowers/CentralOrderTwo/OddEqOneOfSubOneMem.lean
+       8  Formalism/LocalToGlobal/TorsionIntegrality/EisensteinTranslationProducts/AnalyticIdentityTheorems/Legendre.lean
+       8  Formalism/CMTypeGalois/CMTypeFrobenius/MQFrob.lean
+       8  Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/ClassFieldRamification/ExistsQuadraticGaussSum.lean
+       8  Development/AbelianVarietyTheory/Proofs/UnramifiedDepth/LegendreAndCapelli.lean
+       7  Formalism/LocalToGlobal/UnitaryNorms/ArtGCut.lean
+       7  Development/AutomorphicArithmetic/CyclotomicBounds/ClassNumberBounds/InertiaRamification/QuadraticCharacterLegendreSymbol.lean
+       7  Development/AbelianVarietyTheory/Proofs/UnramifiedDepth/LegendreBoundsFactorialMultiIndexCapelli.lean
+       7  Development/AbelianVarietyTheory/Proofs/SatakeParameters/KappaOnNonsplitPrimes.lean
+       6  GroundTheory/HeightsAndTheta/Theta/EisensteinZeta/MirabolicInduction/EqOneOrNegOneOfMemTorsion.lean
+
+== data_params : 181 hits in 171 files ==
+       2  Formalism/SharpRestriction/ParConsts.lean
+       2  Formalism/SharpRestriction/LevelLetterCocycles/ReducibleThreeDim.lean
+       2  Formalism/SharpRestriction/Divisibility/WeightFamilies.lean
+       2  Formalism/SharpRestriction/Divisibility/WeightAlgebra.lean
+       2  Formalism/SharpRestriction/Divisibility/LocalQuadraticParts.lean
+       2  Formalism/SharpRestriction/Divisibility/AbsolutelyIrreducibleSpan.lean
+       2  Development/AutomorphicArithmetic/ResidueCharacters/TwistedPlaces.lean
+       2  Development/AbelianVarietyTheory/BlockTheory/ThetaLiftGeometry/UnramifiedLatticeEmbeddings.lean
+       2  Development/AbelianVarietyTheory/BlockTheory/ThetaLiftGeometry/BlockSumMultiplicities.lean
+       2  Development/AbelianVarietyTheory/BlockTheory/HeightDefect/ThetaWeightHeightConstants.lean
+       1  Formalism/SharpRestriction/LevelLetterCocycles/SmallTwists/RowSmall.lean
+       1  Formalism/SharpRestriction/LevelLetterCocycles/EmbeddingTypeJumps.lean
+
+== zero_count : 173 hits in 60 files ==
+      22  Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/SumIndicatorLeZsumR.lean
+       9  Formalism/PeriodIntegrals/UnitaryGroupMassFormula/PartialDerivativeMinors/LapForms.lean
+       9  Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/PsiChiPowerSavingBound.lean
+       9  Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/Psi0ZeroFreeRegionBound.lean
+       8  Development/AutomorphicSpectrum/Definitions/GlobalGeometry/ExistsOfPolAV.lean
+       8  Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/PsiChiSqrtLogBound.lean
+       6  Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/DirichletLZerosInWindowFiniteAndPosOrder.lean
+       6  Development/AbelianVarietyTheory/Proofs/DivisorProofs/CardTorsionKilledByIdealCharZero.lean
+       5  Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/ExplicitFormulaDirichletZerosRightHalf.lean
+       4  Development/WeilBound/CoreStatements/HomogeneousNonvanishing/LatticeIntegrallyClosedTorsion.lean
+       4  Development/AutomorphicSpectrum/Proofs/GeometryProofs/FullTorsionIntegrallyClosed.lean
+       4  Development/AbelianVarietyTheory/Definitions/Foundations/NormOneSevenOneTwo.lean
+
+== dlfun : 111 hits in 52 files ==
+       8  Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/NegReLogDerivPrincipalLFunctionLe.lean
+       8  Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/LFunctionConjEqZero.lean
+       6  Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/ExplicitFormulaDirichletZerosRightHalf.lean
+       5  Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/OrderNeTop.lean
+       5  Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/ExceptionalDirichletZeroUniqueZeroFreeRegion.lean
+       4  Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/LogFreeZeroDensityDirichletOneModulus.lean
+       4  Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/IteratedDerivLogDerivDirichletLViaNearbyZeros.lean
+       4  Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/AnalyticAtDslope.lean
+       3  Statements.lean
+       3  Main.lean
+       3  Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/Psi0TruncatedExplicitFormula.lean
+       2  Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ExplicitFormula/LStructC.lean
+
+== rh : 46 hits in 25 files ==
+       6  Formalism/SizeWindowBrackets/SlopesFromSizeAndCount.lean
+       5  Formalism/SizeWindowBrackets/SmoothedRemainderRealIntegralFormula.lean
+       4  Formalism/SizeWindowBrackets/Losses5OfLossHypD.lean
+       4  Formalism/SizeWindowBrackets/Chain2aCoreNoAnalytic.lean
+       3  Formalism/SizeWindowBrackets/SChain.lean
+       3  Formalism/SizeWindowBrackets/GrowthBoundGivesRiemannHypothesis.lean
+       2  Formalism/ThickAverageLoss/Statement.lean
+       2  Formalism/GammaFactorNonvanishing/RhOfRight.lean
+       1  Supplements/Kernels/MainTheorems.lean
+       1  Main.lean
+       1  Formalism/ZetaRealNonvanish.lean
+       1  Formalism/WideWeightTheorem/Statement.lean
+
+== grh_abbr : 10 hits in 9 files ==
+       2  Development/WeilBound/RepresentationTheoryGL/SiegelWeilProof/HolomorphicContinuation/CayleyCosetSums/GRHaar.lean
+       1  Development/WeilBound/RepresentationTheoryGL/SiegelWeilProof/HolomorphicContinuation/CayleyCosetSums/SmoothTop.lean
+       1  Development/WeilBound/RepresentationTheoryGL/SiegelWeilProof/HolomorphicContinuation/CayleyCosetSums/SmoothPf.lean
+       1  Development/WeilBound/RepresentationTheoryGL/SiegelWeilProof/HolomorphicContinuation/CayleyCosetSums/Nonzero.lean
+       1  Development/WeilBound/RepresentationTheoryGL/SiegelWeilProof/HolomorphicContinuation/CayleyCosetSums/KerInt.lean
+       1  Development/WeilBound/RepresentationTheoryGL/SiegelWeilProof/HolomorphicContinuation/CayleyCosetSums/IsCompactKSet.lean
+       1  Development/WeilBound/RepresentationTheoryGL/SiegelWeilProof/HolomorphicContinuation/CayleyCosetSums/IntegralRestrictC.lean
+       1  Development/WeilBound/RepresentationTheoryGL/SiegelWeilProof/HolomorphicContinuation/CayleyCosetSums/ConvPhi.lean
+       1  Development/WeilBound/RepresentationTheoryGL/SiegelWeilProof/HolomorphicContinuation/CayleyCosetSums/ContDiffMatrixMul.lean
+

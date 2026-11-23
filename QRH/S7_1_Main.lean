@@ -1,4 +1,10 @@
 import QRH.S7_1_Core
+import OrderPreservingBijection.stage_3
+import OrderPreservingBijection.Chi5Real
+import OrderPreservingBijection.LSeriesConj
+import Mathlib.NumberTheory.LSeries.DirichletContinuation
+import Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt
+import Mathlib.Analysis.Calculus.LogDeriv
 import Mathlib.Analysis.SpecialFunctions.Exp
 import Mathlib.Analysis.SpecialFunctions.Log.Basic
 import Mathlib.Analysis.SpecialFunctions.Pow.Real
@@ -56,25 +62,81 @@ def pairConstant (K : ℝ → ℝ) (δ N : ℝ) (Z : ZeroSet) : ℝ :=
     if p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2 then K (δ * (p.1 - p.2).im) ^ 2 else 0) / N
 
 /-- 弱实部假设（BGS 同款）：对 T^{3/8}<γ≤T 的零点，|β−1/2| ≤ 1/(2 log T)。 -/
-def WeakRealPart (T : ℝ) (Z : ZeroSet) : Prop := True
+def WeakRealPart (_T : ℝ) (_Z : ZeroSet) : Prop := True
 
-/-- 模 5 实特征 χ_5(n)（二次特征；L(s,χ_5) 的 Dirichlet 系数，Lean 侧抽象常量）。 -/
-opaque chi5 : ℕ → ℝ
+/-- 模 5 实特征 χ_5(n)。**2026-11-23（B 方案）：原 `opaque chi5 : ℕ → ℝ` 已换为真定义**——
+    取 `OrderPreservingBijection.chi5Dirichlet`（= `MulChar.ofUnitHom chi5UnitHom`，`stage_3.lean:1155`，
+    其乘法性由 `chi5UnitFun_mul` 16 情形枚举证出）在 `ZMod 5` 上的值再投影到 ℝ；
+    模 5 二次特征取值 ∈ {0, ±1}，实值投影与 `chi5UnitFun` 一致。 -/
+noncomputable def chi5 : ℕ → ℝ := fun n =>
+  (OrderPreservingBijection.chi5Dirichlet (n : ZMod 5)).re
 
-/-- L(s, χ₅)（模 5 实特征）：正式对象（opaque 载体；Dirichlet 卷积表示见 `lfun_dirichlet_series`，
-    为长线真证目标）。 -/
-opaque LFun : ℂ → ℂ
+/-- 口径自检（2026-11-23，`lfun_conj_symm` 第 ① 步）：`chi5 : ℕ → ℝ` 的实数投影与
+    `DirichletCharacter ℂ 5` 的取值完全一致——即上一行的 `.re` 不是「丢信息」，
+    而是真的把实值特征写成实数（依据 `OrderPreservingBijection.chi5Dirichlet_eq_re`，
+    该引理已证、公理集仅 `[propext, Classical.choice, Quot.sound]`）。 -/
+lemma chi5_eq_chi5Dirichlet (n : ℕ) : (chi5 n : ℂ) = OrderPreservingBijection.chi5Dirichlet (n : ZMod 5) := by
+  simpa [chi5] using (OrderPreservingBijection.chi5Dirichlet_eq_re n).symm
+
+/-- L(s, χ₅)。**2026-11-23（B 方案）：原 `opaque LFun : ℂ → ℂ` 已换为真定义**——
+    即 mathlib `DirichletCharacter.LFunction χ₅`（Hurwitz ζ 线性组合给出的解析延拓，
+    定义于 `Mathlib/NumberTheory/LSeries/DirichletContinuation.lean:61`）。
+    口径边界：`LFunction` 与 `LSeries χ₅` 只在 `1 < re s` 上一致（`LFunction_eq_LSeries`），
+    `LSeries` 在 `re s ≤ 1` 被**定义**为 0，故原假 axiom `lfun_dirichlet_series` 无法以
+    `0 < re s` 口径回归（已于增量⑪撤除）。 -/
+noncomputable def LFun : ℂ → ℂ := fun z =>
+  DirichletCharacter.LFunction OrderPreservingBijection.chi5Dirichlet z
 
 /-- L(s, χ_5) 的零点集：临界带 0 < Re s < 1 内 L 的零点（差型配对关心的零点域；
     原占位 `{z | True}` 已替换为真实对象）。 -/
 def zerosLChi5 : ZeroSet := { z : ℂ | 0 < z.re ∧ z.re < 1 ∧ LFun z = 0 }
 
-/-- (L0a) L 的共轭对称：L(s,χ₅) 实系数（模 5 实特征）⟹ L(conj s) = conj(L(s))。 -/
-axiom lfun_conj_symm : ∀ z : ℂ, LFun (starRingEnd ℂ z) = starRingEnd ℂ (LFun z)
+/-- 截断零点集 `Z_T := zerosLChi5 ∩ {|Im z| ≤ T}`（BGS 配对公式的**有限口径**：配对和只在
+    零点局部有限 + 紧竖带内跑，`∑'` 自动退化为 Finset 和）。
+    **2026-11-23：本定义自 `S7_1_Stage3` 上移至本文件**——`bgs3_pair_expansion` 的归一化分母
+    必须是真实零点计数 `N_L T`，而 Stage3 依赖 Main（不可反向 import），故计数件随定义一起上移。 -/
+def zerosLChi5UpTo (T : ℝ) : Set ℂ := { z : ℂ | z ∈ zerosLChi5 ∧ |z.im| ≤ T }
 
-/-- (L0b) L 的 Dirichlet 卷积表示：Re s > 0 时 L(s) = Σ_{n≥1} χ₅(n)/n^s。 -/
-axiom lfun_dirichlet_series :
-  ∀ s : ℂ, 0 < s.re → LFun s = ∑' n : ℕ, (chi5 n : ℂ) * Complex.cpow (n : ℂ) (-s)
+/-- **L(s,χ₅) 零点计数函数（2026-11-23：原数据型 `axiom N_L : ℝ → ℝ` 已降为真定义）**——
+    临界带内 `|Im z| ≤ T` 的零点个数，即 `Z_T` 的基数。
+    用 `Set.ncard`（数学惯例：无穷集取 0；`Z_T` 对**任意** `T` 有限——`zerosLChi5_bounded_finite`
+    （Stage3），故此处恒等于真计数）。
+    **口径后果（比原 axiom 更强）**：`N_L_lower_bound` / `pair_count_bound` /
+    `bgs3_pair_expansion` 从此引用**真实零点数**，不再引用自由浮动的算子。 -/
+noncomputable def N_L (T : ℝ) : ℝ := ((zerosLChi5UpTo T).ncard : ℝ)
+
+/-- `N_L` 非负（真证）：零数个数的 ℝ 值投影 ≥ 0。 -/
+lemma N_L_nonneg (T : ℝ) : 0 ≤ N_L T := by
+  unfold N_L
+  exact Nat.cast_nonneg _
+
+/-- (L0a) L 的共轭对称：L(s,χ₅) 实系数（模 5 实特征）⟹ L(conj s) = conj(L(s))。
+    **2026-11-23：已从 axiom 降为 theorem（全平面，无条件）**。
+    链：`LSeriesConj.LFunction_conj_global`（χ 实值 + χ ≠ 1 ⟹ `L(conj s) = conj(L s)` 对全 `s`；
+    其内部走「`f` 与 `conj∘f∘conj` 均在 `univ` 上解析 + `{1 < re z}` 上相等 + `AnalyticOnNhd.eq_of_eventuallyEq`
+    解析延拓唯一性」，与 mathlib `riemannZeta_conj` 同款）
+    ∘ χ₅ 实性（`chi5Dirichlet_im_zero`，第 ① 步）
+    ∘ χ₅ ≠ 1（`chi5Dirichlet_ne_one`，第 ① 步，保证 `LFunction` 全纯）
+    ∘ 收敛半平面相等（`LFunction_conj_of_real_coeff`，第 ② 步）。 -/
+theorem lfun_conj_symm : ∀ z : ℂ, LFun (starRingEnd ℂ z) = starRingEnd ℂ (LFun z) := by
+  intro z
+  exact LSeriesConj.LFunction_conj_global OrderPreservingBijection.chi5Dirichlet
+    OrderPreservingBijection.chi5Dirichlet_im_zero OrderPreservingBijection.chi5Dirichlet_ne_one z
+
+/-- (L0a) 的**收敛半平面版本**（`1 < re z`）——真证；上面那条现已是 theorem，本条作为独立短链保留。
+    链：`LFunction_conj_of_real_coeff`（`LSeriesConj` 模块，第 ② 步）
+    ∘ χ₅ 实性（`chi5Dirichlet_im_zero`，第 ① 步）
+    ∘ `LFunction = LSeries`（`LFunction_eq_LSeries`，`1 < re s`）。 -/
+theorem lfun_conj_symm_of_one_lt_re (z : ℂ) (hz : 1 < z.re) :
+    LFun (starRingEnd ℂ z) = starRingEnd ℂ (LFun z) :=
+  LSeriesConj.LFunction_conj_of_real_coeff OrderPreservingBijection.chi5Dirichlet
+    OrderPreservingBijection.chi5Dirichlet_im_zero hz
+
+/- (L0b) 【2026-11-23 已撤除：原 `axiom lfun_dirichlet_series` 断言 `0 < re s` 时
+    `LFun s = Σ χ₅(n) n^{-s}`，该命题在 `0 < re s ≤ 1` 区间为**假**（原始级数只在 `re s > 1` 收敛），
+    且全库 **0 处代码使用**（仅文档提及）。撤除不动任何证明。
+    B 方案重开口径时以真定理形式回归：`1 < s.re → LFun s = LSeries χ₅ s`
+    （mathlib `DirichletCharacter.LFunction_eq_LSeries` 直接给）。 -/
 
 /-- 复共轭不变性（零点关于实轴对称——差型配对转和型的依据；由 L0a 推出）。 -/
 lemma zerosLChi5_conj_closed : ConjClosed zerosLChi5 := by
@@ -95,8 +157,11 @@ lemma zerosLChi5_conj_closed : ConjClosed zerosLChi5 := by
 数学陈述的 axiom，名字与陈述一一对应（非空洞占位）；形式化真证为长线目标
 （PNT in AP 量级）。-/
 
-/-- von Mangoldt 函数 Λ(n)（素数幂对数计数；数论实际对象，Lean 侧抽象常量）。 -/
-opaque vonMangoldt : ℕ → ℝ
+/-- von Mangoldt 函数 Λ(n)。**2026-11-23（B 方案续）：原 `opaque vonMangoldt : ℕ → ℝ` 已换为真定义**——
+    即 mathlib `ArithmeticFunction.vonMangoldt : ArithmeticFunction ℝ`
+    （`Mathlib/NumberTheory/VonMangoldt.lean:65`；`n = p^k` 上取 `log p`，否则 0），
+    经 `ArithmeticFunction` 到函数的强制转换落成 `ℕ → ℝ`。 -/
+noncomputable def vonMangoldt : ℕ → ℝ := fun n => ArithmeticFunction.vonMangoldt n
 
 /-- 零点加权和（Yildirim 公式 (6) 左侧）：Σ_ρ x^{ρ−r}/(ρ−r)——真实定义：复和取实部
     （Complex.cpow 实数底；零点和的无条件收敛需 N(T) 计数估计——(L1c) 长线，此处为语义落位；
@@ -114,19 +179,25 @@ def primePowerSum (χ : ℕ → ℝ) (r x : ℝ) : ℝ :=
 def trivialTerm (r x : ℝ) : ℝ :=
   ∑' ℓ : ℕ, Real.rpow x (-((2 * (ℓ : ℝ)) + r)) / ((2 * (ℓ : ℝ)) + r)
 
-/-- 对数导数值项：(L′/L)(r,χ)（Yildirim 公式 (6) 右侧末项）。 -/
-opaque logDerivTerm (r : ℝ) : ℝ
+/-- 对数导数值项 `(L′/L)(r,χ₅)`。**2026-11-23（B 方案续二）：原 `opaque logDerivTerm (r : ℝ) : ℝ`
+    已换为真定义**——`(logDeriv LFun r).re`，其中 mathlib `logDeriv f := deriv f / f`
+    （`Mathlib/Analysis/Calculus/LogDeriv.lean:32`，`𝕜 = 𝕜' = ℂ`）。
+    取实部：`r` 为实数点时 L 与 L′ 均为实值（由 χ₅ 系数实 ⟹ 共轭对称 `lfun_conj_symm` 保证），
+    故 `.re` 与 `(L′/L)(r,χ₅)` 的实数口径一致；该口径的严格证明依赖 `lfun_conj_symm`（真命题，待证），
+    此处先落定为实部以保持类型为 ℝ。 -/
+noncomputable def logDerivTerm (r : ℝ) : ℝ := (logDeriv LFun (r : ℂ)).re
 
 /-- (L4) 离线（off-critical）误差项：BGS 引理 4 机制的 L 版余项（抽象算子）。 -/
 opaque offCriticalError (T : ℝ) : ℝ
 
 /-! ### 2.1 (L1) Landau/Weil 显式公式 L 版（精确陈述；Yildirim 1991 公式 (6)）
 
-数学内容：对 L(s,χ_5)（模 5 实特征），0<r、x≥1、r 非零点时，
+数学内容：对 L(s,χ_5)（模 5 实特征），0<r、x>1、r 非零点时（x=1 处平凡项为调和型
+  发散奇点，口径排除——见 2.1.2 小节，2026-10-29），
   Σ_ρ x^{ρ−r}/(ρ−r) = Σ_ℓ x^{−(2ℓ+r+a)}/(2ℓ+r+a) − Σ'_{n≤x} Λ(n)χ(n)/n^r − (L′/L)(r,χ)。
 （Yildirim 1991 公式 (6)；对 L(s,χ) 无条件成立。） -/
 axiom landau_explicit_L :
-  ∀ (r x : ℝ), 0 < r → (1 : ℝ) ≤ x → (∀ z ∈ zerosLChi5, z ≠ r) →
+  ∀ (r x : ℝ), 0 < r → (1 : ℝ) < x → (∀ z ∈ zerosLChi5, z ≠ r) →
     zeroWeightedSum zerosLChi5 r x =
       trivialTerm r x - primePowerSum chi5 r x - logDerivTerm r
 
@@ -142,7 +213,7 @@ logDerivTerm 保持 opaque（导数件，下一轮）；zeroWeightedSum 的零�
 
 /-- (L1b-A) 素数项代数桥：n^{−1/2} = (√n)⁻¹（n ≥ 1）——(L1) r=1/2 特例与
     (L2) primeSum（K≡1 时）的衔接恒等式。 -/
-lemma primePowerSum_half_eq_sqrt (n : ℕ) (hn : 1 ≤ n) :
+lemma primePowerSum_half_eq_sqrt (n : ℕ) (_hn : 1 ≤ n) :
     Real.rpow (n : ℝ) (-(1 / 2 : ℝ)) = (Real.sqrt (n : ℝ))⁻¹ := by
   have hn0 : (0 : ℝ) ≤ (n : ℝ) := by exact_mod_cast (Nat.zero_le n)
   calc
@@ -204,8 +275,9 @@ lemma trivialTerm_term_le (hr : 0 < r) (hx : (1 : ℝ) < x) (ℓ : ℕ) :
     _ = Real.rpow x (-r) * (Real.rpow x (-2)) ^ ℓ / r := by ring
 
 /-- (L1b-B) 平凡项收敛件：x > 1、r > 0 时 trivialTerm 级数可和
-    （比较判别 + 几何级数；x = 1 边界为调和型发散——如实记录口径，
-    landau_explicit_L 的 1 ≤ x 前提在 x=1 处需单独处理）。 -/
+    （比较判别 + 几何级数）。x = 1 边界为调和型发散（见 2.1.2「x=1 边界口径」小节：
+    trivialTerm_one 将其归结为 Σ 1/(2ℓ+r)）；2026-10-29 起 landau_explicit_L 前提已
+    收紧为 1 < x，x=1 不在显式公式适用域。 -/
 lemma trivialTerm_summable (hr : 0 < r) (hx : (1 : ℝ) < x) :
     Summable (fun ℓ : ℕ => Real.rpow x (-((2 * (ℓ : ℝ)) + r)) / ((2 * (ℓ : ℝ)) + r)) := by
   have hx0 : (0 : ℝ) < x := lt_trans (by norm_num : (0 : ℝ) < (1 : ℝ)) hx
@@ -227,6 +299,30 @@ lemma trivialTerm_summable (hr : 0 < r) (hx : (1 : ℝ) < x) :
     (fun ℓ => trivialTerm_term_nonneg hr hx ℓ)
     (fun ℓ => trivialTerm_term_le hr hx ℓ)
     hg
+
+/-! ### 2.1.2 (L1b-C) x=1 边界口径（2026-10-29；口径决定，非深证明）
+
+trivialTerm r x = Σ_ℓ x^{−(2ℓ+r)}/(2ℓ+r) 在 x=1 处为调和型发散：逐项 x=1 化为
+1/(2ℓ+r)，与 Σ_n 1/n 同阶（1/(2ℓ+r) ~ 1/(2ℓ)，比较判别）——故 x=1 不收敛、
+不在显式公式适用域。约定：landau_explicit_L 前提为 1 < x（严格，已收紧），
+x=1 处的 ∑' 值（mathlib 对不可和级数返回默认 0）不作数学意义引用。
+本区钉两项约定件（真实可引用事实）：trivialTerm_one_term（x=1 逐项等式）、
+trivialTerm_one（x=1 时 trivialTerm 归结为调和型级数）。调和发散的正式
+发散性证明（¬ Summable）留作可选后续件——数学论证见文档《路2攻防XLII-
+S7.11-x=1边界口径》；此处仅记录口径，不立深证明。 -/
+
+/-- (L1b-C1) x=1 逐项等式：被加项化为 1/(2ℓ+r)（调和型项）。 -/
+lemma trivialTerm_one_term (r : ℝ) (ℓ : ℕ) :
+    Real.rpow (1 : ℝ) (-((2 * (ℓ : ℝ)) + r)) / ((2 * (ℓ : ℝ)) + r) =
+      (1 : ℝ) / ((2 * (ℓ : ℝ)) + r) := by
+  simp
+
+/-- (L1b-C2) x=1 口径件：trivialTerm r 1 = Σ_ℓ 1/(2ℓ+r)（调和型级数，发散——
+    仅作口径事实引用，发散性证明留后续件）。 -/
+lemma trivialTerm_one (r : ℝ) :
+    trivialTerm r 1 = ∑' ℓ : ℕ, (1 : ℝ) / ((2 * (ℓ : ℝ)) + r) := by
+  unfold trivialTerm
+  exact tsum_congr fun ℓ => trivialTerm_one_term r ℓ
 
 /-! ### 2.2 (L2) Siegel–Walfisz（精确陈述；模 5 点态、无条件、子指数）
 
@@ -263,6 +359,9 @@ axiom siegel_walfisz_chi5 :
 def primeSum (K : ℝ → ℝ) (X δ : ℝ) : ℝ :=
   ∑ n ∈ Finset.Icc 1 ⌊X⌋₊,
     (vonMangoldt n * chi5 n) * ((Real.sqrt (n : ℝ))⁻¹ * fourierCos K (δ * Real.log (n : ℝ)))
+
+/-- 引理 5（K̂ 件）：Khat 的频域窄支撑（supp K̂ ⊂ [−1,1]）——axiom（积分层，文档 S7.1 §3）。 -/
+axiom bgs5_khat_fourier_supp : ∀ u : ℝ, 1 < |u| → fourierCos Khat u = 0
 
 /-- Abel 求和（部分和版，真证）：Σ_{n=1..N} a_n·b_n = A_N·b_N − Σ_{n=1..N−1} A_n·(b_{n+1}−b_n)，
     A_n = Σ_{i=1..n} a_i（素数项 S(X) 的分部求和；S7.6 §2.4 离散骨架，sum_abel 的部分和变形）。
@@ -338,17 +437,237 @@ lemma sum_abel_partial (N : ℕ) (a b : ℕ → ℝ) :
               rw [hsucc]
 
 
-/-- 素数项权重件（axiom，解析件）：b_n = n^{−1/2}·K̂(δ·log n) 有界与平滑——
-    |b_n| ≤ M·n^{−1/2} 且 |b_{n+1}−b_n| ≤ M·n^{−3/2}（单一常数 M 兼作；
-    K̂ 光滑 + 核宽缩放，文档 S7.6 §2.4 / S7.3 定理 N1 机制；权重为频域核 K̂=fourierCos K）。 -/
-axiom prime_weight_bounds (K : ℝ → ℝ) (δ : ℝ) :
-  ∃ M : ℝ, 0 ≤ M ∧
-    (∀ n : ℕ, 1 ≤ n →
-      |(Real.sqrt (n : ℝ))⁻¹ * fourierCos K (δ * Real.log (n : ℝ))| ≤ M * (Real.sqrt (n : ℝ))⁻¹) ∧
-    (∀ n : ℕ, 1 ≤ n →
-      |(Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ * fourierCos K (δ * Real.log ((n + 1 : ℕ) : ℝ))
-        - (Real.sqrt (n : ℝ))⁻¹ * fourierCos K (δ * Real.log (n : ℝ))|
-        ≤ M * (Real.sqrt (n : ℝ))⁻¹ ^ 3)
+/-- 对数差分界：|log(n+1) − log n| = log(n+1) − log n ≤ 1/n（n ≥ 1；log 单调 + log x ≤ x−1）。 -/
+lemma log_succ_sub_le_inv (n : ℕ) (hn : 1 ≤ n) :
+    |Real.log ((n + 1 : ℕ) : ℝ) - Real.log (n : ℝ)| ≤ (n : ℝ)⁻¹ := by
+  have hnpos : (0 : ℝ) < (n : ℝ) := by
+    exact lt_of_lt_of_le (by norm_num : (0 : ℝ) < (1 : ℝ)) (by exact_mod_cast hn)
+  have hmono : Real.log (n : ℝ) ≤ Real.log ((n + 1 : ℕ) : ℝ) := by
+    exact Real.log_le_log hnpos (by exact_mod_cast (Nat.le_succ n))
+  rw [abs_of_nonneg (sub_nonneg.mpr hmono)]
+  have hdiv : Real.log (((n + 1 : ℕ) : ℝ) / (n : ℝ))
+      = Real.log ((n + 1 : ℕ) : ℝ) - Real.log (n : ℝ) :=
+    Real.log_div (ne_of_gt (by positivity : (0 : ℝ) < (n + 1 : ℕ))) hnpos.ne'
+  have hratio : ((n + 1 : ℕ) : ℝ) / (n : ℝ) = 1 + (n : ℝ)⁻¹ := by
+    field_simp [hnpos.ne']
+    norm_cast
+  have hle : Real.log (1 + (n : ℝ)⁻¹) ≤ (n : ℝ)⁻¹ := by
+    have hx : 0 < 1 + (n : ℝ)⁻¹ := by positivity
+    have hb := Real.log_le_sub_one_of_pos hx
+    rwa [show 1 + (n : ℝ)⁻¹ - 1 = (n : ℝ)⁻¹ by ring] at hb
+  rwa [← hratio, hdiv] at hle
+
+/-- 逆 sqrt 单调：n ≥ 1 ⟹ (√(n+1))⁻¹ ≤ (√n)⁻¹。 -/
+lemma inv_sqrt_succ_le (n : ℕ) (hn : 1 ≤ n) :
+    (Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ ≤ (Real.sqrt (n : ℝ))⁻¹ := by
+  have hsqrtn : 0 < Real.sqrt (n : ℝ) :=
+    Real.sqrt_pos_of_pos (lt_of_lt_of_le (by norm_num : (0 : ℝ) < (1 : ℝ)) (by exact_mod_cast hn))
+  have hsqrtn1 : 0 < Real.sqrt ((n + 1 : ℕ) : ℝ) := by
+    exact Real.sqrt_pos_of_pos (by positivity : (0 : ℝ) < (n + 1 : ℕ))
+  exact (inv_le_inv₀ hsqrtn1 hsqrtn).2 (Real.sqrt_le_sqrt (by exact_mod_cast (Nat.le_succ n)))
+
+/-- (√n)⁻¹·(√n)⁻¹ = n⁻¹（n ≥ 1）。 -/
+lemma inv_sqrt_sq_eq_inv (n : ℕ) (hn : 1 ≤ n) :
+    (Real.sqrt (n : ℝ))⁻¹ * (Real.sqrt (n : ℝ))⁻¹ = (n : ℝ)⁻¹ := by
+  have hnpos : (0 : ℝ) < (n : ℝ) := by
+    exact lt_of_lt_of_le (by norm_num : (0 : ℝ) < (1 : ℝ)) (by exact_mod_cast hn)
+  have hsq : (Real.sqrt (n : ℝ)) ^ 2 = (n : ℝ) := Real.sq_sqrt (le_of_lt hnpos)
+  calc
+    (Real.sqrt (n : ℝ))⁻¹ * (Real.sqrt (n : ℝ))⁻¹
+        = ((Real.sqrt (n : ℝ)) * (Real.sqrt (n : ℝ)))⁻¹ := by rw [← mul_inv]
+    _ = ((Real.sqrt (n : ℝ)) ^ 2)⁻¹ := by ring_nf
+    _ = (n : ℝ)⁻¹ := by rw [hsq]
+
+/-- 逆 sqrt 差分界：n ≥ 1 ⟹ |(√(n+1))⁻¹ − (√n)⁻¹| ≤ ((√n)⁻¹)³
+    （有理化：√(n+1)−√n = 1/(√(n+1)+√n)；分母各项 ≥ √n ⟹ 分数 ≤ (√n)^{−3}）。 -/
+lemma inv_sqrt_succ_sub_le (n : ℕ) (hn : 1 ≤ n) :
+    |(Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ - (Real.sqrt (n : ℝ))⁻¹|
+      ≤ (Real.sqrt (n : ℝ))⁻¹ ^ 3 := by
+  have hnpos : (0 : ℝ) < (n : ℝ) := by
+    exact lt_of_lt_of_le (by norm_num : (0 : ℝ) < (1 : ℝ)) (by exact_mod_cast hn)
+  have hsqrtn : 0 < Real.sqrt (n : ℝ) := Real.sqrt_pos_of_pos hnpos
+  have hsqrtn1 : 0 < Real.sqrt ((n + 1 : ℕ) : ℝ) := by
+    exact Real.sqrt_pos_of_pos (by positivity : (0 : ℝ) < (n + 1 : ℕ))
+  have hA : Real.sqrt (n : ℝ) ≤ Real.sqrt ((n + 1 : ℕ) : ℝ) := by
+    exact Real.sqrt_le_sqrt (by exact_mod_cast (Nat.le_succ n))
+  have hsqrt_diff : Real.sqrt ((n + 1 : ℕ) : ℝ) - Real.sqrt (n : ℝ)
+      = (Real.sqrt ((n + 1 : ℕ) : ℝ) + Real.sqrt (n : ℝ))⁻¹ := by
+    have hprod : (Real.sqrt ((n + 1 : ℕ) : ℝ) - Real.sqrt (n : ℝ))
+        * (Real.sqrt ((n + 1 : ℕ) : ℝ) + Real.sqrt (n : ℝ)) = 1 := by
+      have h1 : (Real.sqrt ((n + 1 : ℕ) : ℝ)) ^ 2 = ((n + 1 : ℕ) : ℝ) :=
+        Real.sq_sqrt (by positivity : (0 : ℝ) ≤ (n + 1 : ℕ))
+      have h2 : (Real.sqrt (n : ℝ)) ^ 2 = (n : ℝ) := Real.sq_sqrt (le_of_lt hnpos)
+      calc
+        (Real.sqrt ((n + 1 : ℕ) : ℝ) - Real.sqrt (n : ℝ))
+            * (Real.sqrt ((n + 1 : ℕ) : ℝ) + Real.sqrt (n : ℝ))
+            = (Real.sqrt ((n + 1 : ℕ) : ℝ)) ^ 2 - (Real.sqrt (n : ℝ)) ^ 2 := by ring
+        _ = ((n + 1 : ℕ) : ℝ) - (n : ℝ) := by rw [h1, h2]
+        _ = 1 := by norm_num
+    calc
+      Real.sqrt ((n + 1 : ℕ) : ℝ) - Real.sqrt (n : ℝ)
+          = (Real.sqrt ((n + 1 : ℕ) : ℝ) - Real.sqrt (n : ℝ)) * 1 := by ring
+      _ = (Real.sqrt ((n + 1 : ℕ) : ℝ) - Real.sqrt (n : ℝ))
+            * ((Real.sqrt ((n + 1 : ℕ) : ℝ) + Real.sqrt (n : ℝ))
+                * (Real.sqrt ((n + 1 : ℕ) : ℝ) + Real.sqrt (n : ℝ))⁻¹) := by
+            have hS : Real.sqrt ((n + 1 : ℕ) : ℝ) + Real.sqrt (n : ℝ) ≠ 0 :=
+              ne_of_gt (add_pos hsqrtn1 hsqrtn)
+            field_simp [hS]
+      _ = ((Real.sqrt ((n + 1 : ℕ) : ℝ) - Real.sqrt (n : ℝ))
+            * (Real.sqrt ((n + 1 : ℕ) : ℝ) + Real.sqrt (n : ℝ)))
+            * (Real.sqrt ((n + 1 : ℕ) : ℝ) + Real.sqrt (n : ℝ))⁻¹ := by ring
+      _ = (Real.sqrt ((n + 1 : ℕ) : ℝ) + Real.sqrt (n : ℝ))⁻¹ := by
+            rw [hprod]
+            ring
+  have habs : |(Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ - (Real.sqrt (n : ℝ))⁻¹|
+      = (Real.sqrt ((n + 1 : ℕ) : ℝ) * Real.sqrt (n : ℝ)
+          * (Real.sqrt ((n + 1 : ℕ) : ℝ) + Real.sqrt (n : ℝ)))⁻¹ := by
+    have hnonpos : (Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ - (Real.sqrt (n : ℝ))⁻¹ ≤ 0 := by
+      exact sub_nonpos.mpr (inv_sqrt_succ_le n hn)
+    rw [abs_of_nonpos hnonpos]
+    field_simp [hsqrtn.ne', hsqrtn1.ne']
+    rw [← neg_sub, hsqrt_diff]
+    field_simp [ne_of_gt (add_pos hsqrtn1 hsqrtn)]
+  have hden : Real.sqrt (n : ℝ) * Real.sqrt ((n + 1 : ℕ) : ℝ)
+        * (Real.sqrt ((n + 1 : ℕ) : ℝ) + Real.sqrt (n : ℝ))
+      ≥ (Real.sqrt (n : ℝ)) ^ 3 := by
+    have h1 : Real.sqrt (n : ℝ) * Real.sqrt (n : ℝ)
+        ≤ Real.sqrt (n : ℝ) * Real.sqrt ((n + 1 : ℕ) : ℝ) := by
+      exact mul_le_mul_of_nonneg_left hA (Real.sqrt_nonneg _)
+    have h2 : Real.sqrt (n : ℝ) ≤ Real.sqrt ((n + 1 : ℕ) : ℝ) + Real.sqrt (n : ℝ) := by
+      calc
+        Real.sqrt (n : ℝ) ≤ Real.sqrt (n : ℝ) + Real.sqrt ((n + 1 : ℕ) : ℝ) :=
+          le_add_of_nonneg_right (Real.sqrt_nonneg ((n + 1 : ℕ) : ℝ))
+        _ = Real.sqrt ((n + 1 : ℕ) : ℝ) + Real.sqrt (n : ℝ) := by ring
+    calc
+      Real.sqrt (n : ℝ) * Real.sqrt ((n + 1 : ℕ) : ℝ)
+          * (Real.sqrt ((n + 1 : ℕ) : ℝ) + Real.sqrt (n : ℝ))
+          ≥ Real.sqrt (n : ℝ) * Real.sqrt (n : ℝ) * Real.sqrt (n : ℝ) := by
+            exact mul_le_mul h1 h2 (Real.sqrt_nonneg _)
+              (mul_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _))
+      _ = (Real.sqrt (n : ℝ)) ^ 3 := by ring
+  have hdenpos : 0 < Real.sqrt (n : ℝ) * Real.sqrt ((n + 1 : ℕ) : ℝ)
+      * (Real.sqrt ((n + 1 : ℕ) : ℝ) + Real.sqrt (n : ℝ)) := by positivity
+  have hcube : 0 < (Real.sqrt (n : ℝ)) ^ 3 := by positivity
+  calc
+    |(Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ - (Real.sqrt (n : ℝ))⁻¹|
+        = (Real.sqrt (n : ℝ) * Real.sqrt ((n + 1 : ℕ) : ℝ)
+            * (Real.sqrt ((n + 1 : ℕ) : ℝ) + Real.sqrt (n : ℝ)))⁻¹ := by
+            simpa [mul_comm, mul_left_comm, mul_assoc] using habs
+    _ ≤ (Real.sqrt (n : ℝ))⁻¹ ^ 3 := by
+        have hle1 : (Real.sqrt (n : ℝ) * Real.sqrt ((n + 1 : ℕ) : ℝ)
+            * (Real.sqrt ((n + 1 : ℕ) : ℝ) + Real.sqrt (n : ℝ)))⁻¹
+            ≤ ((Real.sqrt (n : ℝ)) ^ 3)⁻¹ := by
+          exact (inv_le_inv₀ hdenpos hcube).2 hden
+        rwa [← inv_pow] at hle1
+
+/-- 素数项权重件（真证，Khat 特化）：b_n = n^{−1/2}·K̂(δ·log n) 有界与平滑——
+    |b_n| ≤ M·n^{−1/2} 且 |b_{n+1}−b_n| ≤ M·n^{−3/2}。
+    常数 M = L·δ + B：B = 1/(√2·|sin(1/√2)|)（`khat_global_bound` 全局一致界）、
+    L 为 K̂ 的 Lipschitz 常数（`khat_lipschitz`）。前置命名 axiom（Core §4b）：
+    `fourierCos_Khat`（定义一致件）+ `khat_lipschitz`（光滑件）；数学口径见文档 S7.6 §2.4。
+    平滑分支分解：Δb_n = A·(K̂_{n+1}−K̂_n) + (A−C)·K̂_n（A=(√(n+1))⁻¹、C=(√n)⁻¹），
+    |K̂_{n+1}−K̂_n| ≤ L·δ/n（Lipschitz + log 差分）、|A−C| ≤ C³（有理化）、A ≤ C、C² = n⁻¹。 -/
+theorem prime_weight_bounds_Khat (δ : ℝ) (hδ : 0 < δ) :
+    ∃ M : ℝ, 0 ≤ M ∧
+      (∀ n : ℕ, 1 ≤ n →
+        |(Real.sqrt (n : ℝ))⁻¹ * fourierCos Khat (δ * Real.log (n : ℝ))| ≤ M * (Real.sqrt (n : ℝ))⁻¹) ∧
+      (∀ n : ℕ, 1 ≤ n →
+        |(Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ * fourierCos Khat (δ * Real.log ((n + 1 : ℕ) : ℝ))
+          - (Real.sqrt (n : ℝ))⁻¹ * fourierCos Khat (δ * Real.log (n : ℝ))|
+          ≤ M * (Real.sqrt (n : ℝ))⁻¹ ^ 3) := by
+  rcases khat_lipschitz with ⟨L, hL0, hL⟩
+  let B : ℝ := 1 / (Real.sqrt 2 * |Real.sin (1 / Real.sqrt 2)|)
+  have hB0 : 0 ≤ B := by
+    dsimp [B]
+    exact one_div_nonneg.mpr (le_of_lt
+      (mul_pos (by positivity : (0 : ℝ) < Real.sqrt 2) (abs_pos.mpr sin_inv_sqrt2_ne_zero)))
+  let M : ℝ := L * δ + B
+  have hM0 : 0 ≤ M := by
+    dsimp [M]
+    exact add_nonneg (mul_nonneg hL0 (le_of_lt hδ)) hB0
+  have hBleM : B ≤ M := by
+    dsimp [M]
+    exact le_add_of_nonneg_left (mul_nonneg hL0 (le_of_lt hδ))
+  refine ⟨M, hM0, ?hb, ?hΔ⟩
+  · intro n hn
+    have hsqrt : 0 ≤ (Real.sqrt (n : ℝ))⁻¹ := by
+      exact inv_nonneg.mpr (Real.sqrt_nonneg _)
+    calc
+      |(Real.sqrt (n : ℝ))⁻¹ * fourierCos Khat (δ * Real.log (n : ℝ))|
+          = (Real.sqrt (n : ℝ))⁻¹ * |Khat (δ * Real.log (n : ℝ))| := by
+            rw [fourierCos_Khat, abs_mul, abs_of_nonneg hsqrt]
+      _ ≤ (Real.sqrt (n : ℝ))⁻¹ * B := by
+            exact mul_le_mul_of_nonneg_left (by simpa [B] using khat_global_bound (δ * Real.log (n : ℝ))) hsqrt
+      _ ≤ M * (Real.sqrt (n : ℝ))⁻¹ := by
+            simpa [mul_comm] using mul_le_mul_of_nonneg_right hBleM hsqrt
+  · intro n hn
+    let A : ℝ := (Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹
+    let C : ℝ := (Real.sqrt (n : ℝ))⁻¹
+    have hA0 : 0 ≤ A := by
+      dsimp [A]
+      exact inv_nonneg.mpr (Real.sqrt_nonneg _)
+    have hC0 : 0 ≤ C := by
+      dsimp [C]
+      exact inv_nonneg.mpr (Real.sqrt_nonneg _)
+    have hAC : |A - C| ≤ C ^ 3 := by
+      dsimp [A, C]
+      exact inv_sqrt_succ_sub_le n hn
+    have hAC' : A ≤ C := by
+      dsimp [A, C]
+      exact inv_sqrt_succ_le n hn
+    have hdecomp :
+        (Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ * fourierCos Khat (δ * Real.log ((n + 1 : ℕ) : ℝ))
+          - (Real.sqrt (n : ℝ))⁻¹ * fourierCos Khat (δ * Real.log (n : ℝ))
+        = A * (Khat (δ * Real.log ((n + 1 : ℕ) : ℝ)) - Khat (δ * Real.log (n : ℝ)))
+          + (A - C) * Khat (δ * Real.log (n : ℝ)) := by
+          dsimp [A, C]
+          rw [fourierCos_Khat, fourierCos_Khat]
+          ring
+    rw [hdecomp]
+    have hKdiff :
+        |Khat (δ * Real.log ((n + 1 : ℕ) : ℝ)) - Khat (δ * Real.log (n : ℝ))|
+          ≤ L * δ * (n : ℝ)⁻¹ := by
+      have hx : |δ * Real.log ((n + 1 : ℕ) : ℝ) - δ * Real.log (n : ℝ)|
+          = δ * |Real.log ((n + 1 : ℕ) : ℝ) - Real.log (n : ℝ)| := by
+        rw [← mul_sub, abs_mul, abs_of_pos hδ]
+      calc
+        |Khat (δ * Real.log ((n + 1 : ℕ) : ℝ)) - Khat (δ * Real.log (n : ℝ))|
+            ≤ L * |δ * Real.log ((n + 1 : ℕ) : ℝ) - δ * Real.log (n : ℝ)| :=
+              hL (δ * Real.log ((n + 1 : ℕ) : ℝ)) (δ * Real.log (n : ℝ))
+        _ = L * (δ * |Real.log ((n + 1 : ℕ) : ℝ) - Real.log (n : ℝ)|) := by rw [hx]
+        _ ≤ L * (δ * (n : ℝ)⁻¹) := by
+              exact mul_le_mul_of_nonneg_left
+                (mul_le_mul_of_nonneg_left (log_succ_sub_le_inv n hn) (le_of_lt hδ)) hL0
+        _ = L * δ * (n : ℝ)⁻¹ := by ring
+    have hninv : (n : ℝ)⁻¹ ≤ C * C := by
+      dsimp [C]
+      exact le_of_eq (inv_sqrt_sq_eq_inv n hn).symm
+    have hfirst : A * (L * δ * (n : ℝ)⁻¹) ≤ C ^ 3 * (L * δ) := by
+      have hm1 : L * δ * (n : ℝ)⁻¹ ≤ L * δ * (C * C) := by
+        exact mul_le_mul_of_nonneg_left hninv (mul_nonneg hL0 (le_of_lt hδ))
+      have hm2 : A * (L * δ * (n : ℝ)⁻¹) ≤ C * (L * δ * (n : ℝ)⁻¹) := by
+        exact mul_le_mul_of_nonneg_right hAC'
+          (mul_nonneg (mul_nonneg hL0 (le_of_lt hδ)) (inv_nonneg.mpr (Nat.cast_nonneg n)))
+      have hm3 : C * (L * δ * (n : ℝ)⁻¹) ≤ C * (L * δ * (C * C)) := by
+        exact mul_le_mul_of_nonneg_left hm1 hC0
+      have hm4 : C * (L * δ * (C * C)) = C ^ 3 * (L * δ) := by ring
+      exact hm2.trans (hm3.trans hm4.le)
+    calc
+      |A * (Khat (δ * Real.log ((n + 1 : ℕ) : ℝ)) - Khat (δ * Real.log (n : ℝ)))
+        + (A - C) * Khat (δ * Real.log (n : ℝ))|
+          ≤ |A * (Khat (δ * Real.log ((n + 1 : ℕ) : ℝ)) - Khat (δ * Real.log (n : ℝ)))|
+            + |(A - C) * Khat (δ * Real.log (n : ℝ))| := abs_add_le _ _
+      _ = A * |Khat (δ * Real.log ((n + 1 : ℕ) : ℝ)) - Khat (δ * Real.log (n : ℝ))|
+          + |A - C| * |Khat (δ * Real.log (n : ℝ))| := by
+            rw [abs_mul, abs_mul, abs_of_nonneg hA0]
+      _ ≤ A * (L * δ * (n : ℝ)⁻¹) + |A - C| * B := by
+            exact add_le_add (mul_le_mul_of_nonneg_left hKdiff hA0)
+              (mul_le_mul_of_nonneg_left (by simpa [B] using khat_global_bound (δ * Real.log (n : ℝ))) (abs_nonneg _))
+      _ ≤ C ^ 3 * (L * δ) + C ^ 3 * B := by
+            exact add_le_add hfirst (mul_le_mul_of_nonneg_right hAC hB0)
+      _ = M * C ^ 3 := by
+            dsimp [M]
+            ring
 
 /-- 逐项望远镜引理（真证，S7.9）：n ≥ 1 ⟹ (√n)⁻¹ ≤ 2(√n − √(n−1))
     （因 √(n−1) ≤ √n，且 (√n−√(n−1))(√n+√(n−1)) = 1）。 -/
@@ -430,7 +749,7 @@ lemma sum_inv_sqrt_le_two_sqrt (N : ℕ) :
     Σ_{n≤min(X, e^{1/δ})} n^{−1/2} ≤ C₂，C₂ = 2√(e^{1/δ})（窗内有限和，差分部分 Σ A_n·Δb_n 的界）。
     注：原裸形式 Σ n^{−1/2}·e^{−c′√log n} 数学上发散（e^{−c′√log n} 亚多项式衰减，
     慢于任何幂），有界性来自核支撑截断（|δ·log n| ≤ 1 即 n ≤ e^{1/δ}）——S7.9 文档。 -/
-theorem sum_weight_decay (δ : ℝ) (hδ : 0 < δ) (c' : ℝ) (hc' : 0 < c') :
+theorem sum_weight_decay (δ : ℝ) (_hδ : 0 < δ) (c' : ℝ) (_hc' : 0 < c') :
   ∃ C₂ : ℝ, 0 ≤ C₂ ∧
     ∀ X : ℝ, (1 : ℝ) ≤ X →
       (∑ n ∈ Finset.Icc 1 (min ⌊X⌋₊ ⌊Real.exp (1 / δ)⌋₊),
@@ -558,7 +877,7 @@ theorem sum_sqrt_decay (δ : ℝ) (hδ : 0 < δ) (c' : ℝ) (hc' : 0 < c') :
 /-- 窗外拆窗（真证，2026-10-29）：素数项权重 K̂ 的频域窄支撑 ⟹ 和式截断到窗内——
     |δ·log n| > 1（即 n > e^{1/δ}）⟹ fourierCos K (δ·log n) = 0（KernelAdmissible 支撑件），
     故 primeSum K X δ = primeSum K (min X (e^{1/δ})) δ（任意 X ≥ 1，无需窗内前提 hXw）。 -/
-lemma primeSum_window_eq (K : ℝ → ℝ) (X δ : ℝ) (hX : (1 : ℝ) ≤ X) (hδ : 0 < δ)
+lemma primeSum_window_eq (K : ℝ → ℝ) (X δ : ℝ) (_hX : (1 : ℝ) ≤ X) (hδ : 0 < δ)
     (hKs : ∀ u : ℝ, 1 < |u| → fourierCos K u = 0) :
     primeSum K X δ = primeSum K (min X (Real.exp (1 / δ))) δ := by
   by_cases hXw : X ≤ Real.exp (1 / δ)
@@ -611,9 +930,8 @@ lemma primeSum_window_eq (K : ℝ → ℝ) (X δ : ℝ) (hX : (1 : ℝ) ≤ X) (
     满足窗内前提（min_le_right），原窗内证明套 X'。
     归一化 |prime|≤1（除以 N_L~T·logT 分母）说明留 bgs3 语境（文档层：SW 常数 c 实测
     1.70e−3 远小，分母归一后余量充分）。 -/
-theorem prime_sum_bound (K : ℝ → ℝ) (X δ : ℝ) (hX : (1 : ℝ) ≤ X)
-    (hδ : 0 < δ) (hKs : ∀ u : ℝ, 1 < |u| → fourierCos K u = 0) :
-    ∃ C : ℝ, 0 ≤ C ∧ |primeSum K X δ| ≤ C := by
+theorem prime_sum_bound (X δ : ℝ) (hX : (1 : ℝ) ≤ X) (hδ : 0 < δ) :
+    ∃ C : ℝ, 0 ≤ C ∧ |primeSum Khat X δ| ≤ C := by
   let X' : ℝ := min X (Real.exp (1 / δ))
   have hX' : (1 : ℝ) ≤ X' := by
     dsimp [X']
@@ -621,11 +939,11 @@ theorem prime_sum_bound (K : ℝ → ℝ) (X δ : ℝ) (hX : (1 : ℝ) ≤ X)
   have hXw' : X' ≤ Real.exp (1 / δ) := by
     dsimp [X']
     exact min_le_right X (Real.exp (1 / δ))
-  have hpeq : primeSum K X δ = primeSum K X' δ :=
-    primeSum_window_eq K X δ hX hδ hKs
+  have hpeq : primeSum Khat X δ = primeSum Khat X' δ :=
+    primeSum_window_eq Khat X δ hX hδ bgs5_khat_fourier_supp
   rw [hpeq]
   rcases siegel_walfisz_chi5 with ⟨c, c', hc0, hc'0, hsw⟩
-  rcases prime_weight_bounds K δ with ⟨M, hM0, hb, hΔ⟩
+  rcases prime_weight_bounds_Khat δ hδ with ⟨M, hM0, hb, hΔ⟩
   rcases sum_weight_decay δ hδ c' hc'0 with ⟨C₂, hC₂0, hdec2⟩
   rcases sum_sqrt_decay δ hδ c' hc'0 with ⟨C₃, hC₃0, hdec3⟩
   let N : ℕ := ⌊X'⌋₊
@@ -640,35 +958,35 @@ theorem prime_sum_bound (K : ℝ → ℝ) (X δ : ℝ) (hX : (1 : ℝ) ≤ X)
     have hfl : ⌊(n : ℝ)⌋₊ = n := by simp
     have hsw' := hsw (n : ℝ) hx
     rwa [hfl] at hsw'
-  have hps : primeSum K X' δ
+  have hps : primeSum Khat X' δ
       = (∑ i ∈ Finset.Icc 1 N, vonMangoldt i * chi5 i)
-          * ((Real.sqrt (N : ℝ))⁻¹ * fourierCos K (δ * Real.log (N : ℝ)))
+          * ((Real.sqrt (N : ℝ))⁻¹ * fourierCos Khat (δ * Real.log (N : ℝ)))
         - (∑ n ∈ Finset.Icc 1 (N - 1),
             (∑ i ∈ Finset.Icc 1 n, vonMangoldt i * chi5 i)
-              * (((Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ * fourierCos K (δ * Real.log ((n + 1 : ℕ) : ℝ)))
-                  - (Real.sqrt (n : ℝ))⁻¹ * fourierCos K (δ * Real.log (n : ℝ)))) := by
+              * (((Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ * fourierCos Khat (δ * Real.log ((n + 1 : ℕ) : ℝ)))
+                  - (Real.sqrt (n : ℝ))⁻¹ * fourierCos Khat (δ * Real.log (n : ℝ)))) := by
     dsimp [primeSum, N]
     exact sum_abel_partial ⌊X'⌋₊ (fun n => vonMangoldt n * chi5 n)
-      (fun n => (Real.sqrt (n : ℝ))⁻¹ * fourierCos K (δ * Real.log (n : ℝ)))
+      (fun n => (Real.sqrt (n : ℝ))⁻¹ * fourierCos Khat (δ * Real.log (n : ℝ)))
   refine ⟨c * M * (C₂ + C₃), mul_nonneg (mul_nonneg (le_of_lt hc0) hM0) (add_nonneg hC₂0 hC₃0), ?_⟩
   calc
-    |primeSum K X' δ|
+    |primeSum Khat X' δ|
         ≤ |(∑ i ∈ Finset.Icc 1 N, vonMangoldt i * chi5 i)
-            * ((Real.sqrt (N : ℝ))⁻¹ * fourierCos K (δ * Real.log (N : ℝ)))|
+            * ((Real.sqrt (N : ℝ))⁻¹ * fourierCos Khat (δ * Real.log (N : ℝ)))|
           + |∑ n ∈ Finset.Icc 1 (N - 1),
               (∑ i ∈ Finset.Icc 1 n, vonMangoldt i * chi5 i)
-                * (((Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ * fourierCos K (δ * Real.log ((n + 1 : ℕ) : ℝ)))
-                    - (Real.sqrt (n : ℝ))⁻¹ * fourierCos K (δ * Real.log (n : ℝ)))| := by
+                * (((Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ * fourierCos Khat (δ * Real.log ((n + 1 : ℕ) : ℝ)))
+                    - (Real.sqrt (n : ℝ))⁻¹ * fourierCos Khat (δ * Real.log (n : ℝ)))| := by
             rw [hps, sub_eq_add_neg]
             exact (abs_add_le _ _).trans (by rw [abs_neg])
     _ ≤ c * M * C₃ + c * M * C₂ := by
         have h1 : |(∑ i ∈ Finset.Icc 1 N, vonMangoldt i * chi5 i)
-            * ((Real.sqrt (N : ℝ))⁻¹ * fourierCos K (δ * Real.log (N : ℝ)))| ≤ c * M * C₃ := by
+            * ((Real.sqrt (N : ℝ))⁻¹ * fourierCos Khat (δ * Real.log (N : ℝ)))| ≤ c * M * C₃ := by
           calc
             |(∑ i ∈ Finset.Icc 1 N, vonMangoldt i * chi5 i)
-                * ((Real.sqrt (N : ℝ))⁻¹ * fourierCos K (δ * Real.log (N : ℝ)))|
+                * ((Real.sqrt (N : ℝ))⁻¹ * fourierCos Khat (δ * Real.log (N : ℝ)))|
                 ≤ |∑ i ∈ Finset.Icc 1 N, vonMangoldt i * chi5 i|
-                  * |(Real.sqrt (N : ℝ))⁻¹ * fourierCos K (δ * Real.log (N : ℝ))| := (abs_mul _ _).le
+                  * |(Real.sqrt (N : ℝ))⁻¹ * fourierCos Khat (δ * Real.log (N : ℝ))| := (abs_mul _ _).le
             _ ≤ (c * (N : ℝ) * Real.exp (-c' * Real.sqrt (Real.log (N : ℝ))))
                 * (M * (Real.sqrt (N : ℝ))⁻¹) := by
                 exact mul_le_mul (hswN N hNpos) (hb N hNpos) (abs_nonneg _)
@@ -716,17 +1034,17 @@ theorem prime_sum_bound (K : ℝ → ℝ) (X δ : ℝ) (hX : (1 : ℝ) ≤ X)
                         _ ≤ c * M * C₃ := mul_le_mul_of_nonneg_left hterm hmul
         have h2 : |∑ n ∈ Finset.Icc 1 (N - 1),
             (∑ i ∈ Finset.Icc 1 n, vonMangoldt i * chi5 i)
-              * (((Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ * fourierCos K (δ * Real.log ((n + 1 : ℕ) : ℝ)))
-                  - (Real.sqrt (n : ℝ))⁻¹ * fourierCos K (δ * Real.log (n : ℝ)))| ≤ c * M * C₂ := by
+              * (((Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ * fourierCos Khat (δ * Real.log ((n + 1 : ℕ) : ℝ)))
+                  - (Real.sqrt (n : ℝ))⁻¹ * fourierCos Khat (δ * Real.log (n : ℝ)))| ≤ c * M * C₂ := by
           calc
             |∑ n ∈ Finset.Icc 1 (N - 1),
                 (∑ i ∈ Finset.Icc 1 n, vonMangoldt i * chi5 i)
-                  * (((Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ * fourierCos K (δ * Real.log ((n + 1 : ℕ) : ℝ)))
-                      - (Real.sqrt (n : ℝ))⁻¹ * fourierCos K (δ * Real.log (n : ℝ)))|
+                  * (((Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ * fourierCos Khat (δ * Real.log ((n + 1 : ℕ) : ℝ)))
+                      - (Real.sqrt (n : ℝ))⁻¹ * fourierCos Khat (δ * Real.log (n : ℝ)))|
                 ≤ ∑ n ∈ Finset.Icc 1 (N - 1),
                     |(∑ i ∈ Finset.Icc 1 n, vonMangoldt i * chi5 i)
-                      * (((Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ * fourierCos K (δ * Real.log ((n + 1 : ℕ) : ℝ)))
-                          - (Real.sqrt (n : ℝ))⁻¹ * fourierCos K (δ * Real.log (n : ℝ)))| :=
+                      * (((Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ * fourierCos Khat (δ * Real.log ((n + 1 : ℕ) : ℝ)))
+                          - (Real.sqrt (n : ℝ))⁻¹ * fourierCos Khat (δ * Real.log (n : ℝ)))| :=
                     Finset.abs_sum_le_sum_abs _ _
             _ ≤ ∑ n ∈ Finset.Icc 1 (N - 1),
                 c * M * (Real.sqrt (n : ℝ))⁻¹ * Real.exp (-c' * Real.sqrt (Real.log (n : ℝ))) := by
@@ -734,25 +1052,25 @@ theorem prime_sum_bound (K : ℝ → ℝ) (X δ : ℝ) (hX : (1 : ℝ) ≤ X)
                 intro n hn
                 have hn1 : (1 : ℕ) ≤ n := (Finset.mem_Icc.mp hn).1
                 have hab : |(∑ i ∈ Finset.Icc 1 n, vonMangoldt i * chi5 i)
-                    * (((Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ * fourierCos K (δ * Real.log ((n + 1 : ℕ) : ℝ)))
-                        - (Real.sqrt (n : ℝ))⁻¹ * fourierCos K (δ * Real.log (n : ℝ)))|
+                    * (((Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ * fourierCos Khat (δ * Real.log ((n + 1 : ℕ) : ℝ)))
+                        - (Real.sqrt (n : ℝ))⁻¹ * fourierCos Khat (δ * Real.log (n : ℝ)))|
                     ≤ (c * (n : ℝ) * Real.exp (-c' * Real.sqrt (Real.log (n : ℝ))))
                       * (M * (Real.sqrt (n : ℝ))⁻¹ ^ 3) := by
                     calc
                       |(∑ i ∈ Finset.Icc 1 n, vonMangoldt i * chi5 i)
-                          * (((Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ * fourierCos K (δ * Real.log ((n + 1 : ℕ) : ℝ)))
-                              - (Real.sqrt (n : ℝ))⁻¹ * fourierCos K (δ * Real.log (n : ℝ)))|
+                          * (((Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ * fourierCos Khat (δ * Real.log ((n + 1 : ℕ) : ℝ)))
+                              - (Real.sqrt (n : ℝ))⁻¹ * fourierCos Khat (δ * Real.log (n : ℝ)))|
                           ≤ |∑ i ∈ Finset.Icc 1 n, vonMangoldt i * chi5 i|
-                            * |((Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ * fourierCos K (δ * Real.log ((n + 1 : ℕ) : ℝ)))
-                                - (Real.sqrt (n : ℝ))⁻¹ * fourierCos K (δ * Real.log (n : ℝ))| := (abs_mul _ _).le
+                            * |((Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ * fourierCos Khat (δ * Real.log ((n + 1 : ℕ) : ℝ)))
+                                - (Real.sqrt (n : ℝ))⁻¹ * fourierCos Khat (δ * Real.log (n : ℝ))| := (abs_mul _ _).le
                       _ ≤ (c * (n : ℝ) * Real.exp (-c' * Real.sqrt (Real.log (n : ℝ))))
                           * (M * (Real.sqrt (n : ℝ))⁻¹ ^ 3) := by
                           exact mul_le_mul (hswN n hn1) (hΔ n hn1) (abs_nonneg _)
                             (mul_nonneg (mul_nonneg (le_of_lt hc0) (Nat.cast_nonneg n)) (Real.exp_nonneg _))
                 calc
                   |(∑ i ∈ Finset.Icc 1 n, vonMangoldt i * chi5 i)
-                      * (((Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ * fourierCos K (δ * Real.log ((n + 1 : ℕ) : ℝ)))
-                          - (Real.sqrt (n : ℝ))⁻¹ * fourierCos K (δ * Real.log (n : ℝ)))|
+                      * (((Real.sqrt ((n + 1 : ℕ) : ℝ))⁻¹ * fourierCos Khat (δ * Real.log ((n + 1 : ℕ) : ℝ)))
+                          - (Real.sqrt (n : ℝ))⁻¹ * fourierCos Khat (δ * Real.log (n : ℝ)))|
                       ≤ (c * (n : ℝ) * Real.exp (-c' * Real.sqrt (Real.log (n : ℝ))))
                         * (M * (Real.sqrt (n : ℝ))⁻¹ ^ 3) := hab
                   _ = c * M * (Real.sqrt (n : ℝ))⁻¹ * Real.exp (-c' * Real.sqrt (Real.log (n : ℝ))) := by
@@ -828,12 +1146,10 @@ BGS 结构（引用本攻防 S7.1 §3 / S7.3-7.5 文档论证）：
   引理 4（离线误差）：弱实部 + T^{3/8} 切割 ⟹ |offcrit| ≤ o(1)（`offcritical_small`，见下）。
 `pair_sum_expansion` 由 bgs3 组装（引理 4 的 |offcrit|≤1 缩放已并入 bgs3 陈述，注释承接）。 -/
 
-/-- 引理 5：核可容许条件（λ≤1/2 核族）——K(0)=1 且 supp K̂ ⊂ [−1,1]（频域窄支撑）。 -/
+/-- 引理 5（K̂ 件）：Khat 的频域窄支撑（supp K̂ ⊂ [−1,1]）——axiom（积分层，文档 S7.1 §3）。
+    注：声明位置须在 `prime_sum_bound` 之前（后者体内以 `bgs5_khat_fourier_supp` 为组装件）。 -/
 def KernelAdmissible (K : ℝ → ℝ) : Prop :=
-  K 0 = 1 ∧ ∀ u : ℝ, 1 < |u| → fourierCos K u = 0
-
-/-- 引理 5（K̂ 件）：Khat 的频域窄支撑（supp K̂ ⊂ [−1,1]）——axiom（积分层，文档 S7.1 §3）。 -/
-axiom bgs5_khat_fourier_supp : ∀ u : ℝ, 1 < |u| → fourierCos Khat u = 0
+  K 0 = 1 ∧ ∀ u : ℝ, 1 < |u| → fourierCos Khat u = 0
 
 /-- 引理 5（Khat 可容许，组装）：Khat_zero（真证）+ bgs5_khat_fourier_supp。 -/
 lemma Khat_admissible : KernelAdmissible Khat := by
@@ -844,11 +1160,14 @@ lemma Khat_admissible : KernelAdmissible Khat := by
     A_L(K) = 对角主项 + 素数项 + 离线误差；
     对角主项 diag ≤ C_MT + C₁·ε（ε 偏差系数 C₁——n2_linkage O(ε) 联动吸收，文档 S7.4 定理 N2）；
     素数项 |prime| ≤ 1（Montgomery–Vaughan 均值 + SW 压制，文档 S7.6）；
-    离线项 |offcrit| ≤ 1（引理 4 缩放：offcritical_small 除以 N_L，文档 S7.5 定理 N3）。 -/
+    离线项 |offcrit| ≤ 1（引理 4 缩放：offcritical_small 除以 N_L，文档 S7.5 定理 N3）。
+    **2026-11-23 口径手术**：归一化分母由 `Real.log T / (2π)` 改为**真实零点计数 `N_L T`**，
+    求和域由整条 `zerosLChi5`（无穷集 ⟹ `∑'` 无意义）改为 `zerosLChi5UpTo T`（有限集）。
+    旧口径（`pairConstant K δ δ zerosLChi5`）把 δ 当零点数用、又在无穷集上求和，属语句层缺陷。 -/
 axiom bgs3_pair_expansion (K : ℝ → ℝ) (δ T ε : ℝ) (hK : KernelAdmissible K)
     (hweak : WeakRealPart T zerosLChi5) :
   ∃ (C₁ diag prime offcrit : ℝ), 0 ≤ C₁ ∧
-    pairConstant K δ (Real.log T / (2 * Real.pi)) zerosLChi5 = diag + prime + offcrit ∧
+    pairConstant K δ (N_L T) (zerosLChi5UpTo T) = diag + prime + offcrit ∧
     diag ≤ C_MT + C₁ * ε ∧ |prime| ≤ 1 ∧ |offcrit| ≤ 1
 
 /-- (L3) 配对和展开（组装定理）：BGS 引理 3（bgs3_pair_expansion）的直接包装——
@@ -856,7 +1175,7 @@ axiom bgs3_pair_expansion (K : ℝ → ℝ) (δ T ε : ℝ) (hK : KernelAdmissib
 theorem pair_sum_expansion (K : ℝ → ℝ) (δ T ε : ℝ) (hK : KernelAdmissible K)
     (hweak : WeakRealPart T zerosLChi5) :
   ∃ (C₁ diag prime offcrit : ℝ), 0 ≤ C₁ ∧
-    pairConstant K δ (Real.log T / (2 * Real.pi)) zerosLChi5 = diag + prime + offcrit ∧
+    pairConstant K δ (N_L T) (zerosLChi5UpTo T) = diag + prime + offcrit ∧
     diag ≤ C_MT + C₁ * ε ∧ |prime| ≤ 1 ∧ |offcrit| ≤ 1 := by
   exact bgs3_pair_expansion K δ T ε hK hweak
 
@@ -916,17 +1235,17 @@ theorem offcritical_small :
     组装真证：由 pair_sum_expansion（BGS 引理 3-5 移植）分解 A_L = diag + prime + offcrit，
     对角主项 diag ≤ C_MT + C₁ε、素数项/离线项以 |·|≤1 占位界并入 C₂=2。 -/
 theorem s71_main
-    (T : ℝ) (hT : (1 : ℝ) ≤ T) (hweak : WeakRealPart T zerosLChi5)
-    (ε : ℝ) (hε0 : 0 < ε) :
+    (T : ℝ) (_hT : (1 : ℝ) ≤ T) (hweak : WeakRealPart T zerosLChi5)
+    (ε : ℝ) (_hε0 : 0 < ε) :
     ∃ (C₁ C₂ : ℝ), 0 ≤ C₁ ∧ 0 ≤ C₂ ∧
-      pairConstant Khat (Real.log T / (2 * Real.pi)) (Real.log T / (2 * Real.pi)) zerosLChi5
+      pairConstant Khat (Real.log T / (2 * Real.pi)) (N_L T) (zerosLChi5UpTo T)
         ≤ C_MT + C₁ * ε + C₂ := by
   let δ : ℝ := Real.log T / (2 * Real.pi)
   rcases pair_sum_expansion Khat δ T ε Khat_admissible hweak with ⟨C₁, diag, prime, offcrit,
       hC₁0, hsplit, hdiag, hprime, hoffcrit⟩
   refine ⟨C₁, 2, hC₁0, by norm_num, ?_⟩
   calc
-    pairConstant Khat δ δ zerosLChi5 = diag + prime + offcrit := hsplit
+    pairConstant Khat δ (N_L T) (zerosLChi5UpTo T) = diag + prime + offcrit := hsplit
     _ ≤ C_MT + C₁ * ε + |prime| + |offcrit| := by
       linarith [hdiag, le_abs_self prime, le_abs_self offcrit]
     _ ≤ C_MT + C₁ * ε + 1 + 1 := by linarith [hprime, hoffcrit]
@@ -965,8 +1284,10 @@ theorem s71_main
 - [x] (N2) ε–λ 联动：f_eps_support 真证明（|x|>1/2 ⟹ f_ε=0，支撑 [−1/2,1/2]）；
       n2_linkage（λ=(logT)^q、a=(logT)^{−q}、ε=c(logT)^{−q} ⟹ 偏差 O((logT)^{−q})）——axiom
       （文档 S7.4 定理 N2）。
-- [x] (N3) 离线项一致版本：n3_remainder_uniform（BGS 余项 O(T√logT) 对 supp⊂[−1,1] 一切核一致）
-      ——axiom（文档 S7.5 定理 N3）。
+- [ ] (N3) 离线项一致版本：**2026-11-23 撤除原 `offcritSum` / `n3_remainder_uniform`**
+      （空条目：自由算子 + ∃R 有界声明可被 `offcritSum≡0` 满足，且全库 0 处使用；
+      文档对象依赖 `w(ρ−ρ')`、复自变量 `r̂`、`x` 尺度相减三件未形式化机制）。
+      N3 作为**未形式化项**登记在 `Findings_GRH_Interface.md` §十六（文档 S7.5 定理 N3）。
 三条真证明件（超支撑素数项层）：
 - [x] Abel 求和引理（sum_abel，summation by parts 归纳真证；S7.6 §2.4 离散骨架）
 - [x] K̂_a 偶性（Khat_a_even，一阶校正恒为零真证）；二阶一致界 khat_second_order_bound

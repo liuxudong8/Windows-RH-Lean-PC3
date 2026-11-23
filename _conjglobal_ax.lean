@@ -1,0 +1,2 @@
+import OrderPreservingBijection.LSeriesConj
+#print axioms LSeriesConj.LFunction_conj_global

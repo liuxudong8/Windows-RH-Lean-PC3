@@ -2299,4 +2299,33 @@ lemma paper_2_2_class_number : True := by trivial
     - 惯性：p ≡ ±2 (mod 5)，(p) = 𝔭，Nm(𝔭) = p² -/
 lemma paper_2_3_splitting : True := by trivial
 
+/- ======================================================================== -/
+-- 第2.4节：域迹 tr(a+bφ) = 2a+b（落点 A：④ 椭圆迹分类的代数锚点，2026-10-16）
+/- ======================================================================== -/
+
+/-- 域迹：tr(a+bφ) = (a+bφ) + (a+bφ') = 2a + b（φ+φ' = 1，φ' = 1−φ）。
+    这是 O_K 到 ℤ 的加法映射，PSL₂(O_K) 椭圆元素迹分类的代数核心：
+    椭圆元素迹 ∈ ℤ ∩ (−2, 2) ⟹ 迹 ∈ {−1, 0, 1}（见 fieldTrace_mem_of_abs_lt_two）。 -/
+def fieldTrace (z : GoldenInt) : ℤ := 2 * z.re + z.im
+
+/-- 域迹 = z + star z（共轭和）。 -/
+theorem fieldTrace_eq_sum (z : GoldenInt) : (fieldTrace z : GoldenInt) = z + star z := by
+  apply QuadraticAlgebra.ext
+  · simp [fieldTrace, QuadraticAlgebra.re_add, QuadraticAlgebra.re_star] <;> ring
+  · simp [fieldTrace, QuadraticAlgebra.im_add, QuadraticAlgebra.im_star] <;> ring
+
+/-- 迹值分类：|tr(z)| < 2 且 tr(z) ∈ ℤ ⟹ tr(z) ∈ {−1, 0, 1}。
+    椭圆元素（PSL₂ 中 |tr| < 2）⟹ 迹只可能取这三个值 ⟹ 旋转角（特征长度）
+    只取有限个值。这是 ④ ellipticClassLengths_finite 的代数半；
+    矩阵半（椭圆元素 ↔ 迹）依赖 PSL₂(O_K) 矩阵群层（待建，挂账）。 -/
+lemma fieldTrace_mem_of_abs_lt_two (z : GoldenInt) (h : |(fieldTrace z : ℝ)| < 2) :
+    fieldTrace z = -1 ∨ fieldTrace z = 0 ∨ fieldTrace z = 1 := by
+  have h_lo : (-2 : ℝ) < (fieldTrace z : ℝ) := (abs_lt.mp h).1
+  have h_hi : (fieldTrace z : ℝ) < 2 := (abs_lt.mp h).2
+  have h_lo_i : (-2 : ℤ) < fieldTrace z := by exact_mod_cast h_lo
+  have h_hi_i : fieldTrace z < (2 : ℤ) := by exact_mod_cast h_hi
+  have h_ge : (-1 : ℤ) ≤ fieldTrace z := by omega
+  have h_le : fieldTrace z ≤ (1 : ℤ) := by omega
+  interval_cases fieldTrace z <;> simp
+
 end GoldenInt

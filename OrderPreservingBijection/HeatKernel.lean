@@ -6,6 +6,7 @@
 -/
 
 import OrderPreservingBijection.ManifoldInfrastructure
+import OrderPreservingBijection.LaplacianBeltrami
 import OrderPreservingBijection.BasicInfrastructure
 import Mathlib.MeasureTheory.Integral.Gamma
 import Mathlib.Analysis.SpecialFunctions.Gamma.BohrMollerup
@@ -325,12 +326,13 @@ noncomputable def fLaplacianKernel (f : TestFunction) (z w : ManifoldM) : ℂ :=
 noncomputable def geometricKernelTrace (f : TestFunction) : ℂ :=
     manifoldIntegral (fun z => gammaPeriodization (fLaplacianKernel f) z z)
 
-/-- 三维 Laplacian（占位定义，TODO）：Δ_M : L²(M) → L²(M)。
-    警告：当前为 Classical.arbitrary 常量占位，不是真实 Laplace-Beltrami 算子；
-    stage_4.laplacian_has_discrete_spectrum 因依赖本占位而只能声明为显式公理。
-    TODO：重定义为 Mathlib 的 Laplace-Beltrami 算子（需先形式化黎曼流形上的
-    Laplace 算子与 Rellich/Sobolev 紧嵌入），此后谱离散可走紧自伴算子谱定理。 -/
-noncomputable def laplacian_M : L2ManifoldM → L2ManifoldM := fun _ => Classical.arbitrary L2ManifoldM
+-- 三维 Laplacian（已迁移，2026-11-22）：
+--   Δ_M 原为 `fun _ => Classical.arbitrary L2ManifoldM` 的占位，现已在
+--   `LaplacianBeltrami.lean` 中改为由坐标公式算出的真 Laplace–Beltrami 算子
+--     Δ_ℍ f = t²(f_xx + f_yy + f_tt) − t·f_t，
+--   定义域收窄为光滑子空间 `SmoothL2ManifoldM`（C² 且 Δ_ℍ f ∈ L²）。
+--   本文件只负责热核，故此处不再重复定义，直接引用该模块的 `laplacian_M`。
+
 /-- 热核联合可测性：K_t(z,w) 关于 (z,w) 联合可测。
     这是参数积分可测性的必要条件。
     TODO: 由 heatKernel 显式公式 + 距离连续推出。 -/
@@ -363,16 +365,26 @@ noncomputable def heatOperator (t : ℝ) (f : L2ManifoldM) : L2ManifoldM :=
     sq_integrable := by sorry  -- ❓ 平方可积性：Hilbert-Schmidt 估计
   }
 
-/-- 热核与 Laplacian 交换：H_t ∘ Δ_M = Δ_M ∘ H_t。
+/-- 热核算子的光滑版（定义，光滑性以 sorry 占位，与 `heatOperator` 同风格）：
+    把 H_t f 提升为 `SmoothL2ManifoldM` 的元，使 `laplacian_M` 能直接作用在它上面。
+    这一步是必要的：`laplacian_M` 现取光滑域，而 `heatOperator` 输出只保证 L²。 -/
+noncomputable def heatOperatorSmooth (t : ℝ) (f : SmoothL2ManifoldM) : SmoothL2ManifoldM where
+  toL2 := heatOperator t (f : L2ManifoldM)
+  contDiffOn := by sorry
+  lap_measurable := by sorry
+  lap_sq_integrable := by sorry
+
+/-- 热核与 Laplacian 交换：H_t ∘ Δ_M = Δ_M ∘ H_t（在光滑域上）。
     这是热方程的直接推论：热核算子是 Laplacian 的函数 H_t = e^{-tΔ_M}。
     因此 H_t 保持 Laplacian 的特征子空间：
     如果 Δ_M φ = λ φ，则 Δ_M (H_t φ) = H_t (Δ_M φ) = λ (H_t φ)。
     这是热核方法证明谱定理的基础。
+    量词改为 `SmoothL2ManifoldM`：因为 Δ_M 只在光滑域上有定义（无 junk 分支）。
     TODO: 由半群性质 + 谱定理推出。 -/
 lemma heatKernel_commutes_laplacian :
     ∀ (t : ℝ), 0 ≤ t →
-      ∀ (f : L2ManifoldM),
-        heatOperator t (laplacian_M f) = laplacian_M (heatOperator t f) := by sorry
+      ∀ (f : SmoothL2ManifoldM),
+        heatOperator t (laplacian_M f) = laplacian_M (heatOperatorSmooth t f) := by sorry
 
 
 
