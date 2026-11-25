@@ -64,13 +64,21 @@ jobs:
 
       # 诊断：Builder 之前的真实状态。用途是裁决一个矛盾 ——
       # #11 里 Build core 只花 2 秒，但 mathlib oleans 按设计不在 .lake 缓存范围内。
+      # 结论以退出码表达（绿=齐备 / 红=缺失），这样不用登录看日志也能判定。
       - name: Diagnose olean cache state
         run: |
-          echo "root    .lake oleans : $(find .lake/build -name '*.olean' 2>/dev/null | wc -l)"
-          echo "mathlib .lake oleans : $(find mathlib4-master/.lake/build -name '*.olean' 2>/dev/null | wc -l)"
-          echo "root    .lake size   : $(du -sm .lake 2>/dev/null | cut -f1) MB"
-          echo "mathlib .lake size   : $(du -sm mathlib4-master/.lake 2>/dev/null | cut -f1) MB"
-          echo "toolchain            : $(cat lean-toolchain)"
+          root=$(find .lake/build -name '*.olean' 2>/dev/null | wc -l)
+          math=$(find mathlib4-master/.lake/build -name '*.olean' 2>/dev/null | wc -l)
+          echo "root    .lake oleans = $root"
+          echo "mathlib .lake oleans = $math"
+          echo "root    .lake size   = $(du -sm .lake 2>/dev/null | cut -f1) MB"
+          echo "mathlib .lake size   = $(du -sm mathlib4-master/.lake 2>/dev/null | cut -f1) MB"
+          if [ "$math" -ge 8000 ]; then
+            echo "VERDICT: mathlib oleans PRESENT before build -> cache does cover them"
+          else
+            echo "VERDICT: mathlib oleans ABSENT before build ($math) -> 'Build core 2s' means lake skipped dependency verification"
+            exit 1
+          fi
 
       # ④ 分两步：core 先行，快速反馈
       - name: Build core (OrderPreservingBijection + BSD)
