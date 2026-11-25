@@ -62,10 +62,12 @@ jobs:
           echo "--- QRH 子目录（应为空） ---"
           find QRH -mindepth 1 -maxdepth 1 -type d || true
 
-      # 诊断：Builder 之前的真实状态。用途是裁决一个矛盾 ——
-      # #11 里 Build core 只花 2 秒，但 mathlib oleans 按设计不在 .lake 缓存范围内。
-      # 结论以退出码表达（绿=齐备 / 红=缺失），这样不用登录看日志也能判定。
-      - name: Diagnose olean cache state
+      # 缓存守卫（2026-11-25，由一次性诊断转正）：
+      # 实测已确认 lake exe cache get 有效 —— 5s 下载 1.75GB oleans，走的同云内网。
+      # 因此 "mathlib oleans 在 Build 前齐备" 是本 workflow 的前提假设。
+      # 守卫逻辑：一旦 mathlib 服务端撤掉 v4.34.0-rc2 的 cache，或 runner 网络变化，
+      # 这里立刻变红，而不是让 CI 悄悄慢回 9 分钟还不自知。
+      - name: Assert mathlib oleans present
         run: |
           root=$(find .lake/build -name '*.olean' 2>/dev/null | wc -l)
           math=$(find mathlib4-master/.lake/build -name '*.olean' 2>/dev/null | wc -l)
