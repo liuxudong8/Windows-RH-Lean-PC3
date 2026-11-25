@@ -1,0 +1,83 @@
+﻿tsum_subtype.{u_1, u_2} {α : Type u_1} {β : Type u_2} [AddCommMonoid α] [TopologicalSpace α] (s : Set β) (f : β → α) :
+  ∑' (x : ↑s), f ↑x = ∑' (x : β), s.indicator f x
+HasSum.tsum_eq.{u_1, u_2} {α : Type u_1} {β : Type u_2} [AddCommMonoid α] [TopologicalSpace α] {L : SummationFilter β}
+  {f : β → α} {a : α} [T2Space α] [L.NeBot] (ha : HasSum f a L) : ∑'[L] (b : β), f b = a
+Summable.hasSum.{u_1, u_2} {α : Type u_1} {β : Type u_2} [AddCommMonoid α] [TopologicalSpace α] {L : SummationFilter β}
+  {f : β → α} (ha : Summable f L) : HasSum f (∑'[L] (b : β), f b) L
+HasSum.add.{u_1, u_2} {α : Type u_1} {β : Type u_2} [AddCommMonoid α] [TopologicalSpace α] {f g : β → α} {a b : α}
+  {L : SummationFilter β} [ContinuousAdd α] (hf : HasSum f a L) (hg : HasSum g b L) :
+  HasSum (fun b => f b + g b) (a + b) L
+HasSum.sub.{u_1, u_2} {α : Type u_1} {β : Type u_2} {L : SummationFilter β} [AddCommGroup α] [TopologicalSpace α]
+  [IsTopologicalAddGroup α] {f g : β → α} {a₁ a₂ : α} (hf : HasSum f a₁ L) (hg : HasSum g a₂ L) :
+  HasSum (fun b => f b - g b) (a₁ - a₂) L
+Filter.Tendsto.add.{u_1, u_2} {M : Type u_1} [TopologicalSpace M] [Add M] [ContinuousAdd M] {α : Type u_2} {f g : α → M}
+  {x : Filter α} {a b : M} (hf : Filter.Tendsto f x (nhds a)) (hg : Filter.Tendsto g x (nhds b)) :
+  Filter.Tendsto (fun x => f x + g x) x (nhds (a + b))
+.\_probe.lean:14:7: error(lean.unknownIdentifier): Unknown identifier `tendsto_atTop`
+tendsto_order.{u, v} {α : Type u} {β : Type v} [ts : TopologicalSpace α] [Preorder α] [OrderTopology α] {f : β → α}
+  {a : α} {x : Filter β} :
+  Filter.Tendsto f x (nhds a) ↔ (∀ a' < a, ∀ᶠ (b : β) in x, a' < f b) ∧ ∀ a' > a, ∀ᶠ (b : β) in x, f b < a'
+Metric.tendsto_atTop.{u, v} {α : Type u} {β : Type v} [PseudoMetricSpace α] [Nonempty β] [SemilatticeSup β] {u : β → α}
+  {a : α} : Filter.Tendsto u Filter.atTop (nhds a) ↔ ∀ ε > 0, ∃ N, ∀ n ≥ N, dist (u n) a < ε
+Finset.sum_eq_single.{u_1, u_4} {ι : Type u_1} {M : Type u_4} [AddCommMonoid M] {s : Finset ι} {f : ι → M} (a : ι)
+  (h₀ : ∀ b ∈ s, b ≠ a → f b = 0) (h₁ : a ∉ s → f a = 0) : ∑ x ∈ s, f x = f a
+Finset.sum_comm.{u_3, u_4, u_5} {α : Type u_3} {β : Type u_4} {γ : Type u_5} [AddCommMonoid β] {s : Finset γ}
+  {t : Finset α} {f : γ → α → β} : ∑ x ∈ s, ∑ y ∈ t, f x y = ∑ y ∈ t, ∑ x ∈ s, f x y
+Finset.sum_congr.{u_1, u_4} {ι : Type u_1} {M : Type u_4} {s₁ s₂ : Finset ι} [AddCommMonoid M] {f g : ι → M}
+  (h : s₁ = s₂) : (∀ x ∈ s₂, f x = g x) → s₁.sum f = s₂.sum g
+Finset.mem_image.{u_1, u_2} {α : Type u_1} {β : Type u_2} [DecidableEq β] {f : α → β} {s : Finset α} {b : β} :
+  b ∈ Finset.image f s ↔ ∃ a ∈ s, f a = b
+Finset.sum_eq_zero.{u_1, u_4} {ι : Type u_1} {M : Type u_4} {s : Finset ι} [AddCommMonoid M] {f : ι → M}
+  (h : ∀ x ∈ s, f x = 0) : ∑ x ∈ s, f x = 0
+Finset.sum_le_sum.{u_1, u_5} {ι : Type u_1} {N : Type u_5} [AddCommMonoid N] [Preorder N] {f g : ι → N} {s : Finset ι}
+  [AddLeftMono N] (h : ∀ i ∈ s, f i ≤ g i) : ∑ i ∈ s, f i ≤ ∑ i ∈ s, g i
+tsum_congr.{u_1, u_2} {α : Type u_1} {β : Type u_2} [AddCommMonoid α] [TopologicalSpace α] {L : SummationFilter β}
+  {f g : β → α} (hfg : ∀ (b : β), f b = g b) : ∑'[L] (b : β), f b = ∑'[L] (b : β), g b
+HasSum.tsum_eq.{u_1, u_2} {α : Type u_1} {β : Type u_2} [AddCommMonoid α] [TopologicalSpace α] {L : SummationFilter β}
+  {f : β → α} {a : α} [T2Space α] [L.NeBot] (ha : HasSum f a L) : ∑'[L] (b : β), f b = a
+.\_probe.lean:25:7: error(lean.unknownIdentifier): Unknown constant `Summable.tsum_eq`
+.\_probe.lean:26:7: error(lean.unknownIdentifier): Unknown identifier `tsum_eq_tsum`
+.\_probe.lean:27:7: error(lean.unknownIdentifier): Unknown identifier `tsum_eq_supr_sum`
+Summable.tsum_le_tsum.{u_1, u_3} {ι : Type u_1} {α : Type u_3} {L : SummationFilter ι} [AddCommMonoid α] [Preorder α]
+  [IsOrderedAddMonoid α] [TopologicalSpace α] [OrderClosedTopology α] {f g : ι → α} [L.NeBot] (h : ∀ (i : ι), f i ≤ g i)
+  (hf : Summable f L) (hg : Summable g L) : ∑'[L] (i : ι), f i ≤ ∑'[L] (i : ι), g i
+.\_probe.lean:29:7: error(lean.unknownIdentifier): Unknown constant `Summable.tsum_le_tsum_of_nonneg`
+Finset.range (n : ℕ) : Finset ℕ
+Finset.mem_range {n m : ℕ} : m ∈ Finset.range n ↔ m < n
+Finset.max'.{u_1} {α : Type u_1} [LinearOrder α] (s : Finset α) (H : s.Nonempty) : α
+Finset.sup'_eq_sup.{u_2, u_3} {α : Type u_2} {β : Type u_3} [SemilatticeSup α] [OrderBot α] {s : Finset β}
+  (H : s.Nonempty) (f : β → α) : s.sup' H f = s.sup f
+Finset.sup.{u_2, u_3} {α : Type u_2} {β : Type u_3} [SemilatticeSup α] [OrderBot α] (s : Finset β) (f : β → α) : α
+Finset.le_sup.{u_2, u_3} {α : Type u_2} {β : Type u_3} [SemilatticeSup α] [OrderBot α] {s : Finset β} {f : β → α}
+  {b : β} (hb : b ∈ s) : f b ≤ s.sup f
+Finset.sup_le_iff.{u_2, u_3} {α : Type u_2} {β : Type u_3} [SemilatticeSup α] [OrderBot α] {s : Finset β} {f : β → α}
+  {a : α} : s.sup f ≤ a ↔ ∀ b ∈ s, f b ≤ a
+Finset.exists_max_image.{u_1, u_2} {α : Type u_1} {β : Type u_2} [LinearOrder α] (s : Finset β) (f : β → α)
+  (h : s.Nonempty) : ∃ x ∈ s, ∀ x' ∈ s, f x' ≤ f x
+Set.Finite.sup.{u} {α : Type u} {s t : Set α} : s.Finite → t.Finite → (s ⊔ t).Finite
+Summable.mul_left.{u_1, u_3} {ι : Type u_1} {α : Type u_3} {L : SummationFilter ι} [NonUnitalNonAssocSemiring α]
+  [TopologicalSpace α] [IsTopologicalSemiring α] {f : ι → α} (a : α) (hf : Summable f L) : Summable (fun i => a * f i) L
+Summable.mul_right.{u_1, u_3} {ι : Type u_1} {α : Type u_3} {L : SummationFilter ι} [NonUnitalNonAssocSemiring α]
+  [TopologicalSpace α] [IsTopologicalSemiring α] {f : ι → α} (a : α) (hf : Summable f L) : Summable (fun i => f i * a) L
+.\_probe.lean:41:7: error(lean.unknownIdentifier): Unknown identifier `summable_quadratic_over_geometric`
+tendsto_nhds.{u, u_1} {X : Type u} [TopologicalSpace X] {α : Type u_1} {x : X} {f : α → X} {l : Filter α} :
+  Filter.Tendsto f l (nhds x) ↔ ∀ (s : Set X), IsOpen s → x ∈ s → f ⁻¹' s ∈ l
+tendsto_const_nhds.{u, u_1} {X : Type u} [TopologicalSpace X] {α : Type u_1} {x : X} {f : Filter α} :
+  Filter.Tendsto (fun x_1 => x) f (nhds x)
+.\_probe.lean:44:7: error(lean.unknownIdentifier): Unknown identifier `tendsto.sub`
+.\_probe.lean:45:7: error(lean.unknownIdentifier): Unknown identifier `tendsto.add`
+nhdsWithin_le_nhds.{u_1} {α : Type u_1} [TopologicalSpace α] {a : α} {s : Set α} : nhdsWithin a s ≤ nhds a
+le_of_lt.{u_1} {α : Type u_1} [Preorder α] {a b : α} (hab : a < b) : a ≤ b
+lt_of_le_of_lt.{u_1} {α : Type u_1} [Preorder α] {a b c : α} (hab : a ≤ b) (hbc : b < c) : a < c
+abs_lt.{u_1} {α : Type u_1} [AddGroup α] [LinearOrder α] [AddLeftMono α] {a b : α} [AddRightMono α] :
+  |a| < b ↔ -b < a ∧ a < b
+abs_of_nonneg.{u_1} {α : Type u_1} [Lattice α] [AddGroup α] {a : α} [AddLeftMono α] (h : 0 ≤ a) : |a| = a
+sq_abs.{u_1} {α : Type u_1} [Ring α] [LinearOrder α] (a : α) : |a| ^ 2 = a ^ 2
+div_le_div_of_nonneg_right.{u_3} {G₀ : Type u_3} [GroupWithZero G₀] [PartialOrder G₀] [MulPosReflectLT G₀] {a b c : G₀}
+  (hab : a ≤ b) (hc : 0 ≤ c) : a / c ≤ b / c
+one_div_le_one_div.{u_1} {α : Type u_1} [Semifield α] [PartialOrder α] [PosMulReflectLT α] {a b : α}
+  [IsStrictOrderedRing α] (ha : 0 < a) (hb : 0 < b) : 1 / a ≤ 1 / b ↔ b ≤ a
+one_div.{u_1} {G : Type u_1} [DivInvMonoid G] (a : G) : 1 / a = a⁻¹
+sub_eq_of_eq_add.{u_3} {G : Type u_3} [AddGroup G] {a b c : G} (h : a = c + b) : a - b = c
+eq_sub_iff_add_eq.{u_3} {G : Type u_3} [AddGroup G] {a b c : G} : a = b - c ↔ a + c = b
+sub_nonneg.{u} {α : Type u} [AddGroup α] [LE α] [AddRightMono α] {a b : α} : 0 ≤ a - b ↔ b ≤ a

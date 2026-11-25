@@ -1,0 +1,20 @@
+OK  hbab4
+OK  hba
+OK  hbab2
+OK  b8.1
+OK  b8.2
+OK  b8.3
+OK  b8.4
+OK  b7.1
+FAIL b7.2
+OK  b7.3
+FAIL b7.goal
+OK  b11.1
+FAIL b11.2
+FAIL b11.3
+OK  a11.pre
+OK  a11.2
+OK  a11.goal
+
+b_7: 中间串 1 与目标:
+   False

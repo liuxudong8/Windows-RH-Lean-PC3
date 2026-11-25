@@ -953,3 +953,221 @@ $$
 - **证据**：`_z_inspect.py`（表体检 / RvM 对照）、`_s6_halfscan.py`（half 扫描 + δ 两口径 + 参考曲线，含 `rfft` 相位 `(−1)^k` 修正）、`_s6_Tscan.py`（T 表 + 噪声探针）；前件 `_ceta_check.py`。全部纯数值 + 解析推导，**未 Lean 机检**。
 
 
+
+### 21.12 把 (i) 降成定义：`diagTerm` / `DiagRate`，并把「Abel 求和」这条路正式判死（2026-11-24，第十一刀）
+
+**语句层（已落刀、已编译、已探针）**
+
+- 旧 `BGSDecompositionCore : ∃ C₁ ≥ 0, ∀ᶠ T, ∀ hweak, ∃ diag, pairConstant = diag + primeSum/N_L + offCriticalError/N_L ∧ diag ≤ C_MT + C₁·(log T)⁻¹` **删除**。
+- 新 `noncomputable def diagTerm (T : ℝ) : ℝ := pairConstant triKer (physDelta T) (N_L T) (zerosLChi5UpTo T) − primeSum triKer (physWindow T) (physDelta T)/N_L T − offCriticalError T/N_L T`。
+- 新 `def DiagRate : Prop := ∃ C₁ ≥ 0, ∀ᶠ T, diagTerm T ≤ C_MT + C₁·(log T)⁻¹`。
+- 新 `theorem DiagRate_to_uniform : DiagRate → BGSLocalUniform`（真证：`unfold diagTerm` + `ring` 消化恒等式；素数槽用 `prime_normalized_le`，常数 `2π·e^{2π}/NLc` 显式不需要 axiom 之外的输入）。
+- `s71_main_tail_core` → `s71_main_tail_diag`（唯一前件 `DiagRate`）。
+
+**为什么这一步在审计意义上是净收益（可复用手法）**
+
+`∃ diag … ∧ 恒等式 ∧ 率` 这种写法有两个病：恒等式对任意实数成立（`diag` 自由），所以它不是「条件」；但它把真条件（率）包在同一个 `∃` 里，使 **G4 判据失效**——「去掉这条前件，结论是否还成立」问不出答案，因为去掉的是整包。把 `diag` 换成**具体项** `diagTerm` 之后：恒等式变定义（自动消失），前件塌缩成**单句不等式**，G4 才可判。**这一手法对账上所有「`∃` 打包了几何量 + 一条不等式」的条目通用**，本工程此前只在此处用过；`bgs4_offcrit_low` / `bgs4_offcrit_high`（两条 opaque）应照此复查一遍。
+
+**探针（`_probe_g1b.lean`，原文）**
+
+```
+QRH.diagTerm              : [propext, Classical.choice, Quot.sound]
+QRH.DiagRate_to_uniform   : [propext, Classical.choice, N_L_lower_bound, Quot.sound]
+QRH.s71_main_tail_diag    : [propext, Classical.choice, N_L_lower_bound,
+                             bgs4_offcrit_high, bgs4_offcrit_low, Quot.sound]
+```
+
+`s71_main_tail_diag` 的闭包**不含** `bgs3_pair_expansion`：A 线尾部形状的未证内容只剩 `DiagRate` 一条，加上两条 offcrit（`bgs4_*`）与 `N_L_lower_bound`。`bgs3_pair_expansion` 退回点形式 `s71_main` 自己的前件。
+
+**定性：(i) 是二阶矩 Weil 显式公式，不是 Abel 求和**
+
+台面上的判断是「`primeSum` 与 `pairConstant` 做 Abel 型重排」。**判死，理由三条**：
+
+1. Abel 求和是**同一序列内部**的改写（Σ aₙbₙ → Σ Aₙ(bₙ−bₙ₊₁)），求和对象不变。 (i) 要把「有序零点对上的 K(δΔγ)² 求和」变成「素数幂上的加权和」，对象从零点换到素数——Abel 不跨这一步，任何 Abel 变体都不跨。
+2. 这条恒等式的真身是 **BGS 引理 3**：Parseval 把配对和搬进 Fourier 域 ⟹ 得到 ∫ K̂²ρ₂ 型量 ⟹ 显式公式把零点侧换素数侧 ⟹ 在 **α ≤ 1** 段 form factor = 1 + 素数项 ⟹ 拆出 diag 与 prime。它只在 α ≤ 1 成立，这正好解释了我们 7/8 出局与 λ 阈值那套为何必然撞墙。
+3. 账上唯一的显式公式是**一阶**：`landau_explicit_L : Σ_ρ x^{ρ−r}/(ρ−r) = trivialTerm − primePowerSum − logDerivTerm`，且全库 0 消费（死条目）。 (i) 要的是**二阶**（乘积 ⟹ 二次型），缺的零件是：Plancherel（cos-Parseval 即可，mathlib 未必有）、`triKer` 的 K̂ 显式式、对相关密度 ρ₂ 的可用形式、α ≤ 1 段的 form factor 计算。四件里只有第一件的叶子曾机检过（A4：`fourierCos triKer` = sinc²），其余三件**从未在工程内出现过**。
+
+**登记方式（据此改写账本措辞）**
+
+(i) 不再登记为「缺一条组合恒等式」，而登记为「**缺二阶矩显式公式模块**（BGS 引理 3 复刻）：工程量月份级，四件零件清单如上」。`DiagRate` 是它的**结论侧**，不是它的替代品。
+
+**核族风险（A-R1，新增，必须核清）**
+
+`s71_main` 的 A 是 `pairConstant triKer`（triKer 支撑 |u| ≤ 1，K̂ = sinc²），而 `C_MT = 1.3274993` 出自 **f₀/λ-族**的类内极小（21.10，CCLM 封顶）。两族不同 ⟹ 「A ≤ C_MT」可能大半由核更窄买下。数值侧（triKer 口径，见 增量㉝）：ζ 表 1.119396、χ₅ 表 1.188930，距 C_MT 留 0.14–0.21 富余——富余大得可疑。**两条出路**：① 在 triKer 族内重解一次类内极小，得到 C_MT^(triKer)；② 把主定理的核整体换成 f₀。核清之前，`s71_main` 不得对外表述为「配对和 ≤ 1.3275」。
+
+**数值旁证与三条警示**
+
+见 增量㉝ 的表。警示不复述，只记硬约束：① Lean 的 `N_L` 是抽象量（仅 `NLc·T·logT ≤ N_L T`），任何具体数值 A 都依赖归一假设；② 与 21.11 的 1.3039/1.3062 **不可并表**（核 f₀、H = 200、除 i 数）；③ 只取「富余」定性。**待办：钉 `N_L` 的真定义**——现在它只是一条 axiom 的下界，这使任何数值 A 都带 15% 级口径歧义。
+
+**下一步（丙）的最小起手**
+
+模块第 0 步已有叶子：`fourierCos triKer` = sinc²（A4 机检）。第 1 步：cos-Parseval（∫₀^∞ K·G = ½∫ f·g）。第 2 步：`triKer` 的对相关形式 ∫₀^∞ sinc²·K² = ∫₀¹(1−α)Q(α)dα。第 3 步：一阶矩 `landau_explicit_L` 从死条目转活（这一步本身就值得做，与 (i) 无关：`landau_explicit_L` 是全库唯一「零消费」的 A 线 axiom）。第 4 步才碰 α ≤ 1 的 form factor。
+
+**账本**：axiom 7 / opaque 2 不变；`BGSDecompositionCore` 移除，`diagTerm` / `DiagRate` 入表；`lake build QRH` 3836 jobs 全绿。本节除探针外均为解析判断，未机检。
+
+### 21.13 A-R1 结案：核/密度错位（第十二刀，2026-11-24）
+
+**判决（对象层，不是界层）**
+
+`triKer` 出现在 `pairConstant` / `primeSum` 的 K 位置，而 Lamzouri/BGS 的类约束的是**密度 f**（f = η² ≥ 0、∫f = 1、supp f ⊆ (−λ,λ)），核 **K := f̂**；`C_η = Q(0) + 2∫₀¹αQ(α)dα` 只在 2λ ≤ 1 成立。于是：
+
+- **K = triKer 时**：f = 逆 Fourier(triKer) = sinc² 型，无紧支撑 ⟹ 类外 ⟹ A = 1.119396 / 1.188930 无主；
+- **f = triKer 时**：λ = 1，2λ = 2 > 1 ⟹ 超域 ⟹ 恒等式失效，K = sinc² 的 1.085822 无主；
+- **受证域 λ = 1/2 flat 支**：f ≡ 1、K = sinc(πu)、C_η = 4/3（精确）⟹ 这才是主链该用的对象。
+
+**判据登记（第 ⑥、⑦ 项，进审计台）**
+
+- **⑥「K 是密度还是密度的 Fourier」**：凡见到 K，先问它处在哪一侧。把 f 当 K（或把 K 当 f）会让"可容许性"变成空条件，所有常数失去归属；且这类错位**不报错、不违反类型**，只能靠"常数对不上任何文献值"这种间接征兆发现。
+- **⑦「每个常数必须挂一支具体核」**：C_MT 属于 f₀ 支（Montgomery–Taylor 极值函数），4/3 属于 flat 支，二者不可互换。任何"≤ C_MT"的陈述若核不同支，结论在对象层就无意义——**这比"界太紧"严重一档**：前者要重证，后者要重述。
+
+**本刀的落点（第十二刀，已编译已探针）**
+
+- 新增 `sincKer u := Real.sinc (π u)`、`sincKer_zero`、`sincKer_abs_le_one`、`C_FLAT := 4/3`（§2.1a′）。
+- 主链 11 处 `triKer → sincKer`、`C_MT → C_FLAT`（`bgs3`、`pair_sum_expansion`、`s71_main`、`BGSLocalUniform`、`diagTerm`、`DiagRate`、`DiagRate_to_uniform`、`primeSum_abs_le_floor`、`prime_normalized_le`、`s71_main_tail`、`s71_main_tail_diag`）＋ `QRH.lean` 两条自检 example。
+- `KernelAdmissible` / `triKer_admissible` 降级为历史件：该谓词把"可容许"定义成 **K 自己紧支撑**，与密度类不是同一件事；`sincKer` 不满足它，主链不经过它。**这一条要在 21.11 的"核 = f̂"结论下读**——第七刀的 profile 口径就是 A-R1 的根因，不是笔误。
+- `triKer` 的 Abel/Lipschitz 族原样保留（old-chain 专用）。
+
+**账本**：axiom 7 / opaque 2 不变；`lake build QRH` 3836 jobs 全绿；`_probe_g1c.lean` 十条探针，`s71_main` 闭包仍为 `N_L_lower_bound + bgs3 + bgs4_low + bgs4_high`。
+
+**数值与 5% 系统偏差（新增硬约束）**
+
+受证域 flat 支实测 A = 1.266513（T = 8×10⁵，ζ 全表，除 N_L），定理 4/3，差 5.0%。㉜ 的 f₀ + H = 200 + 除 i 数口径差 1.5%。差异根因是**没有做 BGS Lemma 3.2 的去权**（原式带 `w(z) = 4/(4−z²)`）。硬约束：**本口径只许定性**，其"富余/亏"不许升级为定理证据；要逐字对齐必须补 w(z) 权重或按 Lemma 3.2 换核 `r_{δ,T} = Q_δ − Q_δ''/(4(logT)²)`。
+
+**遗留**
+
+1. 回到 C_MT 需引入 f₀ 的显式 f̂（超越表达式，工程量约本次 3–4 倍；`sincKer → f₀Ker` 属增量，不返工）。
+2. 数值补 w(z) 去权。
+3. `N_L` 仍是抽象参数（只有 `NLc·T·logT ≤ N_L T`）——它使任何数值 A 带 15% 级归一歧义，与本次的 5% 偏差是两类不同的误差源，勿混。
+
+### 21.14 w(z) 的核对：加权式 / 去权式的分界就是「核的幂次」（2026-11-25，第五刀·数值口径）
+
+**原文结构（Lamzouri §3，两句就够）**
+
+- `w(z) = 4/(4−z²)`，z = ρ−ρ'（纯虚）⟹ `w(Δ) = 4/(4+Δ²) = (1+π²ζ²/(logT)²)⁻¹`，ζ = Δ·logT/2π。
+- **Lemma 3.1（加权式）**：`Σ f̂(ζ)·w = (T/2π)logT·(f(0)+2∫₀¹αf(α)dα+O(1/√logT))` —— **核一次方 + w**。
+- **Lemma 3.2（去权式）**：`r̂ = K²/w`（由 `Q̂=K²`、`Q''^(ζ)=−4π²ζ²K²` 推出），与 w 相乘抵消 ⟹ `Σ K²` **无权重**。
+
+**判据 ⑧（进审计台）：核的幂次就是判据。** 见到 `Σ K²` 就要想到 Lemma 3.2（已去权，无权重）；见到 `Σ K·w` 才是 Lemma 3.1。把 w 加到 `Σ K²` 上，等于同时用了两条引理的核，得到的数不属于任何定理。`pairConstant` 属前者，**它无需"补 w"**。
+
+**实算（ζ 表 T = 8×10⁵，6000 中心，partner 全表）**
+
+| 口径 | 核 | 权重 | δ = 2.1633 | δ = 逐点 | 理论 | 残差 |
+|---|---|---|---|---|---|---|
+| 去权（= `pairConstant`） | sinc² | 无 | 1.19739 | 1.31200 | 4/3 | −1.6% |
+| 加权（Lemma 3.1） | sinc | 4/(4+Δ²) | 1.09877 | 1.23486 | 5/4 | −1.5% |
+
+**两个常数属不同测试函数，互不矛盾**：去权式的核 sinc² = Q̂ ⟹ f = Q（三角）⟹ `Q(0)+2∫₀¹αQ = 4/3`；加权式的核 sinc = 矩形 f 的 f̂ ⟹ `f(0)+2∫₀^{1/2}αdα = 5/4`。**两式残差同为 1.5%**，与 21.11 的 1.5% 同量级 ⟹ 有限 T 残差。
+
+**5% 的真根因（更正增量㉞）**：不是缺 w，是 **δ 全局化**。N'(γ) = (1/2π)log(γ/2π) 在表内从 1.311（γ=2.4e4）到 1.868（γ=7.85e5）；用 T 处单值 δ 对全段求和，低端 u 被放大约 65% ⟹ sinc² 被压 ⟹ A 偏低。逐中心 δ_i 后残差 4.8% → 1.6%。
+
+**未闭合 P-δ**：定理字面 ζ = Δ·logT/2π（≠ log(T/2π)/2π，差 15.6%）；在 δ = 2.1633 下两式给 −13%/−15%，**对不上常数**。只有逐点 δ_loc 能到 1.5%。故「定理字面尺度 ↔ 表实际间距」之间还缺一层换算（候选：z 尺度、w 在 |Δ|~T 的尾部压制、0<γ,γ'≤T 边界计数，三者叠加）。**P-δ 解开之前，只许说"δ_loc 口径下差 1.5%"，不许说"实测 = 定理常数"。**
+
+**负面结果（单独记）**：朴素全表口径下 A = 4/3 出现在 δ ≈ 1.66（既非 2.1633 也非 1.8708）——**"调 δ 直到对表"不算对表**，它只暴露该口径缺一个因子。
+
+**对 Lean 的含义（无代码改动，只记口径张力）**：`physDelta T = logT/2π` 与定理字面一致（Lemma 3.1 的 ζ 尺度），但它与数值上能对表的 `δ_loc(γ)` 不是同一个对象。若将来要做"实测对表"的形式化桥，得先造一个 T ↦ 逐点 δ 的映射并证明其与 `physDelta` 的差为 `O(1/log²T)` 型——**这是一件新的、独立的工作，不能靠改 `physDelta` 的定义糊过去**。
+### 21.15 P-δ 结案 + 判据 ⑨「δ 与分母必须同源」（2026-11-25）
+
+**判据 ⑨（进审计台）**：只要见到「求和尺度 δ」与「归一化分母 N」，先问二者是否**同一个 log**。δ = logT/2π 配 (T/2π)logT 是自洽的（主项口径）；δ = log(γ/2π)/2π 配 N(γ) 是自洽的（真实口径）；**δ 取主项刻度而分母取真实零点数，是异源搭配** —— 编译器不会报错，类型也对，但 A 会被系统性推出定理的误差带，表现是「常数对不上任何文献值」。这是判据 ⑥（K 是密度还是密度的 Fourier）的**同构错误**：都是「两个配对对象取自不同层级」。
+
+**判据 ⑩（新）：先问落在谁的误差带里，再问等不等于常数。** 定理自带的误差项 O(1/√logT) 就是它的可读精度。在 T = 8×10⁵，1/√log(T/2π) = 0.292，「A = 4/3」这个等式在 ±9.7%（去权）/ ±7.3%（加权）的带里没有意义。**任何「实测 = 定理常数」的断言，若不附带宽，都是把一个带内数值伪装成等式。**
+
+**判决数据（全表，路径 `_pd_*.py`）**
+
+| δ 口径 | T=4e4 | 1e5 | 2e5 | 4e5 | 8e5 | 判 |
+|---|---|---|---|---|---|---|
+| D1 常数 logT/2π | 1.1670 | 1.1780 | 1.1862 | 1.1938 | 1.1975 | **出界 5/5**（下界 1.2361） |
+| D2 常数 log(T/2π)/2π | 1.2487 | 1.2549 | 1.2604 | 1.2653 | 1.2664 | 界内 5/5 |
+| D3 逐点 log(γ/2π)/2π | — | — | — | — | 1.3139 | 界内 |
+| D4 逐点 log γ/2π | — | — | — | — | 1.2255 | 出界 |
+
+**D1 出界 5/5 是本轮最硬的一条**：它不是「差一点对不上」，而是**全程落在定理不允许的读数区**。所以 ㉟ 登记的「定理字面尺度」与「表实际间距」之间缺一层换算 —— 这层换算**不存在**，因为它不是换算问题，是**刻度选错**。
+
+**15.6% 的解析身份**：log(2π)=1.838 除以 logT=13.59 ⟹ 13.5%；精确比 logT/log(T/2π) = 1.15636。这不是笔误，是「主项 (T/2π)logT + O(T)」写法的必然代价：真实 N(T) ≈ (T/2π)log(T/2π) − T/2π + 7/8。**主项写法在 T→∞ 无害，在有限 T 上就是 15.6%。**
+
+**界内残差的律**：残差·log(T/2π) 在 5 个 T 上稳定到 2% 以内，去权 ≈ −0.24，加权 ≈ −0.198（≈ −1/5）。这是纯有限高度项；W_u 从 25 放到 400 只把 −1.03% 收成 −0.74%，此后封顶（`_pd_trunc.txt`）。**所以「再调一调参就能对上」这条路到此为止 —— 剩下的全部是 O(1/logT)。**
+
+**分段诊断（δ 固定 2.1633，按 γ 分段）**：残差 −32%（γ 14–300）→ −28% → −24% → −17% → −11.8%（γ 3e5–8e5），**单调塌缩，没有一段在正确值上**。这否定了「用某个全局 δ 近似全表」的整个做法：δ 在 γ=14 处比局部密度大 5.8 倍，sinc² 完全失相。
+
+**结论（三条）**
+
+1. δ 必须逐点取 1/局部密度；全局常数（任何值）在低端都荒谬。
+2. 正确刻度 log(T/2π)/2π（常数）或 log(γ/2π)/2π（逐点），两者都在带内；剩余 5.8% 是 O(1/logT)，不是缺陷。
+3. **「精确复现 4/3」永久作废**，目标改为「落带 + 预测带内位置」。
+
+**对 Lean 的张力（未改代码，只登记）**
+
+`physDelta T = logT/(2π)` 配 `N_L T` 是判据 ⑨ 的异源搭配。要点：**这不是「s71_main 错了」** —— s71_main 的结论是 `A ≤ C_FLAT + C₁ε + C₂`，一个上界，主项写法下依然成立（渐近意义）。真正受影响的是**任何「physDelta 口径下实测对表」的动作**，它在原理上永远差 5–6%，而且不会因任何数值手段改善。
+
+**已落地（2026-11-25，第十三刀·纯新增）**：保留 `physDelta` 作文献字面，新增 `physDeltaRvM T := log(T/(2π))/(2π)` 与 `physWindowRvM`，docstring 标注 15.6% 与「后者才是合法读数」。不动 axiom、不动结论形状。
+
+**落地副产品：判据 ⑨ 拿到了一个定理级的锚**。`physDelta T − physDeltaRvM T = log(2π)/(2π)` 是**与 T 无关的精确常数**，已形式化为 `physDelta_sub_physDeltaRvM`（零 axiom，`Real.log_div` + `field_simp` + `ring_nf`）。所以判据 ⑨ 不是一句提醒，而有一把可机检的尺：**两个刻度的差永远 0.2925，与高度无关；它之所以表现为 15.6%，只是被 logT 稀释。** 凡「差随 T 变化」的说法都在此被排除。
+
+探针 `_probe_pdelta.lean`：`physDeltaRvM` / `physWindowRvM` / `physDelta_sub_physDeltaRvM` 三条全为 `[propext, choice, Quot.sound]`；`s71_main` 的 axiom 集与第十二刀后完全一致（7 条不变）。`lake build QRH` 3836 jobs 绿。
+
+**对表探针 §2.1a″（纯新增，与主链并列）**：`pairConstantRvM T := pairConstant sincKer (physDeltaRvM T) (N_L T) (zerosLChi5UpTo T)`；`PairBandRvM T : Prop := |pairConstantRvM T − C_FLAT| ≤ (1/√log(T/2π))/3`。后者是**形状不是定理**——它把判决表变成一个可 `#check`、可被审计脚本枚举的对象，适用域 `T > 2π` 已写进 docstring。两条真证引理 `physDeltaRvM_le_physDelta`（`0 < T`）与 `physDeltaRvM_pos`（`2π < T`）给这条形状做了实体支撑：RvM 刻度严格小于主项刻度、且在适用域内为正。四条全为零业务 axiom；`s71_main` / `s71_main_tail` 的依赖闭包逐条未变。
+
+**方法论上的一句**：这一刀证明「口径修正」可以做到完全不触碰主链——新增对象、新增形状、新增真证引理，账本一条不动。凡以后要验「某某换口径后会不会落带」的猜想，都用这个模板：造 `*RvM` 型对象 + `*Band*` 型 Prop，不进闭包。
+
+
+### 21.16 例外支线审计：不是「废弃骨架」，是「两套并行、互不交接」（2026-11-25）
+
+**对象**：`OrderPreservingBijection/Exceptional/`（31 个 .lean）。由形状清单 v2 的 42 条孤立 Prop 引出，其中 38 条在这个目录。
+
+**第一问：是否废弃骨架？不是。** 全域检索 `:= True` / `= True` / `:= trivial` / `:= by trivial` —— **零命中**。这些 Prop 每一条都是带具体常数、具体函数、具体界的实质数学陈述，且依赖的辅助对象（`psum`/`Gchi`/`Gone`/`cn`/`Li`/`Emain`/`rhoErr`/`GoodFor`/`InRegion`）全部有真定义（无 axiom）。**七条探针 `#check` 全部通过**（`_probe_exc.lean`）：`ZFRDirichlet`、`ZeroFreeSymmetric`、`PrimeCountAsymptoticInProgressions`、`ShortIntervalImpliesProgressions`、`PrimesInProgressionCountLowerBound`、`ExceptionalCharacterCountBound`、`TailSumBound`。
+
+**第二问：那它们是什么？三件套，两套并行。**
+
+| 件 | 位置 | 内容 | 状态 | 消费 |
+|---|---|---|---|---|
+| **真件** | `ExceptionalZeroInterface.lean:11` `dirichlet_exceptional_zero_unique_zero_free_region` | Deuring–Heilbronn 型：例外零点**成对唯一**（χ=χ'∧β=β'）、β ≥ 7/8、ord=1、`c/(M²logM) ≤ 1−β`，其余零点 `ρ.re ≤ 1 − c/log(M(|im|+2))` | **真定理**（由 `GlobalTheory.ExceptionalPair.main` 供，29 文件闭包自 Alpöge–Claude 归档搬运），`[propext, choice, Quot.sound]` | **0**（除探针） |
+| **图纸 A（错版）** | `Statement.lean:20` `ZFRDirichlet` | `∃c, ∀qχs: InRegion → IsLZero → χ²=1 ∧ χ≠1 ∧ im=0 ∧ L'≠0 ∧` **跨 q 全局唯一** | `def : Prop`，无证明 | 0 |
+| **图纸 B** | `PrimeCountAsymptoticInProgressions.lean` 22 条 + `SmoothedRemainderRealIntegralFormula.lean` 12 条 | 从平滑余项积分公式到「AP 素数渐近」，含 `PrimeCountAsymptoticInProgressions (C₀ Cr cr cb)` 四参数结论骨架 | 全 `def : Prop`，无证明 | 22 条中 21 条 0 引用；`PrimeCountAsymptoticInProgressions` 被 `ShortIntervalImpliesProgressions` 单引用，而后者自己 0 引用 ⟹ **悬空链** |
+
+**图纸 A 的错在哪（这一条要写死）**：真件给的是**二分法**——零点要么是「实特征例外零点（唯一）」，要么落在 `1 − c/log(M(|im|+2))` 左侧。`ZFRDirichlet` 把这个二分**压成了单一的「实特征 + 全局唯一」**，丢了例外分支，还额外要求「跨所有 q 只有一个零点」。后者与真件直接**不相容**：每个模 q 的实特征各有自己的 Siegel 零点，跨 q 唯一是假的。**它不是「未施工」，是「画错了」。**
+
+**形态图**
+
+```
+[Alpöge–Claude 归档 · 29 文件闭包]
+   GlobalTheory.ExceptionalPair.main          ← 真件，零业务 axiom
+        ↓ （Interface.lean 挂名）
+   dirichlet_exceptional_zero_unique_zero_free_region     ← 可用，零消费
+        ↓  ←—— 缺口就在这里：P–Z 显式公式 + 例外零点分离
+   22 + 12 条图纸 Prop                        ← 无证明、无引用、悬空
+        ↓
+   siegel_walfisz_chi5（QRH 账上的 axiom）    ← |Σ_{n≤x} Λ(n)χ₅(n)| ≤ c·x·e^{−c′√log x}
+```
+
+**结论：`siegel_walfisz_chi5` 这条 axiom 站得住。** 它标的正是全链唯一真正的空白——上游有零 axiom 真件、下游是它自己，中间那段（显式公式 + 例外分离 → 点态界）就是那 34 条图纸想干而没干的事。**这不是一条「该删的占位」，是一条「位置精确的缺口标记」。** 相对地，图纸 A 是错版，图纸 B 是未施工。
+
+**判据 ⑪（进审计台，本轮最重要的方法论收获）**：`#print axioms` 对 `def : Prop` **返回与真定理完全相同的 `[propext, choice, Quot.sound]`**。实测：
+
+```
+ZFRDirichlet（空壳 def）                  : [propext, choice, Quot.sound]
+dirichlet_exceptional_zero_unique_...（真定理）: [propext, choice, Quot.sound]
+```
+
+**所以「零 axiom」完全不代表「已证」。** 我们此前用 `#print axioms` 判账本，对 `def : Prop` 会给出**假阴性**——看起来干净，实际一个字都没证。补强规则：凡 `#print axioms` 干净者，必须同时确认它是 `theorem`（有证明项）还是 `def`（无证明项）；对 `def : Prop`，要看 `#print` 里有没有 `:= by`。判据 ⑪ 与判据 ⑩（先问误差带）合起来，才堵住这类伪装。
+
+**行动建议（均未执行，待拍板）**
+
+1. **✅ 已执行（2026-11-25）**：`ZFRDirichlet` 加 docstring 标「⚠ 错版，勿用，仅作历史对照」——写明「跨 q 唯一性为假」「与真件不相容」，并指向 `dirichlet_exceptional_zero_unique_zero_free_region` 为正确形态；同时注明「`#print axioms` 干净但它是 `def : Prop`，判据 ⑪ 适用」。`lake env lean` 零错误、`lake build OrderPreservingBijection.Exceptional.Statement` 3757 jobs 成功、探针 `#check` 通过、axiom 集不变（纯注释）。
+2. 图纸 B 的 34 条登记「未施工」，不删（它们是 S7.6 文档的 Lean 镜像，删了会丢对照）。
+3. **✅ 已执行（2026-11-25，支线接线）**：`S7_1_Main.lean` 顶部新增 `import OrderPreservingBijection.Exceptional.ExceptionalZeroInterface`；`axiom siegel_walfisz_chi5` 的 docstring 补「上游真件」段，写明该件给出的是「例外零点成对唯一 + 零自由区」二分、两件均 `#print axioms` 实测为零业务 axiom、并注明接线**只建立可指认的引用，不改 axiom 陈述、不进 `s71_main` 闭包**。
+
+   **前置检查（均通过）**：`OrderPreservingBijection` 全域不 import QRH（无循环，命中 0）；`GlobalTheory.ExceptionalPair.main` 本身也是 `[propext, choice, Quot.sound]`（不是黑箱）。
+
+   **接线后账本实测未动**：
+
+   ```
+   s71_main      : propext, choice, N_L_lower_bound, bgs3_pair_expansion,
+                   bgs4_offcrit_high, bgs4_offcrit_low, Quot.sound        ← 7 条
+   s71_main_tail : propext, choice, N_L_lower_bound,
+                   bgs4_offcrit_high, bgs4_offcrit_low, Quot.sound        ← 6 条
+   ```
+
+   `lake env lean S7_1_Main.lean` 零错误；`lake build QRH` **4025 jobs** 成功（由 3836 增至 4025，增量全部是 OrderPreservingBijection·Exceptional 闭包的 olean，无一条 axiom 进入主链）。
+
+   **意义**：`siegel_walfisz_chi5` 这条 axiom 第一次有了**实体上游**——不是「一条孤立的假设」，而是「上游有零 axiom 真件、下游就是它、中间那段（零自由区 → 点态 Λχ 界）无施工」的一条精确缺口标记。
+
+

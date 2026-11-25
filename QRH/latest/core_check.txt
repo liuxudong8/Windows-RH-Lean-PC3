@@ -1,0 +1,3 @@
+QRH/S7_1_Core.lean:226:8: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+QRH/S7_1_Core.lean:240:8: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+QRH/S7_1_Core.lean:249:10: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead

@@ -1,0 +1,25 @@
+'QRH.physDeltaRvM' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.physWindowRvM' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.physDelta_sub_physDeltaRvM' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.pairConstantRvM' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.PairBandRvM' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.physDeltaRvM_le_physDelta' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.physDeltaRvM_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QRH.s71_main' depends on axioms: [propext,
+ Classical.choice,
+ N_L_lower_bound,
+ bgs3_pair_expansion,
+ bgs4_offcrit_high,
+ bgs4_offcrit_low,
+ Quot.sound]
+'QRH.s71_main_tail' depends on axioms: [propext,
+ Classical.choice,
+ N_L_lower_bound,
+ bgs4_offcrit_high,
+ bgs4_offcrit_low,
+ Quot.sound]
+pairConstantRvM : ℝ → ℝ
+PairBandRvM : ℝ → Prop
+physDelta_sub_physDeltaRvM : ∀ (T : ℝ), T ≠ 0 → physDelta T - physDeltaRvM T = Real.log (2 * Real.pi) / (2 * Real.pi)
+physDeltaRvM_le_physDelta : ∀ (T : ℝ), 0 < T → physDeltaRvM T ≤ physDelta T
+physDeltaRvM_pos : ∀ (T : ℝ), 2 * Real.pi < T → 0 < physDeltaRvM T

@@ -1,0 +1,109 @@
+Set.indicator.{u_1, u_3} {α : Type u_1} {M : Type u_3} [Zero M] (s : Set α) (f : α → M) (x : α) : M
+Set.indicator_nonneg.{u_2, u_3} {α : Type u_2} {M : Type u_3} [Preorder M] [Zero M] {s : Set α} {f : α → M}
+  (h : ∀ a ∈ s, 0 ≤ f a) (a : α) : 0 ≤ s.indicator f a
+Real.volume_Icc {a b : ℝ} : MeasureTheory.volume (Set.Icc a b) = ENNReal.ofReal (b - a)
+MeasureTheory.integral_indicator.{u_1, u_3} {X : Type u_1} {E : Type u_3} {mX : MeasurableSpace X}
+  [NormedAddCommGroup E] [NormedSpace ℝ E] {f : X → E} {s : Set X} {μ : MeasureTheory.Measure X}
+  (hs : MeasurableSet s) : ∫ (x : X), s.indicator f x ∂μ = ∫ (x : X) in s, f x ∂μ
+MeasureTheory.integral_const_mul.{u_1, u_6} {α : Type u_1} {m : MeasurableSpace α} {μ : MeasureTheory.Measure α}
+  {L : Type u_6} [RCLike L] (r : L) (f : α → L) : ∫ (a : α), r * f a ∂μ = r * ∫ (a : α), f a ∂μ
+MeasureTheory.integral_mono_ae.{u_1, u_2} {α : Type u_1} {E : Type u_2} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {m : MeasurableSpace α} {μ : MeasureTheory.Measure α} [PartialOrder E] [IsOrderedAddMonoid E] [IsOrderedModule ℝ E]
+  [ClosedIciTopology E] {f g : α → E} (hf : MeasureTheory.Integrable f μ) (hg : MeasureTheory.Integrable g μ)
+  (h : f ≤ᵐ[μ] g) : ∫ (x : α), f x ∂μ ≤ ∫ (x : α), g x ∂μ
+MeasureTheory.Integrable.indicator.{u_1, u_4} {α : Type u_1} {ε' : Type u_4} {mα : MeasurableSpace α} {s : Set α}
+  {μ : MeasureTheory.Measure α} [TopologicalSpace ε'] [ESeminormedAddMonoid ε'] {f : α → ε'}
+  (h : MeasureTheory.Integrable f μ) (hs : MeasurableSet s) : MeasureTheory.Integrable (s.indicator f) μ
+Real.abs_cos_le_one (x : ℝ) : |cos x| ≤ 1
+QRH/Probe_f0.lean:19:7: error(lean.unknownIdentifier): Unknown identifier `MeasureTheory.volume_def`
+QRH/Probe_f0.lean:20:7: error(lean.unknownIdentifier): Unknown constant `MeasureTheory.Measure.measure_Icc`
+QRH/Probe_f0.lean:21:7: error(lean.unknownIdentifier): Unknown constant `Real.measure_Icc`
+QRH/Probe_f0.lean:22:7: error(lean.unknownIdentifier): Unknown identifier `MeasureTheory.integral_ofReal`
+Set.indicator_le.{u_2, u_3} {α : Type u_2} {M : Type u_3} [AddMonoid M] [PartialOrder M] [CanonicallyOrderedAdd M]
+  {s : Set α} {f g : α → M} (hfg : ∀ a ∈ s, f a ≤ g a) : s.indicator f ≤ g
+QRH/Probe_f0.lean:24:7: error(lean.unknownIdentifier): Unknown identifier `MeasureTheory.integral_le_integral`
+MeasureTheory.integral_const.{u_1, u_2} {α : Type u_1} {E : Type u_2} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {m : MeasurableSpace α} {μ : MeasureTheory.Measure α} [hE : CompleteSpace E] (c : E) :
+  ∫ (x : α), c ∂μ = μ.real Set.univ • c
+QRH/Probe_f0.lean:28:7: error(lean.unknownIdentifier): Unknown identifier `MeasureTheory.integral_const_one`
+QRH/Probe_f0.lean:29:7: error(lean.unknownIdentifier): Unknown identifier `MeasureTheory.volume_singleton`
+MeasureTheory.measure_union.{u_1} {α : Type u_1} {m : MeasurableSpace α} {μ : MeasureTheory.Measure α} {s₁ s₂ : Set α}
+  (hd : Disjoint s₁ s₂) (h : MeasurableSet s₂) : μ (s₁ ∪ s₂) = μ s₁ + μ s₂
+MeasureTheory.measure_union_null.{u_1, u_3} {α : Type u_1} {F : Type u_3} [FunLike F (Set α) ENNReal]
+  [MeasureTheory.OuterMeasureClass F α] {μ : F} {s t : Set α} (hs : μ s = 0) (ht : μ t = 0) : μ (s ∪ t) = 0
+abs_div.{u_1} {α : Type u_1} [Field α] [LinearOrder α] [IsStrictOrderedRing α] (a b : α) : |a / b| = |a| / |b|
+abs_of_nonneg.{u_1} {α : Type u_1} [Lattice α] [AddGroup α] {a : α} [AddLeftMono α] (h : 0 ≤ a) : |a| = a
+QRH/Probe_f0.lean:36:7: error(lean.unknownIdentifier): Unknown constant `Real.norm_num`
+min_le_right.{u_1} {α : Type u_1} [LinearOrder α] (a b : α) : min a b ≤ b
+max_le.{u_1} {α : Type u_1} [LinearOrder α] {a b c : α} (h₁ : a ≤ c) (h₂ : b ≤ c) : max a b ≤ c
+le_max_left.{u_1} {α : Type u_1} [LinearOrder α] (a b : α) : a ≤ max a b
+min_le_left.{u_1} {α : Type u_1} [LinearOrder α] (a b : α) : min a b ≤ a
+le_min_iff.{u_1} {α : Type u_1} [LinearOrder α] {a b c : α} : c ≤ min a b ↔ c ≤ a ∧ c ≤ b
+MeasureTheory.integral_congr_ae.{u_1, u_5} {α : Type u_1} {G : Type u_5} [NormedAddCommGroup G] [NormedSpace ℝ G]
+  {m : MeasurableSpace α} {μ : MeasureTheory.Measure α} {f g : α → G} (h : f =ᵐ[μ] g) :
+  ∫ (a : α), f a ∂μ = ∫ (a : α), g a ∂μ
+MeasureTheory.integral_zero.{u_1, u_5} (α : Type u_1) (G : Type u_5) [NormedAddCommGroup G] [NormedSpace ℝ G]
+  {m : MeasurableSpace α} {μ : MeasureTheory.Measure α} : ∫ (x : α), 0 ∂μ = 0
+QRH/Probe_f0.lean:48:7: error(lean.unknownIdentifier): Unknown identifier `MeasureTheory.integral_norm_eq_lintegral_norm`
+MeasureTheory.integrableOn_const.{u_1, u_4} {α : Type u_1} {ε' : Type u_4} {mα : MeasurableSpace α} {s : Set α}
+  {μ : MeasureTheory.Measure α} [TopologicalSpace ε'] [ESeminormedAddMonoid ε'] {C : ε'} (hs : μ s ≠ ⊤ := by finiteness)
+  (hC : ‖C‖ₑ ≠ ⊤ := by finiteness) : MeasureTheory.IntegrableOn (fun x => C) s μ
+MeasureTheory.setIntegral_const.{u_1, u_3} {X : Type u_1} {E : Type u_3} {mX : MeasurableSpace X} [NormedAddCommGroup E]
+  [NormedSpace ℝ E] {s : Set X} {μ : MeasureTheory.Measure X} [CompleteSpace E] (c : E) :
+  ∫ (x : X) in s, c ∂μ = μ.real s • c
+MeasureTheory.Integrable.mono.{u_1, u_2, u_3} {α : Type u_1} {β : Type u_2} {γ : Type u_3} {m : MeasurableSpace α}
+  {μ : MeasureTheory.Measure α} [NormedAddCommGroup β] [NormedAddCommGroup γ] {f : α → β} {g : α → γ}
+  (hg : MeasureTheory.Integrable g μ) (hf : MeasureTheory.AEStronglyMeasurable f μ) (h : ∀ᵐ (a : α) ∂μ, ‖f a‖ ≤ ‖g a‖) :
+  MeasureTheory.Integrable f μ
+MeasureTheory.integrableOn_iff_integrable_of_support_subset.{u_1, u_6} {α : Type u_1} {mα : MeasurableSpace α}
+  {s : Set α} {μ : MeasureTheory.Measure α} {ε' : Type u_6} [TopologicalSpace ε'] [ENormedAddMonoid ε']
+  [TopologicalSpace.PseudoMetrizableSpace ε'] {f : α → ε'} (h1s : Function.support f ⊆ s) :
+  MeasureTheory.IntegrableOn f s μ ↔ MeasureTheory.Integrable f μ
+ENNReal.toReal_ofReal {r : ℝ} (h : 0 ≤ r) : (ENNReal.ofReal r).toReal = r
+MeasureTheory.setIntegral_indicator.{u_1, u_3} {X : Type u_1} {E : Type u_3} {mX : MeasurableSpace X}
+  [NormedAddCommGroup E] [NormedSpace ℝ E] {f : X → E} {s t : Set X} {μ : MeasureTheory.Measure X}
+  (ht : MeasurableSet t) : ∫ (x : X) in s, t.indicator f x ∂μ = ∫ (x : X) in s ∩ t, f x ∂μ
+MeasureTheory.integral_add.{u_1, u_5} {α : Type u_1} {G : Type u_5} [NormedAddCommGroup G] [NormedSpace ℝ G]
+  {m : MeasurableSpace α} {μ : MeasureTheory.Measure α} {f g : α → G} (hf : MeasureTheory.Integrable f μ)
+  (hg : MeasureTheory.Integrable g μ) : ∫ (a : α), f a + g a ∂μ = ∫ (a : α), f a ∂μ + ∫ (a : α), g a ∂μ
+MeasureTheory.Integrable.add.{u_1, u_7} {α : Type u_1} {m : MeasurableSpace α} {μ : MeasureTheory.Measure α}
+  {ε' : Type u_7} [TopologicalSpace ε'] [ESeminormedAddMonoid ε'] [ContinuousAdd ε'] {f g : α → ε'}
+  (hf : MeasureTheory.Integrable f μ) (hg : MeasureTheory.Integrable g μ) : MeasureTheory.Integrable (f + g) μ
+Set.support_indicator.{u_1, u_3} {α : Type u_1} {M : Type u_3} [Zero M] {s : Set α} {f : α → M} :
+  Function.support (s.indicator f) = s ∩ Function.support f
+isClosed_Icc.{u} {α : Type u} [TopologicalSpace α] [Preorder α] [t : OrderClosedTopology α] {a b : α} :
+  IsClosed (Set.Icc a b)
+QRH/Probe_f0.lean:63:7: error(lean.unknownIdentifier): Unknown identifier `isClosed.measurableSet`
+MeasureTheory.setIntegral_mono.{u_1, u_3} {X : Type u_1} {E : Type u_3} {mX : MeasurableSpace X} [NormedAddCommGroup E]
+  [NormedSpace ℝ E] [PartialOrder E] [IsOrderedAddMonoid E] [IsOrderedModule ℝ E] {μ : MeasureTheory.Measure X}
+  {f g : X → E} {s : Set X} [ClosedIciTopology E] (hf : MeasureTheory.IntegrableOn f s μ)
+  (hg : MeasureTheory.IntegrableOn g s μ) (h : f ≤ g) : ∫ (x : X) in s, f x ∂μ ≤ ∫ (x : X) in s, g x ∂μ
+Measurable.ite.{u_1, u_2} {α : Type u_1} {β : Type u_2} {f g : α → β} {m : MeasurableSpace α} {mβ : MeasurableSpace β}
+  {p : α → Prop} {x✝ : DecidablePred p} (hp : MeasurableSet {a | p a}) (hf : Measurable f) (hg : Measurable g) :
+  Measurable fun x => if p x then f x else g x
+measurable_norm.{u_1} {α : Type u_1} [MeasurableSpace α] [NormedAddCommGroup α] [OpensMeasurableSpace α] :
+  Measurable Norm.norm
+Continuous.measurable.{u_1, u_3} {α : Type u_1} {γ : Type u_3} [TopologicalSpace α] [MeasurableSpace α]
+  [OpensMeasurableSpace α] [TopologicalSpace γ] [MeasurableSpace γ] [BorelSpace γ] {f : α → γ} (hf : Continuous f) :
+  Measurable f
+Set.disjoint_left.{u} {α : Type u} {s t : Set α} : Disjoint s t ↔ ∀ ⦃a : α⦄, a ∈ s → a ∉ t
+MeasureTheory.Integrable.aestronglyMeasurable.{u_1, u_5} {α : Type u_1} {ε : Type u_5} {m : MeasurableSpace α}
+  {μ : MeasureTheory.Measure α} [TopologicalSpace ε] [ContinuousENorm ε] {f : α → ε}
+  (hf : MeasureTheory.Integrable f μ) : MeasureTheory.AEStronglyMeasurable f μ
+MeasureTheory.AEStronglyMeasurable.norm.{u_1, u_5} {α : Type u_1} {m₀ : MeasurableSpace α} {μ : MeasureTheory.Measure α}
+  {β : Type u_5} [SeminormedAddCommGroup β] {f : α → β} (hf : MeasureTheory.AEStronglyMeasurable f μ) :
+  MeasureTheory.AEStronglyMeasurable (fun x => ‖f x‖) μ
+QRH/Probe_f0.lean:71:7: error(lean.unknownIdentifier): Unknown constant `Continuous.aeStronglyMeasurable`
+measurable_const.{u_1, u_2} {α : Type u_1} {β : Type u_2} {x✝ : MeasurableSpace α} {x✝¹ : MeasurableSpace β} {a : α} :
+  Measurable fun x => a
+MeasureTheory.integrableOn_iff_integrable_of_support_subset.{u_1, u_6} {α : Type u_1} {mα : MeasurableSpace α}
+  {s : Set α} {μ : MeasureTheory.Measure α} {ε' : Type u_6} [TopologicalSpace ε'] [ENormedAddMonoid ε']
+  [TopologicalSpace.PseudoMetrizableSpace ε'] {f : α → ε'} (h1s : Function.support f ⊆ s) :
+  MeasureTheory.IntegrableOn f s μ ↔ MeasureTheory.Integrable f μ
+QRH/Probe_f0.lean:74:7: error(lean.unknownIdentifier): Unknown identifier `MeasureTheory.measure_ne_top_Icc`
+Set.Icc_subset_Icc.{u_1} {α : Type u_1} [Preorder α] {a₁ a₂ b₁ b₂ : α} (ha : a₂ ≤ a₁) (hb : b₁ ≤ b₂) :
+  Set.Icc a₁ b₁ ⊆ Set.Icc a₂ b₂
+Set.mem_Icc.{u_1} {α : Type u_1} [Preorder α] {a b x : α} : x ∈ Set.Icc a b ↔ a ≤ x ∧ x ≤ b
+abs_nonneg.{u_1} {α : Type u_1} [Lattice α] [AddGroup α] [AddLeftMono α] [AddRightMono α] (a : α) : 0 ≤ |a|
+QRH/Probe_f0.lean:78:7: error(lean.unknownIdentifier): Unknown identifier `sub_le_sub_iff_le_of_nonneg`
+QRH/Probe_f0.lean:79:7: error(lean.unknownIdentifier): Unknown identifier `MeasureTheory.integral_congr`

@@ -1,0 +1,15 @@
+
+ZFRDirichlet : Prop
+ZeroFreeSymmetric : Prop
+PrimeCountAsymptoticInProgressions : ℝ → ℝ → ℝ → ℝ → Prop
+ShortIntervalImpliesProgressions : Prop
+PrimesInProgressionCountLowerBound : Prop
+ExceptionalCharacterCountBound : Prop
+TailSumBound : Prop
+    ∀ (c₁ : ℝ),
+                  (∀ (χ χ' : DirichletCharacter ℂ M) (β β' : ℝ),
+                    (∀ (χ : DirichletCharacter ℂ M) (β : ℝ),
+'Formalism.ZeroFreeDirichlet.ZFRDirichlet' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Formalism.HermitianLattices.GL2a2.ZeroFreeSymmetric' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OrderPreservingBijection.ExceptionalZero.dirichlet_exceptional_zero_unique_zero_free_region' depends on axioms: [propext,
+

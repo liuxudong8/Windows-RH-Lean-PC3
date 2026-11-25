@@ -1,0 +1,8 @@
+QRH/Probe_norm.lean:21:41: error: unsolved goals
+case calc.step
+f g : ℝ → ℝ
+x : ℝ
+hf : Measurable f
+hg : Measurable g
+hpoint : |f x - g x| ≤ f x * (1 - g x)
+⊢ f x * (1 - g x) ≤ ‖f x * (1 - g x)‖

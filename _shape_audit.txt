@@ -1,0 +1,27 @@
+扫描 .lean 408 个，声明 2611 条
+引用统计 0.2s
+
+写出 C:\proj2\_shape_audit.md
+
+孤立形状 42 条 —— 按文件：
+   22  OrderPreservingBijection/Exceptional/PrimeCountAsymptoticInProgressions.lean
+   12  OrderPreservingBijection/Exceptional/SmoothedRemainderRealIntegralFormula.lean
+    4  OrderPreservingBijection/Exceptional/ZerosDisc.lean
+    1  OrderPreservingBijection/EllipticClasses.lean
+    1  OrderPreservingBijection/Exceptional/Statement.lean
+    1  OrderPreservingBijection/QuadraticFieldFive.lean
+    1  QRH/S7_1_Main.lean
+
+有消费者 62 条 —— 引用数 top 12：
+   637  S                                  A5CharQ5/A5Defs.lean:1367
+    38  pairConstant                       QRH/S7_1_Main.lean:64
+    33  Jpq                                OrderPreservingBijection/SylvesterInertia.lean:46
+    23  IsFarZero                          OrderPreservingBijection/ZetaZeros.lean:1185
+    19  C2At                               BSD/LeibnizReduction.lean:62
+    18  UniformSupport                     OrderPreservingBijection/stage_4.lean:3045
+    17  HasSignature                       OrderPreservingBijection/SylvesterInertia.lean:50
+    17  UnitEquiv                          OrderPreservingBijection/stage_3.lean:130
+    16  PointSetSeparable                  OrderPreservingBijection/Interpolation.lean:44
+    15  WeakRealPart                       QRH/S7_1_Main.lean:69
+    14  ADefiniteSignature                 OrderPreservingBijection/stage_4.lean:6042
+    12  IsExc                              OrderPreservingBijection/Exceptional/ZerosDisc.lean:32

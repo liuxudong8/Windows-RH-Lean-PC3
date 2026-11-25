@@ -1,0 +1,2 @@
+import OrderPreservingBijection.Exceptional.ExceptionalZeroInterface
+#print axioms GlobalTheory.ExceptionalPair.main

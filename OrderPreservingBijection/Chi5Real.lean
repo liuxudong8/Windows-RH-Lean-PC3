@@ -31,6 +31,19 @@ lemma chi5Dirichlet_eq_unit (u : Units (ZMod 5)) :
   unfold chi5Dirichlet
   exact MulChar.ofUnitHom_coe chi5UnitHom u
 
+/-- **`χ₅` 的模不超过 1**：单位点取 ±1、非单位点取 0，故 `‖χ₅(x)‖ ≤ 1`。
+    （供素数项 `Λ(n)χ₅(n)` 的粗界使用：`|Λχ₅| ≤ Λ`。） -/
+theorem chi5Dirichlet_norm_le_one (x : ZMod 5) : ‖chi5Dirichlet x‖ ≤ 1 := by
+  classical
+  by_cases hx : IsUnit x
+  · show ‖chi5Dirichlet (hx.unit : ZMod 5)‖ ≤ 1
+    rw [chi5Dirichlet_eq_unit hx.unit]
+    rcases chi5UnitFun_eq_one_or_neg_one hx.unit with h | h
+    · rw [h]; simp
+    · rw [h]; simp
+  · rw [MulChar.map_nonunit chi5Dirichlet hx]
+    simp
+
 /-- **χ₅ 的实性**：`DirichletCharacter ℂ 5` 的取值虚部恒为 0。 -/
 theorem chi5Dirichlet_apply_im_zero (x : ZMod 5) : (chi5Dirichlet x).im = 0 := by
   classical

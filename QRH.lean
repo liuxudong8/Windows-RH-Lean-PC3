@@ -25,8 +25,16 @@ namespace QRH
 example (T : ℝ) (hT : (1 : ℝ) ≤ T) (hweak : WeakRealPart T zerosLChi5)
     (hbig : offcritThreshold ≤ T) (ε : ℝ) (hε0 : 0 < ε) :
     ∃ (C₁ C₂ : ℝ), 0 ≤ C₁ ∧ 0 ≤ C₂ ∧
-      pairConstant triKer (Real.log T / (2 * Real.pi)) (N_L T) (zerosLChi5UpTo T)
-        ≤ C_MT + C₁ * ε + C₂ :=
+      pairConstant sincKer (Real.log T / (2 * Real.pi)) (N_L T) (zerosLChi5UpTo T)
+        ≤ C_FLAT + C₁ * ε + C₂ :=
   s71_main T hT hweak hbig ε hε0
+
+/-- 尾部形状自检：`A ≤ C_MT + o(1)`（2026-11-24 第九刀）——条件于 BGS 一致常数 `(U)`；
+    离线项那个绝对 1 已被 `offcrit_remainder_eventually_small` 真证消化，故结论无 `+C₂`。 -/
+example (hU : BGSLocalUniform) (ε : ℝ) (hε : 0 < ε) :
+    ∀ᶠ T : ℝ in Filter.atTop, WeakRealPart T zerosLChi5 →
+      pairConstant sincKer (Real.log T / (2 * Real.pi)) (N_L T) (zerosLChi5UpTo T)
+        ≤ C_FLAT + ε :=
+  s71_main_tail hU ε hε
 
 end QRH

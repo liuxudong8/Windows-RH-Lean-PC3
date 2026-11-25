@@ -1,0 +1,5 @@
+first order-3: ((1, 2, 3, 4, 5, 6), False)
+first with rel: (1, 2, 4, 5, 3, 6)
+A^2B^2 rel check for first order-3: False
+mulp(A2,B) = (3, 4, 5, 1, 2, 6)
+(A2B)^2 = (5, 1, 2, 3, 4, 6)

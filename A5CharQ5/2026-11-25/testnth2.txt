@@ -1,0 +1,102 @@
+C:\proj2\A5CharQ5\TestNth2.lean:13:2: error: No goals to be solved
+C:\proj2\A5CharQ5\TestNth2.lean:18:2: error: No goals to be solved
+C:\proj2\A5CharQ5\TestNth2.lean:23:2: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+C:\proj2\A5CharQ5\TestNth2.lean:29:2: error: Tactic `rfl` failed: The left-hand side
+  pB * (pA ^ 2 * pA ^ 2) * pB ^ 2 * (pA ^ 2 * pA ^ 2) * pB
+is not definitionally equal to the right-hand side
+  pB * pA ^ 2 * pA ^ 2 * pB ^ 2 * (pA ^ 2 * pA ^ 2) * pB
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+⊢ pB * (pA ^ 2 * pA ^ 2) * pB ^ 2 * (pA ^ 2 * pA ^ 2) * pB = pB * pA ^ 2 * pA ^ 2 * pB ^ 2 * (pA ^ 2 * pA ^ 2) * pB
+C:\proj2\A5CharQ5\TestNth2.lean:35:2: error: No goals to be solved
+C:\proj2\A5CharQ5\TestNth2.lean:42:30: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pA ^ 2 * pB
+in the target expression
+  pA * (pA * pB ^ 2) = pB ^ 2 * pA ^ 3 * pB
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hA : pA ^ 2 * pB = pB ^ 2 * pA ^ 3
+⊢ pA * (pA * pB ^ 2) = pB ^ 2 * pA ^ 3 * pB
+C:\proj2\A5CharQ5\TestNth2.lean:46:68: error: unsolved goals
+x : Type
+inst✝ : Monoid x
+pA pB : x
+⊢ pB * (pA * pA) * pB ^ 2 * pA ^ 3 * pB * pA ^ 4 * pB = pB * (pA * pA) * pB * pB * pA ^ 3 * pB * pA ^ 4 * pB
+C:\proj2\A5CharQ5\TestNth2.lean:52:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a ^ ?n * ?a
+in the target expression
+  pB * pB ^ 2 * pA ^ 3 * pB * pA ^ 3 * pB * pA ^ 4 * pB = pB ^ 3 * pA ^ 3 * pB * pA ^ 3 * pB * pA ^ 4 * pB
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+⊢ pB * pB ^ 2 * pA ^ 3 * pB * pA ^ 3 * pB * pA ^ 4 * pB = pB ^ 3 * pA ^ 3 * pB * pA ^ 3 * pB * pA ^ 4 * pB
+C:\proj2\A5CharQ5\TestNth2.lean:76:2: error: No goals to be solved
+C:\proj2\A5CharQ5\TestNth2.lean:81:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pA ^ 4 * pB
+in the target expression
+  pA * pB * pB * pA * pB * pA ^ 4 * pB = pA * pB * pB * pA * pB * pA ^ 2 * (pA ^ 2 * pB)
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+⊢ pA * pB * pB * pA * pB * pA ^ 4 * pB = pA * pB * pB * pA * pB * pA ^ 2 * (pA ^ 2 * pB)
+C:\proj2\A5CharQ5\TestNth2.lean:88:2: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+C:\proj2\A5CharQ5\TestNth2.lean:92:74: error: unsolved goals
+x : Type
+inst✝ : Monoid x
+pA pB : x
+⊢ pA * pB * pB * pA * (pB * (pA * pA) * pB ^ 2 * pA ^ 3) = pA * pB * pB * pA * (pB * (pA * pA) * pB * pB * pA ^ 3)
+C:\proj2\A5CharQ5\TestNth2.lean:99:2: error: Tactic `rfl` failed: The left-hand side
+  pA * pB * pB * pA * (pB * pA ^ 2 * pB * pB) * pA ^ 3
+is not definitionally equal to the right-hand side
+  pA * pB * pB * pA * (pB * (pA ^ 2 * pB) * pB * pA ^ 3)
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+⊢ pA * pB * pB * pA * (pB * pA ^ 2 * pB * pB) * pA ^ 3 = pA * pB * pB * pA * (pB * (pA ^ 2 * pB) * pB * pA ^ 3)
+C:\proj2\A5CharQ5\TestNth2.lean:105:2: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+C:\proj2\A5CharQ5\TestNth2.lean:113:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * (?b * ?c)
+in the target expression
+  pA * pB * pB * pA * pA ^ 3 = pA * pB * pB * pA ^ 4
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+⊢ pA * pB * pB * pA * pA ^ 3 = pA * pB * pB * pA ^ 4
+C:\proj2\A5CharQ5\TestNth2.lean:116:2: error: No goals to be solved
+C:\proj2\A5CharQ5\TestNth2.lean:126:11: error: unknown tactic
+C:\proj2\A5CharQ5\TestNth2.lean:122:38: error: unsolved goals
+x : Type
+inst✝ : Monoid x
+pA pB : x
+⊢ pA * pB * pB * pA * pA ^ 3 * pB * pA ^ 3 = pA * pB * pB * (pA * pA ^ 3) * pB * pA ^ 3
+C:\proj2\A5CharQ5\TestNth2.lean:120:56: error: unsolved goals
+case calc.step
+x : Type
+inst✝ : Monoid x
+pA pB : x
+⊢ pA * pB * pB * (pA * pA ^ 3) * pB * pA ^ 3 = pA * pB * pB * pA ^ 4 * pB * pA ^ 3
+C:\proj2\A5CharQ5\TestNth2.lean:140:3: error: unknown tactic
+C:\proj2\A5CharQ5\TestNth2.lean:139:82: error: unsolved goals
+x : Type
+inst✝ : Monoid x
+pA pB : x
+hCi : pB ^ 2 = pA ^ 2 * pB * pA ^ 2
+⊢ pA ^ 2 * pB * pA ^ 3 * pB * pA ^ 3 * pB * pA ^ 2 =
+    pA ^ 2 * pB * pA ^ 3 * pB * (pA ^ 2 * pB * pA ^ 2) * pA ^ 3 * pB * pA ^ 2
+C:\proj2\A5CharQ5\TestNth2.lean:145:0: error: Invalid `end`: There is no current scope to end
+
+Note: Scopes are introduced using `namespace` and `section`

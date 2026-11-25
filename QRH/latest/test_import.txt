@@ -1,0 +1,32 @@
+QRH/Test_import.lean:10:2: error: Type mismatch: After simplification, term
+  HasDerivAt.sub (hasDerivAt_cos x) (hasDerivAt_const x 1)
+ has type
+  HasDerivAt (cos - fun x => 1) (-sin x) x
+but is expected to have type
+  HasDerivAt cos (-sin x) x
+QRH/Test_import.lean:14:2: error: Type mismatch: After simplification, term
+  HasDerivAt.sub (hasDerivAt_sin x) (hasDerivAt_id x)
+ has type
+  @HasDerivAt ℝ DenselyNormedField.toNontriviallyNormedField ℝ normedAddCommGroup.toAddCommGroup
+    NormedField.toNormedSpace.toModule PseudoMetricSpace.toUniformSpace.toTopologicalSpace ⋯ (sin - id) (cos x - 1) x
+but is expected to have type
+  @HasDerivAt ℝ DenselyNormedField.toNontriviallyNormedField ℝ instAddCommGroup Semiring.toModule
+    PseudoMetricSpace.toUniformSpace.toTopologicalSpace ⋯ (fun u => sin u - u) (cos x - 1) x
+QRH/Test_import.lean:18:2: error: Type mismatch: After simplification, term
+  HasDerivAt.mul (hasDerivAt_id x) (hasDerivAt_cos x)
+ has type
+  @HasDerivAt ℝ DenselyNormedField.toNontriviallyNormedField ℝ normedCommRing.toAddCommGroup
+    (NormedAlgebra.toNormedSpace ℝ).toModule PseudoMetricSpace.toUniformSpace.toTopologicalSpace ⋯ (id * cos)
+    (cos x + -(x * sin x)) x
+but is expected to have type
+  @HasDerivAt ℝ DenselyNormedField.toNontriviallyNormedField ℝ instAddCommGroup Semiring.toModule
+    PseudoMetricSpace.toUniformSpace.toTopologicalSpace ⋯ (fun u => u * cos u) (cos x + -(x * sin x)) x
+QRH/Test_import.lean:21:48: error(lean.unknownIdentifier): Unknown constant `Real.pi`
+QRH/Test_import.lean:21:67: error(lean.unknownIdentifier): Unknown constant `Real.pi`
+QRH/Test_import.lean:23:29: error(lean.unknownIdentifier): Unknown constant `Real.pi`
+QRH/Test_import.lean:32:2: error: Type mismatch: After simplification, term
+  hres
+ has type
+  |y - x| ≤ 4⁻¹ * |y - x|
+but is expected to have type
+  |x - y| ≤ 4⁻¹ * |x - y|
