@@ -74,14 +74,21 @@ $main = "C:\proj2\QRH\S7_1_Main.lean"
 Write-Host "`n===== 1/5 Sync external artifacts into repo =====" -ForegroundColor Cyan
 
 # 1) QRH Lean 项目源 → 仓库 QRH\<today> 快照（同日更新；历史快照保留不覆盖）
-$qrhDst = Join-Path $repo "QRH\$today"
-New-Item -ItemType Directory -Force -Path $qrhDst | Out-Null
-Copy-Item -Path "C:\proj2\QRH\*" -Destination $qrhDst -Recurse -Force
+$qrhLibFiles = @("S7_1_Core.lean","S7_1_Main.lean","S7_1_Stage3.lean")
+foreach ($f in $qrhLibFiles) {
+    $s = Join-Path "C:\proj2\QRH" $f
+    if (Test-Path -LiteralPath $s) {
+        Copy-Item -LiteralPath $s -Destination (Join-Path $repo "QRH") -Force
+    } else {
+        Write-Host "  ⚠ 缺 $f（跳过）" -ForegroundColor Yellow
+    }
+}
+# 全量快照（含探针 / 文档）→ archive\snapshots\qrh\<today>
+$qrhSnap = Join-Path $repo "archive\snapshots\qrh\$today"
+New-Item -ItemType Directory -Force -Path $qrhSnap | Out-Null
+Copy-Item -Path "C:\proj2\QRH\*" -Destination $qrhSnap -Recurse -Force
 
-# 1d) 另维护一份"当前版本"覆写目录（历史日期快照不受影响）
-$qrhLatest = Join-Path $repo "QRH\latest"
-New-Item -ItemType Directory -Force -Path $qrhLatest | Out-Null
-Copy-Item -Path "C:\proj2\QRH\*" -Destination $qrhLatest -Recurse -Force
+# 1d) 「当前版本」入口已取消：顶层 QRH/ 本身就是当前版本（可编译的 3 个库模块）
 
 # 1b) A5CharQ5 Lean 项目源 → 仓库 A5CharQ5\<today> 快照
 $a5Dst = Join-Path $repo "A5CharQ5\$today"

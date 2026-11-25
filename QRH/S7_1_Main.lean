@@ -2,10 +2,12 @@ import QRH.S7_1_Core
 import OrderPreservingBijection.stage_3
 import OrderPreservingBijection.Chi5Real
 import OrderPreservingBijection.LSeriesConj
+import OrderPreservingBijection.Exceptional.ExceptionalZeroInterface
 import Mathlib.NumberTheory.LSeries.DirichletContinuation
 import Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt
 import Mathlib.Analysis.Calculus.LogDeriv
 import Mathlib.Analysis.SpecialFunctions.Exp
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.Sinc
 import Mathlib.Analysis.SpecialFunctions.Log.Basic
 import Mathlib.Analysis.SpecialFunctions.Pow.Real
 import Mathlib.Analysis.SpecificLimits.Basic
@@ -24,9 +26,12 @@ open Complex
 定理 S7.1（L(s, χ_5) 单族 BGS 型配对公式——形式化骨架）：
 
   设弱实部假设（BGS 同款）：对 T^{3/8} < γ ≤ T 的零点 ρ = β + iγ 有 |β − 1/2| ≤ 1/(2 log T)。
-  则对 λ≤1/2 核族（BGS 引理 5 形式、supp K̂ 窄、K(0)=1），L(s, χ_5) 单族配对常数满足
-      A_L(K) = C_MT + O(ε) + o(1)，即 A_L(K) ≤ C_MT + O(ε) + o(1)，
-  其中 C_MT = 1/2 + (1/√2)·cot(1/√2) = 1.3274992963（S6 框架）。
+  则对受证域核（λ = 1/2、f ≡ 1 on [−1/2,1/2]、K = f̂ = `sincKer`），L(s, χ_5) 单族配对常数满足
+      A_L(sincKer) = C_FLAT + O(ε) + o(1)，即 A_L ≤ C_FLAT + O(ε) + o(1)，
+  其中 C_FLAT = 4/3（Lamzouri 式 (3.1) 在 f ≡ 1 支的精确值）。
+  **2026-11-24（第十二刀）口径修正**：旧陈述用 `triKer` 与 C_MT = 1/2 + (1/√2)·cot(1/√2) = 1.3274993；
+  但 `triKer` 作 K 时不在可容许类（逆变换 f = sinc² 无紧支撑、A 值 1.12–1.19 无定理常数可比），
+  故核换 `sincKer`、常数换 4/3（界松 0.44%，换来核合法 + λ ∈ 受证域 + 常数有定理）。
 
 分析依赖（本轮全部以 `axiom`/`sorry` 占位——见击破清单）：
   (L1) Weil/Landau 显式公式的 L(s, χ_5) 版（Yildirim 公式 (6)：零点对称和 ↔ 素数幂加权和 + 平凡项）。
@@ -174,6 +179,14 @@ lemma zerosLChi5_conj_closed : ConjClosed zerosLChi5 := by
     经 `ArithmeticFunction` 到函数的强制转换落成 `ℕ → ℝ`。 -/
 noncomputable def vonMangoldt : ℕ → ℝ := fun n => ArithmeticFunction.vonMangoldt n
 
+/-- `Λ(n) ≥ 0`（本地口径）。 -/
+theorem vonMangoldt_nonneg (n : ℕ) : 0 ≤ vonMangoldt n :=
+  ArithmeticFunction.vonMangoldt_nonneg (n := n)
+
+/-- `Λ(n) ≤ log n`（本地口径）。 -/
+theorem vonMangoldt_le_log (n : ℕ) : vonMangoldt n ≤ Real.log (n : ℝ) :=
+  ArithmeticFunction.vonMangoldt_le_log (n := n)
+
 /-- 零点加权和（Yildirim 公式 (6) 左侧）：Σ_ρ x^{ρ−r}/(ρ−r)——真实定义：复和取实部
     （Complex.cpow 实数底；零点和的无条件收敛需 N(T) 计数估计——(L1c) 长线，此处为语义落位；
     前提 r ∉ Z 保证无 ρ=r 项，除零口径由 Lean 0/0=0 兜底）。 -/
@@ -201,16 +214,27 @@ noncomputable def logDerivTerm (r : ℝ) : ℝ := (logDeriv LFun (r : ℂ)).re
 /-- (L4) 离线（off-critical）误差项：BGS 引理 4 机制的 L 版余项（抽象算子）。 -/
 opaque offCriticalError (T : ℝ) : ℝ
 
-/-! ### 2.1 (L1) Landau/Weil 显式公式 L 版（精确陈述；Yildirim 1991 公式 (6)）
+/-! ### 2.1 (L1) Landau/Weil 显式公式 L 版 —— **已退役（2026-11-25，第十四刀）**
 
-数学内容：对 L(s,χ_5)（模 5 实特征），0<r、x>1、r 非零点时（x=1 处平凡项为调和型
-  发散奇点，口径排除——见 2.1.2 小节，2026-10-29），
-  Σ_ρ x^{ρ−r}/(ρ−r) = Σ_ℓ x^{−(2ℓ+r+a)}/(2ℓ+r+a) − Σ'_{n≤x} Λ(n)χ(n)/n^r − (L′/L)(r,χ)。
-（Yildirim 1991 公式 (6)；对 L(s,χ) 无条件成立。） -/
-axiom landau_explicit_L :
-  ∀ (r x : ℝ), 0 < r → (1 : ℝ) < x → (∀ z ∈ zerosLChi5, z ≠ r) →
-    zeroWeightedSum zerosLChi5 r x =
-      trivialTerm r x - primePowerSum chi5 r x - logDerivTerm r
+**原文（保留备查）**：Yildirim 1991 公式 (6) 的 L 版，对 L(s,χ₅)（模 5 实特征），
+`0 < r`、`1 < x`、`r` 非零点时：
+`Σ_ρ x^{ρ−r}/(ρ−r) = Σ_ℓ x^{−(2ℓ+r+a)}/(2ℓ+r+a) − Σ'_{n≤x} Λ(n)χ(n)/n^r − (L′/L)(r,χ)`。
+
+**退役处置**：原 `axiom landau_explicit_L` 于 2026-11-25 删除。
+
+**依据（三条，均可复核）**：
+1. **全库零消费** —— 除本节与 §2.1.1/§2.1.2 的口径注释、文末清单条目外，无任何定理使用它；
+   语义 grep 命中 4 行，全部是声明与注释，无一处引用。
+2. **从未进闭包** —— `#print axioms s71_main` 自第十二刀起就**不含**它；它不是主链那 4 条之一
+   （`N_L_lower_bound` / `bgs3_pair_expansion` / `bgs4_offcrit_low` / `bgs4_offcrit_high`）。
+3. **它还是无前提的** —— 断言 `Σ_ρ` 无条件等于右端，但 `zerosLChi5` 的收敛性（(L1c) 的 N(T) 计数估计）
+   在本工程从未落地。**无前提的显式公式**即使有人想用也不能用。
+
+**删除不改变任何能力**：库内 axiom 声明数 7 → 6；`s71_main` / `s71_main_tail` 的 axiom 集逐条不变。
+
+**若将来要做一阶矩显式公式**（Findings §21.12 已指出它与二阶矩 BGS 引理 3 之间缺 Plancherel + 对相关密度）：
+正确做法是造**真的定理骨架**——先有 (L1c) 的零点计数估计，再以「收敛性 + 非零点」为前提陈述，
+而不是恢复这条无条件 axiom。 -/
 
 /-! ### 2.1.1 (L1b) 真实定义件与第一块真证（2026-10-27 落位）
 
@@ -287,8 +311,8 @@ lemma trivialTerm_term_le (hr : 0 < r) (hx : (1 : ℝ) < x) (ℓ : ℕ) :
 
 /-- (L1b-B) 平凡项收敛件：x > 1、r > 0 时 trivialTerm 级数可和
     （比较判别 + 几何级数）。x = 1 边界为调和型发散（见 2.1.2「x=1 边界口径」小节：
-    trivialTerm_one 将其归结为 Σ 1/(2ℓ+r)）；2026-10-29 起 landau_explicit_L 前提已
-    收紧为 1 < x，x=1 不在显式公式适用域。 -/
+    trivialTerm_one 将其归结为 Σ 1/(2ℓ+r)）；2026-10-29 起显式公式前提已
+    收紧为 1 < x，x=1 不在适用域（该显式公式 axiom 已于 2026-11-25 退役，口径约定保留）。 -/
 lemma trivialTerm_summable (hr : 0 < r) (hx : (1 : ℝ) < x) :
     Summable (fun ℓ : ℕ => Real.rpow x (-((2 * (ℓ : ℝ)) + r)) / ((2 * (ℓ : ℝ)) + r)) := by
   have hx0 : (0 : ℝ) < x := lt_trans (by norm_num : (0 : ℝ) < (1 : ℝ)) hx
@@ -315,7 +339,7 @@ lemma trivialTerm_summable (hr : 0 < r) (hx : (1 : ℝ) < x) :
 
 trivialTerm r x = Σ_ℓ x^{−(2ℓ+r)}/(2ℓ+r) 在 x=1 处为调和型发散：逐项 x=1 化为
 1/(2ℓ+r)，与 Σ_n 1/n 同阶（1/(2ℓ+r) ~ 1/(2ℓ)，比较判别）——故 x=1 不收敛、
-不在显式公式适用域。约定：landau_explicit_L 前提为 1 < x（严格，已收紧），
+不在显式公式适用域。约定：显式公式前提为 1 < x（严格，已收紧），
 x=1 处的 ∑' 值（mathlib 对不可和级数返回默认 0）不作数学意义引用。
 本区钉两项约定件（真实可引用事实）：trivialTerm_one_term（x=1 逐项等式）、
 trivialTerm_one（x=1 时 trivialTerm 归结为调和型级数）。调和发散的正式
@@ -338,7 +362,18 @@ lemma trivialTerm_one (r : ℝ) :
 /-! ### 2.2 (L2) Siegel–Walfisz（精确陈述；模 5 点态、无条件、子指数）
 
 数学内容：|Σ_{n≤x} Λ(n)χ_5(n)| ≤ c·x·e^{−c′√log x}（x≥1；c、c′ 为正绝对常数，
-  模 5 固定可显式化——文档 S7.6 量化：(c, c′) = (1.70e-3, 1/√R₀≈0.3954) 口径）。 -/
+  模 5 固定可显式化——文档 S7.6 量化：(c, c′) = (1.70e-3, 1/√R₀≈0.3954) 口径）。
+
+**上游真件（2026-11-25，支线接线）**：`OrderPreservingBijection.Exceptional.ExceptionalZeroInterface`
+的 `dirichlet_exceptional_zero_unique_zero_free_region` 给出本定理所需的两件东西 ——
+「例外零点成对唯一（χ=χ' ∧ β=β'、β ≥ 7/8、ord=1、c/(M²logM) ≤ 1−β）」与「其余零点 ρ.re ≤ 1 − c/log(M(|im|+2))」，
+即 Deuring–Heilbronn 型二分。该件是**真定理**（由 `GlobalTheory.ExceptionalPair.main` 供，
+公理集 `[propext, Classical.choice, Quot.sound]`，两件均已 `#print axioms` 实测；29 文件闭包自 Alpöge–Claude 归档搬运）。
+
+接线性质：**只建立可指认的引用，不改本 axiom 的陈述、不进入 `s71_main` 的依赖闭包**。
+意义：本 axiom 由此第一次有了实体上游 —— 它标的正是「零自由区 → 点态 Λχ 界」这一段**唯一真空白**
+（上游有件、下游是它、中间那段无施工；见 Findings §21.16）。注意 `Statement.lean` 的 `ZFRDirichlet`
+是这条链的**错版假设**（跨 q 唯一性为假），已在原处标死。 -/
 axiom siegel_walfisz_chi5 :
   ∃ (c c' : ℝ), 0 < c ∧ 0 < c' ∧
     ∀ x : ℝ, (1 : ℝ) ≤ x →
@@ -382,6 +417,30 @@ def primeSum (K : ℝ → ℝ) (X δ : ℝ) : ℝ :=
          毫无关系，是一条空话；
     (ii) 与 `fourierCos_Khat` 合成 `False`（根级探针 `_incons_ax.lean`）。
     替代物：`triKer_supp : 1 < |u| → triKer u = 0`（`S7_1_Core` §4c，真证、由定义直接得到）。 -/
+
+/-! ### 2.1a′ 受证域内核 `sincKer` 与常数 `C_FLAT`（2026-11-24，第十二刀）
+
+A-R1 结案（增量㉞）：`triKer` 作 `K` 用（`pairConstant` / `primeSum` 的 K 位置）时，其逆变换
+f = sinc² 型**无紧支撑**，不在 Lamzouri/BGS 的可容许类（f = η² ≥ 0、∫f = 1、supp f ⊆ (−λ,λ)，
+核 K := f̂）；反过来把 `triKer` 当 f 用时 λ = 1，**超域**（恒等式只在 2λ ≤ 1 成立）。
+受证域 λ = 1/2 的最省一支是 `f ≡ 1`（[−1/2,1/2] 上），其 Fourier 是 `K(u) = sinc(πu)`，定理值
+C_η = Q(0) + 2∫₀¹ αQ(α)dα，Q = f\*f = 三角 ⟹ Q(0) = 1、2∫₀¹α(1−α)dα = 1/3 ⟹ **C_η = 4/3**（精确）。
+故主定理链条的核换 `sincKer`、常数换 `C_FLAT = 4/3`：界松 0.44%（≠ 1.3275），换来
+「核合法 + λ ∈ 受证域 + 常数有定理」。`C_MT` 保留定义（历史锚，勿再用于 A 线陈述）。 -/
+
+/-- 受证域核：`sincKer u = sinc (π u)`（= `f ≡ 1` on [−1/2,1/2] 的 Fourier 变换）。 -/
+noncomputable def sincKer (u : ℝ) : ℝ := Real.sinc (Real.pi * u)
+
+/-- `sincKer 0 = 1`（可容许性所需的归一）。 -/
+lemma sincKer_zero : sincKer 0 = 1 := by
+  simp [sincKer]
+
+/-- `|sincKer u| ≤ 1`。 -/
+lemma sincKer_abs_le_one (u : ℝ) : |sincKer u| ≤ 1 :=
+  Real.abs_sinc_le_one _
+
+/-- (C′) 受证域常数：`f ≡ 1` 支的 `C_η = 4/3`（精确有理数；Lamzouri 式 (3.1) 直接值）。 -/
+noncomputable def C_FLAT : ℝ := 4 / 3
 
 /-- Abel 求和（部分和版，真证）：Σ_{n=1..N} a_n·b_n = A_N·b_N − Σ_{n=1..N−1} A_n·(b_{n+1}−b_n)，
     A_n = Σ_{i=1..n} a_i（素数项 S(X) 的分部求和；S7.6 §2.4 离散骨架，sum_abel 的部分和变形）。
@@ -1135,6 +1194,156 @@ theorem prime_sum_bound (X δ : ℝ) (hX : (1 : ℝ) ≤ X) (hδ : 0 < δ) :
         linarith [h1, h2]
     _ = c * M * (C₂ + C₃) := by ring
 
+/-! ### 2.1c 素数项的尾部率（2026-11-24 第十刀：由现有内容供出 (U) 的 prime 槽）
+
+`prime_sum_bound` 只给**绝对**界（`∃ C, |primeSum| ≤ C`），而 `BGSLocalUniform` 要的是
+`|prime| ≤ C₂ · (log T)⁻¹`。这里不升级任何 axiom，直接用定义级内容给一条**更粗但足够**的率：
+
+  `|primeSum| ≤ Σ_{n≤N} log n ≤ N · log N`，`N = ⌊exp (1/δ)⌋₊`，`δ = log T / (2π)`
+
+⟹ `|prime/N_L| ≤ 2π·e^{2π}·(log T)⁻¹ / (NLc·T·log T) ≤ (2π·e^{2π}/NLc)·(log T)⁻¹`。
+
+全是真证件：`Λ ≤ log`、`|χ₅| ≤ 1`、`|Γ| ≤ 1`、`(√n)⁻¹ ≤ 1`、`N ≤ exp(1/δ)`、`log N ≤ 1/δ`、
+`NLc·T·log T ≤ N_L T`。代价是率里多一个 `T·log T` 的余量（远慢于 BGS 真实误差，但对 o(1) 够用），
+收益是常数 `2π·e^{2π}/NLc` **显式且不依赖 T**。 -/
+
+/-- `|χ₅(n)| ≤ 1`（`chi5Dirichlet_norm_le_one` + `|re z| ≤ ‖z‖`）。 -/
+theorem chi5_abs_le_one (n : ℕ) : |chi5 n| ≤ 1 := by
+  have hre : chi5 n = (OrderPreservingBijection.chi5Dirichlet ((n : ℕ) : ZMod 5)).re := by
+    simp [chi5]
+  rw [hre]
+  exact le_trans (Complex.abs_re_le_norm _)
+    (OrderPreservingBijection.chi5Dirichlet_norm_le_one _)
+
+/-- 素数项的**粗和界**：`|primeSum| ≤ ⌊X⌋₊ · log ⌊X⌋₊`（逐项 `Λ≤log`、`|χ|≤1`、`(√n)⁻¹≤1`、`|Γ|≤1`）。 -/
+theorem primeSum_abs_le_floor (X δ : ℝ) (hX : (1 : ℝ) ≤ X) (hδ : 0 < δ) :
+    |primeSum sincKer X δ| ≤ (⌊X⌋₊ : ℝ) * Real.log (⌊X⌋₊ : ℝ) := by
+  have hN1 : 1 ≤ ⌊X⌋₊ := Nat.floor_pos.mpr hX
+  have hN1' : (1 : ℝ) ≤ (⌊X⌋₊ : ℝ) := by exact_mod_cast hN1
+  have hterm : ∀ n ∈ Finset.Icc 1 ⌊X⌋₊,
+      |(vonMangoldt n * chi5 n) *
+        ((Real.sqrt (n : ℝ))⁻¹ * sincKer (δ * Real.log (n : ℝ)))|
+        ≤ Real.log (⌊X⌋₊ : ℝ) := by
+    intro n hn
+    have hn1 : (1 : ℕ) ≤ n := (Finset.mem_Icc.mp hn).1
+    have hleN : n ≤ ⌊X⌋₊ := (Finset.mem_Icc.mp hn).2
+    have hn1' : (1 : ℝ) ≤ (n : ℝ) := by exact_mod_cast hn1
+    have hnpos : (0 : ℝ) < (n : ℝ) := lt_of_lt_of_le zero_lt_one hn1'
+    have hleN' : (n : ℝ) ≤ (⌊X⌋₊ : ℝ) := by exact_mod_cast hleN
+    have hfac1 : |vonMangoldt n * chi5 n| ≤ Real.log (⌊X⌋₊ : ℝ) := by
+      calc |vonMangoldt n * chi5 n| = |vonMangoldt n| * |chi5 n| := abs_mul _ _
+        _ = vonMangoldt n * |chi5 n| := by rw [abs_of_nonneg (vonMangoldt_nonneg n)]
+        _ ≤ vonMangoldt n :=
+            mul_le_of_le_one_right (vonMangoldt_nonneg n) (chi5_abs_le_one n)
+        _ ≤ Real.log (n : ℝ) := vonMangoldt_le_log n
+        _ ≤ Real.log (⌊X⌋₊ : ℝ) := Real.log_le_log hnpos hleN'
+    have hfac2 : |(Real.sqrt (n : ℝ))⁻¹ * sincKer (δ * Real.log (n : ℝ))| ≤ 1 := by
+      have hsqrt1 : (Real.sqrt (n : ℝ))⁻¹ ≤ 1 :=
+        inv_le_one_of_one_le₀ (Real.one_le_sqrt.mpr hn1')
+      have hsqrt0 : (0 : ℝ) ≤ (Real.sqrt (n : ℝ))⁻¹ := inv_nonneg.mpr (Real.sqrt_nonneg _)
+      have habs1 : |(Real.sqrt (n : ℝ))⁻¹| ≤ 1 := by
+        rw [abs_of_nonneg hsqrt0]
+        exact hsqrt1
+      have habs2 : |sincKer (δ * Real.log (n : ℝ))| ≤ 1 := sincKer_abs_le_one _
+      calc |(Real.sqrt (n : ℝ))⁻¹ * sincKer (δ * Real.log (n : ℝ))|
+          = |(Real.sqrt (n : ℝ))⁻¹| * |sincKer (δ * Real.log (n : ℝ))| := abs_mul _ _
+        _ ≤ 1 * 1 := mul_le_mul habs1 habs2 (abs_nonneg _) zero_le_one
+        _ = 1 := by norm_num
+    calc |(vonMangoldt n * chi5 n) *
+          ((Real.sqrt (n : ℝ))⁻¹ * sincKer (δ * Real.log (n : ℝ)))|
+        = |vonMangoldt n * chi5 n| *
+            |(Real.sqrt (n : ℝ))⁻¹ * sincKer (δ * Real.log (n : ℝ))| := abs_mul _ _
+      _ ≤ Real.log (⌊X⌋₊ : ℝ) * 1 :=
+          mul_le_mul hfac1 hfac2 (abs_nonneg _) (Real.log_nonneg hN1')
+      _ = Real.log (⌊X⌋₊ : ℝ) := mul_one _
+  calc |primeSum sincKer X δ|
+      ≤ ∑ n ∈ Finset.Icc 1 ⌊X⌋₊,
+          |(vonMangoldt n * chi5 n) *
+            ((Real.sqrt (n : ℝ))⁻¹ * sincKer (δ * Real.log (n : ℝ)))| :=
+          Finset.abs_sum_le_sum_abs _ _
+    _ ≤ ∑ _n ∈ Finset.Icc 1 ⌊X⌋₊, Real.log (⌊X⌋₊ : ℝ) := Finset.sum_le_sum hterm
+    _ = (⌊X⌋₊ : ℝ) * Real.log (⌊X⌋₊ : ℝ) := by
+        rw [Finset.sum_const, Nat.card_Icc, nsmul_eq_mul]
+        simp
+
+/-- 物理平均间距：`δ(T) = log T / (2π)`（与 `pairConstant` / `primeSum` 的 δ 同口径）。 -/
+noncomputable def physDelta (T : ℝ) : ℝ := Real.log T / (2 * Real.pi)
+
+/-- 物理窗宽：`X(T) = exp (1/δ(T))`（`primeSum_window_eq` 的天然截断端点）。 -/
+noncomputable def physWindow (T : ℝ) : ℝ := Real.exp (1 / physDelta T)
+
+/-- **与 `N_L` 同源的归一化刻度（2026-11-25，P-δ 结案）**：
+`δ_RvM(T) = log (T/(2π)) / (2π) = 1 / N'(T)`，即 RvM 主项给出的局部密度之倒数。
+
+`physDelta T = log T/(2π)` 是 **Lamzouri 的主项刻度**：它与分母 `(T/2π) log T` 配套。真实零点数是
+`N(T) ≈ (T/2π) log (T/2π) − T/2π`，故二者之差正是 `log (2π)` 落在 `log T` 里 —— 有限高度下
+`log(2π)/log T`（T = 8×10⁵ 时 15.6%），T→∞ 才消失。
+
+`N_L T` 是真零点数。因此**凡拿 `N_L T` 作分母、又用 δ 归一**的量，δ 必须取本定义（同源），否则
+是「主项刻度配真实分母」的异源搭配（审计台判据 ⑨）。数值证据：`δ = log T/2π` 在
+T = 4×10⁴…8×10⁵ 五个高度上**全部低于定理误差带下界**（出界 5/5）；本定义的常数版与逐点版
+`log(γ/2π)/(2π)` **全部在带内**（`_pd_band.txt`）。
+
+**本定义只作口径备件，不替换 `physDelta`**：`s71_main` 的陈述依赖 `physDelta`（文献字面），
+其结论是上界，在异源搭配下依然成立。 -/
+noncomputable def physDeltaRvM (T : ℝ) : ℝ := Real.log (T / (2 * Real.pi)) / (2 * Real.pi)
+
+/-- 同源刻度下的窗宽（与 `physWindow` 同构：`X = exp (1/δ)`）。 -/
+noncomputable def physWindowRvM (T : ℝ) : ℝ := Real.exp (1 / physDeltaRvM T)
+
+/-- **两刻度之差是精确常数（零 axiom，真证）**：`physDelta T − physDeltaRvM T = log (2π)/(2π)`。
+这不是 `O(1/log T)` 的误差，而是 `log T` 与 `log (T/2π)` 的差恰好等于 `log (2π)` 这一恒等式；
+它把「主项刻度 vs 同源刻度」的偏离写成一个**与 T 无关的绝对差**（T = 8×10⁵ 时 0.2925）。 -/
+theorem physDelta_sub_physDeltaRvM (T : ℝ) (hT : T ≠ 0) :
+    physDelta T - physDeltaRvM T = Real.log (2 * Real.pi) / (2 * Real.pi) := by
+  unfold physDelta physDeltaRvM
+  have hpi : (2 * Real.pi : ℝ) ≠ 0 :=
+    mul_ne_zero (by norm_num) (ne_of_gt Real.pi_pos)
+  rw [Real.log_div hT hpi]
+  field_simp
+  ring_nf
+
+/-! ### 2.1a″ P-δ 对表探针（2026-11-25，第十三刀续；**不接入主链**）
+
+这一节只造对象、不动任何已有陈述：把「δ 换成同源刻度后，配对常数落不落带」这件事，
+在 Lean 里留成可检索的形状。它与 `s71_main`（主项刻度）**并列而不互相依赖** ——
+`s71_main` 的依赖闭包不会因为本节增加任何一条。
+
+数值判读（`_pd_band.txt`）：`physDelta` 口径在 T = 4×10⁴…8×10⁵ 五个高度上**出界 5/5**；
+`physDeltaRvM` 口径**全部落带**。 -/
+
+/-- **δ_RvM 口径的配对常数（探针件）**：与 `pairConstant` 同构，仅把 δ 由主项刻度
+`physDelta` 换成同源刻度 `physDeltaRvM`；分母仍取真零点数 `N_L T` —— 这正是判据 ⑨
+要求的同源搭配（δ 与分母同属「真实密度」一侧）。 -/
+noncomputable def pairConstantRvM (T : ℝ) : ℝ :=
+  pairConstant sincKer (physDeltaRvM T) (N_L T) (zerosLChi5UpTo T)
+
+/-- **落带声明（形状，未证明、不加 axiom）**：RvM 刻度下配对常数与 `C_FLAT` 的偏差，
+不超过定理自带的误差带 `(1/√log(T/2π))/3`。
+
+适用域是 `T > 2π`（否则 `log(T/2π) ≤ 0`，`sqrt` 退化为 0，右侧成为 `1/0 = 0`，本式失去意义）。
+本件的作用是让「口径换掉后是否落带」成为**可被 `#check` / 审计脚本检索的对象**，
+而不是散在文档里的一行数。 -/
+def PairBandRvM (T : ℝ) : Prop :=
+  |pairConstantRvM T - C_FLAT| ≤ 1 / Real.sqrt (Real.log (T / (2 * Real.pi))) / 3
+
+/-- RvM 刻度不大于主项刻度（真证，零业务 axiom）：`log(T/(2π)) ≤ log T`，除以 2π 保序。 -/
+theorem physDeltaRvM_le_physDelta (T : ℝ) (hT : 0 < T) : physDeltaRvM T ≤ physDelta T := by
+  unfold physDeltaRvM physDelta
+  have hd : (0 : ℝ) < 2 * Real.pi := by positivity
+  have h2pi : (1 : ℝ) ≤ 2 * Real.pi := by nlinarith [Real.pi_gt_three]
+  have hle : T / (2 * Real.pi) ≤ T := by
+    rw [div_le_iff₀ hd]
+    nlinarith [hT, h2pi]
+  exact div_le_div_of_nonneg_right (Real.log_le_log (by positivity) hle) hd.le
+
+/-- RvM 刻度为正（真证）：`T > 2π` 时 `log(T/(2π)) > 0`。 -/
+theorem physDeltaRvM_pos (T : ℝ) (hT : 2 * Real.pi < T) : 0 < physDeltaRvM T := by
+  unfold physDeltaRvM
+  apply div_pos (Real.log_pos _) (by positivity)
+  rw [lt_div_iff₀ (by positivity)]
+  linarith
+
 /-! ### 2.1b (L3) BGS 引理 3-5 逐条移植（配对和展开；2026-10-27 半形式化）
 
 BGS 结构（引用本攻防 S7.1 §3 / S7.3-7.5 文档论证）：
@@ -1146,7 +1355,14 @@ BGS 结构（引用本攻防 S7.1 §3 / S7.3-7.5 文档论证）：
   引理 3（配对和积分展开）：KernelAdmissible 核 ⟹ pairConstant = 对角主项 + 素数项 + 离线误差
     （Montgomery–Vaughan 均值；`bgs3_pair_expansion`）。
   引理 4（离线误差）：弱实部 + T^{3/8} 切割 ⟹ |offcrit| ≤ o(1)（`offcritical_small`，见下）。
-`pair_sum_expansion` 由 bgs3 组装（引理 4 的 |offcrit|≤1 缩放已并入 bgs3 陈述，注释承接）。 -/
+`pair_sum_expansion` 由 bgs3 组装（引理 4 的 |offcrit|≤1 缩放已并入 bgs3 陈述，注释承接）。
+
+**2026-11-24（第十二刀，A-R1 结案）：`KernelAdmissible` 与 `triKer_admissible` 降级为历史件。**
+理由：该谓词把"可容许"定义成 **K 自己紧支撑**（`supp K ⊆ [−1,1]`），而 Lamzouri/BGS 的类约束的
+是**密度 f**（f = η² ≥ 0、∫f = 1、supp f ⊆ (−λ,λ)），核 K := f̂ 由 f 决定、自身无紧支撑。
+按前者取 triKer 时逆变换 f = sinc² 无紧支撑 ⟹ 类外，A 无定理常数可比（A-R1）。
+主链因此改用 `sincKer`（f ≡ 1 on [−1/2,1/2] 的 f̂、λ = 1/2、C_η = 4/3），**不经过本谓词**；
+`KernelAdmissible` / `triKer_admissible` 保留仅为 old-chain 与文档引用，勿再用于新陈述。 -/
 
 /-- 引理 5（核构造，**profile 口径**）：K 可容许 ⟺ `K 0 = 1` 且 `supp K ⊆ [−1,1]`。
     **2026-11-23 第七刀**：第二个合取项从 `∀ u, 1 < |u| → fourierCos Khat u = 0` 改为
@@ -1175,16 +1391,29 @@ theorem triKer_admissible : KernelAdmissible triKer :=
     换为 `triKer`（三角核，`supp ⊆ [−1,1]` 由定义即得），于是"λ ≤ 1/2 核族"在形式层第一次成真；
     语句仍只谈一个具体对象（`s71_main` 只用它）。 -/
 axiom bgs3_pair_expansion (δ T ε : ℝ) (hweak : WeakRealPart T zerosLChi5) :
-  ∃ (C₁ diag prime : ℝ), 0 ≤ C₁ ∧
-    pairConstant triKer δ (N_L T) (zerosLChi5UpTo T) = diag + prime + offCriticalError T / N_L T ∧
-    diag ≤ C_MT + C₁ * ε ∧ |prime| ≤ 1
+  ∃ (C₁ C₂ diag prime : ℝ), 0 ≤ C₁ ∧ 0 ≤ C₂ ∧
+    pairConstant sincKer δ (N_L T) (zerosLChi5UpTo T) = diag + prime + offCriticalError T / N_L T ∧
+    diag ≤ C_FLAT + C₁ * ε ∧ |prime| ≤ C₂ * ε
+
+/-! **2026-11-24（第十二刀，A-R1 结案）：核 `triKer` → `sincKer`、常数 `C_MT` → `C_FLAT = 4/3`。**
+    这不是假设升级也不是假设减弱，是**对象修正**：`triKer` 作 K 时不在可容许类（逆变换无紧支撑），
+    它的 A 值不属于任何文献常数（数值 1.12–1.19 是类外数字）；`sincKer` 对应 f ≡ 1 on [−1/2,1/2]，
+    λ = 1/2 在受证域内，定理常数 4/3。界因此松 0.44%（1.3333 vs 1.3275），A 线全部陈述随之改写。
+    下游形状不变（仍是 `∃ C₁ C₂` 的 `A ≤ C_FLAT + C₁ε + C₂`）。 -/
+
+/-! **2026-11-24（第八刀）：`|prime| ≤ 1` → `|prime| ≤ C₂·ε`。**
+    这是一次**假设升级**，不只是口径修整：原「占位 1」不承载任何 BGS 内容；新界把 BGS 引理 3 的
+    素数项真界（相对其平滑参数为 O(ε)）搬进了本 axiom。账本须记明本 axiom 比原来强。
+    收益：`s71_main` 的绝对松弛由 2 降到 1（只剩离线项），A 线首次呈 `A ≤ C_MT + C'ε + 1`，
+    ε→0 不再停在 `C_MT + 2`。代价：若要降回更弱的假设，须由 `prime_sum_bound` 供出 O(ε) 界
+    （它现在只给绝对界，尚不能供）。 -/
 
 /-- (L3) 配对和展开（组装定理）：BGS 引理 3（bgs3_pair_expansion）的直接包装——
-    核固定为 `triKer`（引理 5 的可容许性已不进入语句），离线项承接引理 4。 -/
+    核固定为 `sincKer`（受证域 f ≡ 1 支，见 §2.1a′），离线项承接引理 4。 -/
 theorem pair_sum_expansion (δ T ε : ℝ) (hweak : WeakRealPart T zerosLChi5) :
-  ∃ (C₁ diag prime : ℝ), 0 ≤ C₁ ∧
-    pairConstant triKer δ (N_L T) (zerosLChi5UpTo T) = diag + prime + offCriticalError T / N_L T ∧
-    diag ≤ C_MT + C₁ * ε ∧ |prime| ≤ 1 := by
+  ∃ (C₁ C₂ diag prime : ℝ), 0 ≤ C₁ ∧ 0 ≤ C₂ ∧
+    pairConstant sincKer δ (N_L T) (zerosLChi5UpTo T) = diag + prime + offCriticalError T / N_L T ∧
+    diag ≤ C_FLAT + C₁ * ε ∧ |prime| ≤ C₂ * ε := by
   exact bgs3_pair_expansion δ T ε hweak
 
 /-! ## 2.2 (L4) BGS 引理 4 移植——T^{3/8} 切割链（2026-10-27 半形式化）
@@ -1296,6 +1525,96 @@ noncomputable def offcritThreshold : ℝ := max (Real.exp 1) (max 1 (offcritCons
 lemma one_le_offcritThreshold : (1 : ℝ) ≤ offcritThreshold :=
   le_trans (Real.one_le_exp zero_le_one) (le_max_left _ _)
 
+/-- **素数项的 `1/log T` 率（真证，第十刀）**：`|primeSum(physWindow T, physDelta T)/N_L T|`
+    `≤ (2π·e^{2π}/NLc)·(log T)⁻¹`，只要求 `T ≥ e`（保证 `δ > 0`、`log T ≥ 1`）。
+    常数**显式、不依赖 T**；证见 §2.1c 的 `primeSum_abs_le_floor`（`Λ≤log`、`|χ₅|≤1`、
+    `|Γ|≤1`、`(√n)⁻¹≤1`）+ `N ≤ exp(1/δ)`、`log N ≤ 1/δ` + `NLc·T·log T ≤ N_L T`。 -/
+theorem prime_normalized_le (T : ℝ) (hT : Real.exp 1 ≤ T) :
+    |primeSum sincKer (physWindow T) (physDelta T) / N_L T|
+      ≤ (2 * Real.pi * Real.exp (2 * Real.pi) / NLc) * (Real.log T)⁻¹ := by
+  have hT1 : (1 : ℝ) ≤ T := le_trans (Real.one_le_exp zero_le_one) hT
+  have hlog1 : (1 : ℝ) ≤ Real.log T := by
+    have h := Real.log_le_log (Real.exp_pos 1) hT
+    simpa [Real.log_exp] using h
+  have hlogpos : (0 : ℝ) < Real.log T := lt_of_lt_of_le zero_lt_one hlog1
+  have hpi : (0 : ℝ) < 2 * Real.pi := by linarith [Real.pi_pos]
+  have hδ : 0 < physDelta T := by
+    dsimp [physDelta]
+    exact div_pos hlogpos hpi
+  have hX : (1 : ℝ) ≤ physWindow T := by
+    dsimp [physWindow]
+    exact Real.one_le_exp (le_of_lt (one_div_pos.mpr hδ))
+  have hbound := primeSum_abs_le_floor (physWindow T) (physDelta T) hX hδ
+  have hN1 : 1 ≤ ⌊physWindow T⌋₊ := Nat.floor_pos.mpr hX
+  have hN1' : (1 : ℝ) ≤ (⌊physWindow T⌋₊ : ℝ) := by exact_mod_cast hN1
+  have hNpos : (0 : ℝ) < (⌊physWindow T⌋₊ : ℝ) := lt_of_lt_of_le zero_lt_one hN1'
+  have hfloor : (⌊physWindow T⌋₊ : ℝ) ≤ physWindow T :=
+    Nat.floor_le (le_of_lt (lt_of_lt_of_le zero_lt_one hX))
+  have hlogN : Real.log (⌊physWindow T⌋₊ : ℝ) ≤ 1 / physDelta T := by
+    have h := Real.log_le_log hNpos hfloor
+    have hw : Real.log (physWindow T) = 1 / physDelta T := by
+      dsimp [physWindow]
+      exact Real.log_exp _
+    rwa [hw] at h
+  have hδinv : 1 / physDelta T = 2 * Real.pi / Real.log T := by
+    dsimp [physDelta]
+    field_simp
+  have hlogNpos : (0 : ℝ) ≤ Real.log (⌊physWindow T⌋₊ : ℝ) := Real.log_nonneg hN1'
+  have hinvpos : (0 : ℝ) ≤ 1 / physDelta T := le_of_lt (one_div_pos.mpr hδ)
+  have hexp_le : physWindow T ≤ Real.exp (2 * Real.pi) := by
+    dsimp [physWindow]
+    rw [Real.exp_le_exp, hδinv]
+    exact div_le_self (le_of_lt hpi) hlog1
+  have hps : |primeSum sincKer (physWindow T) (physDelta T)|
+      ≤ Real.exp (2 * Real.pi) * (2 * Real.pi / Real.log T) := by
+    calc |primeSum sincKer (physWindow T) (physDelta T)|
+        ≤ (⌊physWindow T⌋₊ : ℝ) * Real.log (⌊physWindow T⌋₊ : ℝ) := hbound
+      _ ≤ physWindow T * (1 / physDelta T) :=
+          mul_le_mul hfloor hlogN hlogNpos (le_of_lt (lt_of_lt_of_le zero_lt_one hX))
+      _ = physWindow T * (2 * Real.pi / Real.log T) := by rw [hδinv]
+      _ ≤ Real.exp (2 * Real.pi) * (2 * Real.pi / Real.log T) :=
+          mul_le_mul_of_nonneg_right hexp_le (div_nonneg (le_of_lt hpi) (le_of_lt hlogpos))
+  have hE : (0 : ℝ) < Real.exp (2 * Real.pi) := Real.exp_pos _
+  have hstep1 : Real.exp (2 * Real.pi) * (2 * Real.pi / Real.log T)
+      ≤ 2 * Real.pi * Real.exp (2 * Real.pi) * T := by
+    have h1 : 2 * Real.pi / Real.log T ≤ 2 * Real.pi := div_le_self (le_of_lt hpi) hlog1
+    have h2 : Real.exp (2 * Real.pi) * (2 * Real.pi / Real.log T)
+        ≤ Real.exp (2 * Real.pi) * (2 * Real.pi) :=
+      mul_le_mul_of_nonneg_left h1 (le_of_lt hE)
+    have h3 : Real.exp (2 * Real.pi) * (2 * Real.pi)
+        ≤ 2 * Real.pi * Real.exp (2 * Real.pi) * T := by
+      have hc : (0 : ℝ) ≤ Real.exp (2 * Real.pi) * (2 * Real.pi) := by positivity
+      have hlt : Real.exp (2 * Real.pi) * (2 * Real.pi) * 1
+          ≤ Real.exp (2 * Real.pi) * (2 * Real.pi) * T :=
+        mul_le_mul_of_nonneg_left hT1 hc
+      calc Real.exp (2 * Real.pi) * (2 * Real.pi)
+          = Real.exp (2 * Real.pi) * (2 * Real.pi) * 1 := by ring
+        _ ≤ Real.exp (2 * Real.pi) * (2 * Real.pi) * T := hlt
+        _ = 2 * Real.pi * Real.exp (2 * Real.pi) * T := by ring
+    exact le_trans h2 h3
+  have hNLle : NLc * T * Real.log T ≤ N_L T := NLc_spec T hT1
+  have hc₀ : (0 : ℝ) ≤ 2 * Real.pi * Real.exp (2 * Real.pi) / NLc :=
+    div_nonneg (by positivity) (le_of_lt NLc_pos)
+  have hinv₀ : (0 : ℝ) ≤ (Real.log T)⁻¹ := inv_nonneg.mpr (le_of_lt hlogpos)
+  have hstep2 : 2 * Real.pi * Real.exp (2 * Real.pi) * T
+      ≤ (2 * Real.pi * Real.exp (2 * Real.pi) / NLc) * (Real.log T)⁻¹ * N_L T := by
+    have hEq : (2 * Real.pi * Real.exp (2 * Real.pi) / NLc) * (Real.log T)⁻¹
+        * (NLc * T * Real.log T) = 2 * Real.pi * Real.exp (2 * Real.pi) * T := by
+      have hNLcne : NLc ≠ 0 := ne_of_gt NLc_pos
+      have hLne : Real.log T ≠ 0 := ne_of_gt hlogpos
+      field_simp
+    calc 2 * Real.pi * Real.exp (2 * Real.pi) * T
+        = (2 * Real.pi * Real.exp (2 * Real.pi) / NLc) * (Real.log T)⁻¹
+            * (NLc * T * Real.log T) := hEq.symm
+      _ ≤ (2 * Real.pi * Real.exp (2 * Real.pi) / NLc) * (Real.log T)⁻¹ * N_L T :=
+          mul_le_mul_of_nonneg_left hNLle (mul_nonneg hc₀ hinv₀)
+  rcases lt_or_eq_of_le (N_L_nonneg T) with hNpos' | hzero
+  · rw [abs_div, abs_of_nonneg (N_L_nonneg T), div_le_iff₀ hNpos']
+    exact le_trans (le_trans hps hstep1) hstep2
+  · have hz : N_L T = 0 := hzero.symm
+    rw [hz, div_zero, abs_zero]
+    exact mul_nonneg hc₀ hinv₀
+
 /-- **L4 链接入主定理（真证）**：`T` 越过阈值后，离线项除以真实零点计数 ≤ 1。 -/
 theorem offcrit_remainder_le_one (T : ℝ) (hT : (1 : ℝ) ≤ T) (hweak : WeakRealPart T zerosLChi5)
     (hbig : offcritThreshold ≤ T) : |offCriticalError T / N_L T| ≤ 1 := by
@@ -1340,28 +1659,226 @@ theorem offcrit_remainder_le_one (T : ℝ) (hT : (1 : ℝ) ≤ T) (hweak : WeakR
 /-! ## 3. 主定理 S7.1（组装真证；分析层 (L1)–(L4) 为命名 axiom，2026-11-23 第四刀后共 9 条） -/
 
 /-- 定理 S7.1（L(s, χ_5) 单族 BGS 型配对公式——弱假设下无条件）：
-    对 λ≤1/2 核族（KernelAdmissible：Γ 三角核、K(0)=1、supp ⊂ [−1,1]），
-    A_L(K) ≤ C_MT + O(ε) + o(1)。
+    对受证域核（λ = 1/2、f ≡ 1、K = f̂ = `sincKer`；C_η = Q(0)+2∫₀¹αQ = 4/3），
+    A_L(sincKer) ≤ C_FLAT + O(ε) + o(1)。
     组装真证：由 pair_sum_expansion（BGS 引理 3-5 移植）分解 A_L = diag + prime + offcrit，
-    对角主项 diag ≤ C_MT + C₁ε、素数项/离线项以 |·|≤1 占位界并入 C₂=2。 -/
+    对角主项 diag ≤ C_FLAT + C₁ε、素数项 |prime| ≤ C₂ε（第八刀后进 ε 系数）、
+    离线项 |·| ≤ 1 并入绝对常数 C₂ = 1。 -/
 theorem s71_main
     (T : ℝ) (hT : (1 : ℝ) ≤ T) (hweak : WeakRealPart T zerosLChi5)
     (hbig : offcritThreshold ≤ T) (ε : ℝ) (_hε0 : 0 < ε) :
     ∃ (C₁ C₂ : ℝ), 0 ≤ C₁ ∧ 0 ≤ C₂ ∧
-      pairConstant triKer (Real.log T / (2 * Real.pi)) (N_L T) (zerosLChi5UpTo T)
-        ≤ C_MT + C₁ * ε + C₂ := by
+      pairConstant sincKer (Real.log T / (2 * Real.pi)) (N_L T) (zerosLChi5UpTo T)
+        ≤ C_FLAT + C₁ * ε + C₂ := by
   let δ : ℝ := Real.log T / (2 * Real.pi)
-  rcases pair_sum_expansion δ T ε hweak with ⟨C₁, diag, prime,
-      hC₁0, hsplit, hdiag, hprime⟩
+  rcases pair_sum_expansion δ T ε hweak with ⟨C₁, C₂p, diag, prime,
+      hC₁0, hC₂0, hsplit, hdiag, hprime⟩
   have hoff : |offCriticalError T / N_L T| ≤ 1 := offcrit_remainder_le_one T hT hweak hbig
-  refine ⟨C₁, 2, hC₁0, by norm_num, ?_⟩
+  refine ⟨C₁ + C₂p, 1, add_nonneg hC₁0 hC₂0, by norm_num, ?_⟩
   calc
-    pairConstant triKer δ (N_L T) (zerosLChi5UpTo T)
+    pairConstant sincKer δ (N_L T) (zerosLChi5UpTo T)
         = diag + prime + offCriticalError T / N_L T := hsplit
-    _ ≤ C_MT + C₁ * ε + |prime| + |offCriticalError T / N_L T| := by
+    _ ≤ C_FLAT + C₁ * ε + |prime| + |offCriticalError T / N_L T| := by
       linarith [hdiag, le_abs_self prime, le_abs_self (offCriticalError T / N_L T)]
-    _ ≤ C_MT + C₁ * ε + 1 + 1 := by linarith [hprime, hoff]
-    _ = C_MT + C₁ * ε + 2 := by ring
+    _ ≤ C_FLAT + C₁ * ε + C₂p * ε + 1 := by linarith [hprime, hoff]
+    _ = C_FLAT + (C₁ + C₂p) * ε + 1 := by ring
+
+/-! ### 3.1 尾部形状：`A ≤ C_MT + o(1)`（2026-11-24 第九刀）
+
+第八刀把素数项压进 ε 系数后，剩下的 1 是离线项的**绝对**界。在「固定 T、∀ ε > 0」的形状下
+它进不了任何 ε 系数——对任意小的 ε 都不成立。要真拿到 `o(1)`，必须换成 T → ∞ 的滤子形状，
+并把两件事分开：
+
+1. **离线项**：`|E T / N_L T| ≤ ε` 在 T 大时成立，**真证**（`offcrit_remainder_eventually_small`；
+   机制同 `offcrit_remainder_le_one`，只是把阈值 `offcritConst/NLc` 换成 `offcritConst/(NLc·ε)`）。
+2. **对角/素数项**：需要 BGS 引理 3 的**一致版**——常数对 T 一致、偏差以真实平滑宽度 `1/log T`
+   计量。本文件现有 `bgs3_pair_expansion` 的常数随 T 变（`ε` 是自由参数），供不出这一条。
+   故把它作为**显式前件** `BGSLocalUniform` 提出：**不是 axiom**，账本不加，
+   但形状先钉死，下一步才能由 `prime_sum_bound` / n2_linkage 供出来。
+
+于是在 `BGSLocalUniform` 之下，`s71_main_tail` 给出 `A ≤ C_MT + ε`，**无绝对松弛**。 -/
+
+/-- (U) BGS 引理 3 的一致版（**尾部形状**）：常数 C₁, C₂ 对 T 一致，偏差以真实平滑宽度
+    `1/log T` 计量。写成 `∀ᶠ` 而不是 `∀T`：素数项的率只在 T 的尾部成立（第十刀）。 -/
+def BGSLocalUniform : Prop :=
+  ∃ (C₁ C₂ : ℝ), 0 ≤ C₁ ∧ 0 ≤ C₂ ∧
+    ∀ᶠ T : ℝ in Filter.atTop, ∀ (hweak : WeakRealPart T zerosLChi5),
+      ∃ (diag prime : ℝ),
+        pairConstant sincKer (physDelta T) (N_L T) (zerosLChi5UpTo T)
+            = diag + prime + offCriticalError T / N_L T ∧
+        diag ≤ C_FLAT + C₁ * (Real.log T)⁻¹ ∧
+        |prime| ≤ C₂ * (Real.log T)⁻¹
+
+/-- 对角残余（**真定义**，第十一刀）：`diagTerm T := A(T) − primeSum/N_L − E/N_L`。
+    「配对分解恒等式」由此被**定义**消化——任何实数都能这样拆，恒等式本身不含数学内容；
+    真正的内容只剩它的一条不等式（`DiagRate`）。 -/
+noncomputable def diagTerm (T : ℝ) : ℝ :=
+  pairConstant sincKer (physDelta T) (N_L T) (zerosLChi5UpTo T)
+    - primeSum sincKer (physWindow T) (physDelta T) / N_L T
+    - offCriticalError T / N_L T
+
+/-- (C′) 核心残余的**唯一实质断言**：`diagTerm T ≤ C_FLAT + C₁·(log T)⁻¹`（T 尾部、常数一致）。
+    = BGS 引理 3 的量化内容（α ≤ 1 段的配对密度 =「对角 + 素数」）的单句形式，
+    配上 n2_linkage 的 q=1 口径。核为 `sincKer`（f ≡ 1、λ = 1/2、受证域），定理常数 4/3。
+    数值侧（同口径 triKer 旧值不可比）：受证域 flat 核全表实测 A ≈ 1.2665 < 4/3，有富余。 -/
+def DiagRate : Prop :=
+  ∃ (C₁ : ℝ), 0 ≤ C₁ ∧ ∀ᶠ T : ℝ in Filter.atTop, diagTerm T ≤ C_FLAT + C₁ * (Real.log T)⁻¹
+
+/-- **`DiagRate → BGSLocalUniform`（真证，零 axiom 新增）**：取 `diag := diagTerm T`、
+    `prime := primeSum/N_L`；恒等式按 `diagTerm` 定义展开即得（`ring`），素数界由
+    `prime_normalized_le`（第十刀）供出，常数 `2π·e^{2π}/NLc` 显式。 -/
+theorem DiagRate_to_uniform (h : DiagRate) : BGSLocalUniform := by
+  unfold DiagRate at h
+  rcases h with ⟨C₁, hC₁0, hdiag⟩
+  have hC₂0 : (0 : ℝ) ≤ 2 * Real.pi * Real.exp (2 * Real.pi) / NLc :=
+    div_nonneg (by positivity) (le_of_lt NLc_pos)
+  have hprime : ∀ᶠ T : ℝ in Filter.atTop,
+      Real.exp 1 ≤ T ∧
+        |primeSum sincKer (physWindow T) (physDelta T) / N_L T|
+          ≤ (2 * Real.pi * Real.exp (2 * Real.pi) / NLc) * (Real.log T)⁻¹ := by
+    refine Filter.eventually_atTop.2 ⟨Real.exp 1, ?_⟩
+    intro T hT
+    exact ⟨hT, prime_normalized_le T hT⟩
+  rw [Filter.eventually_atTop] at hdiag hprime
+  rcases hdiag with ⟨A₀, hA₀⟩
+  rcases hprime with ⟨A₁, hA₁⟩
+  refine ⟨C₁, 2 * Real.pi * Real.exp (2 * Real.pi) / NLc, hC₁0, hC₂0,
+    Filter.eventually_atTop.2 ⟨max A₀ A₁, ?_⟩⟩
+  intro T hT _
+  have h₀ : A₀ ≤ T := le_trans (le_max_left _ _) hT
+  have h₁ : A₁ ≤ T := le_trans (le_max_right _ _) hT
+  refine ⟨diagTerm T, primeSum sincKer (physWindow T) (physDelta T) / N_L T,
+    ?_, hA₀ T h₀, (hA₁ T h₁).2⟩
+  unfold diagTerm
+  ring
+
+/-- **离线项尾部小（真证）**：对任意 ε > 0，T 足够大时 `|E T / N_L T| ≤ ε`（在弱实部假设下）。 -/
+theorem offcrit_remainder_eventually_small (ε : ℝ) (hε : 0 < ε) :
+    ∀ᶠ T : ℝ in Filter.atTop,
+      (1 : ℝ) ≤ T ∧ offcritThreshold ≤ T ∧
+        ∀ (hweak : WeakRealPart T zerosLChi5), |offCriticalError T / N_L T| ≤ ε := by
+  refine Filter.eventually_atTop.2
+    ⟨max offcritThreshold (max (Real.exp 1) (max 1 (offcritConst / (NLc * ε)))), ?_⟩
+  intro T hT
+  -- 阈值拆解
+  have hbig : offcritThreshold ≤ T := le_trans (le_max_left _ _) hT
+  have hB : max (Real.exp 1) (max 1 (offcritConst / (NLc * ε))) ≤ T :=
+    le_trans (le_max_right _ _) hT
+  have hexp : Real.exp (1 : ℝ) ≤ T := le_trans (le_max_left _ _) hB
+  have hRc : offcritConst / (NLc * ε) ≤ T :=
+    le_trans (le_max_right _ _) (le_trans (le_max_right _ _) hB)
+  refine ⟨le_trans (Real.one_le_exp zero_le_one) hexp, hbig, ?_⟩
+  intro hweak
+  -- log T ≥ 1
+  have hlog1 : (1 : ℝ) ≤ Real.log T := by
+    have h := Real.log_le_log (Real.exp_pos 1) hexp
+    simpa [Real.log_exp] using h
+  have hT1 : (1 : ℝ) ≤ T := le_trans (Real.one_le_exp zero_le_one) hexp
+  -- offcritConst ≤ NLc·ε·T
+  have hprod : 0 < NLc * ε := mul_pos NLc_pos hε
+  have hRcT : offcritConst ≤ NLc * ε * T := by
+    have h := mul_le_mul_of_nonneg_right hRc (le_of_lt hprod)
+    have heq : offcritConst / (NLc * ε) * (NLc * ε) = offcritConst :=
+      div_mul_cancel₀ offcritConst (ne_of_gt hprod)
+    have h2 : T * (NLc * ε) = NLc * ε * T := by ring
+    linarith [h, heq, h2]
+  -- |E T| ≤ ε·N_L T
+  have hsqrt : Real.sqrt (Real.log T) ≤ Real.log T :=
+    (Real.sqrt_le_self_iff).mpr (Or.inr hlog1)
+  have hE := offcritConst_spec T hT1 hweak (le_refl T)
+  have hEabs : |offCriticalError T| ≤ ε * N_L T := by
+    have h1 : offcritConst * Real.sqrt (Real.log T) ≤ offcritConst * Real.log T :=
+      mul_le_mul_of_nonneg_left hsqrt offcritConst_nonneg
+    have h2 : offcritConst * Real.log T ≤ (NLc * ε * T) * Real.log T :=
+      mul_le_mul_of_nonneg_right hRcT (le_trans zero_le_one hlog1)
+    have h3 : (NLc * ε * T) * Real.log T = ε * (NLc * T * Real.log T) := by ring
+    calc |offCriticalError T| ≤ offcritConst * Real.sqrt (Real.log T) := hE
+      _ ≤ offcritConst * Real.log T := h1
+      _ ≤ (NLc * ε * T) * Real.log T := h2
+      _ = ε * (NLc * T * Real.log T) := h3
+      _ ≤ ε * N_L T := mul_le_mul_of_nonneg_left (NLc_spec T hT1) (le_of_lt hε)
+  rcases lt_or_eq_of_le (N_L_nonneg T) with hpos | hzero
+  · have hd : |offCriticalError T / N_L T| = |offCriticalError T| / N_L T := by
+      rw [abs_div, abs_of_nonneg (N_L_nonneg T)]
+    rw [hd, div_le_iff₀ hpos]
+    exact hEabs
+  · have hz : N_L T = 0 := hzero.symm
+    rw [hz, div_zero, abs_zero]
+    exact le_of_lt hε
+
+/-- **主定理 S7.1 的尾部形状（真证，条件于 (U)）**：对任意 ε > 0，T 足够大且弱实部假设成立时
+    `A_L(triKer) ≤ C_MT + ε` —— 无绝对松弛，即 `A_L = C_MT + o(1)`。
+    唯一未证的内容集中在 `BGSLocalUniform`（BGS 一致常数）；离线项那 1 在此已被真证消化。 -/
+theorem s71_main_tail (hU : BGSLocalUniform) (ε : ℝ) (hε : 0 < ε) :
+    ∀ᶠ T : ℝ in Filter.atTop,
+      WeakRealPart T zerosLChi5 →
+        pairConstant sincKer (Real.log T / (2 * Real.pi)) (N_L T) (zerosLChi5UpTo T)
+          ≤ C_FLAT + ε := by
+  unfold BGSLocalUniform at hU
+  rcases hU with ⟨C₁, C₂, hC₁0, hC₂0, hU⟩
+  rw [Filter.eventually_atTop] at hU
+  rcases hU with ⟨A₂, hA₂⟩
+  have hhalf : (0 : ℝ) < ε / 2 := by linarith
+  -- 离线项的尾部小
+  have hoffe := offcrit_remainder_eventually_small (ε / 2) hhalf
+  rw [Filter.eventually_atTop] at hoffe
+  rcases hoffe with ⟨A₁, hA₁⟩
+  -- 常数项的尾部小：取 T₁ = exp (max 1 (2(C₁+C₂)/ε + 1))
+  have hC₀ : 0 ≤ C₁ + C₂ := add_nonneg hC₁0 hC₂0
+  refine Filter.eventually_atTop.2
+    ⟨max A₁ (max A₂ (Real.exp (max 1 (2 * (C₁ + C₂) / ε + 1)))), ?_⟩
+  intro T hT hweak
+  have hA₁T : A₁ ≤ T := le_trans (le_max_left _ _) hT
+  have hA₂T : A₂ ≤ T := le_trans (le_max_left _ _) (le_trans (le_max_right _ _) hT)
+  have hexpT : Real.exp (max 1 (2 * (C₁ + C₂) / ε + 1)) ≤ T :=
+    le_trans (le_max_right _ _) (le_trans (le_max_right _ _) hT)
+  have hT1 : (1 : ℝ) ≤ T :=
+    le_trans (Real.one_le_exp zero_le_one)
+      (le_trans (Real.exp_le_exp.mpr (le_max_left _ _)) hexpT)
+  -- log T ≥ max 1 (2(C₁+C₂)/ε + 1)
+  have hlogBig : max 1 (2 * (C₁ + C₂) / ε + 1) ≤ Real.log T := by
+    have h := Real.log_le_log (Real.exp_pos _) hexpT
+    simpa [Real.log_exp] using h
+  have hlog1 : (1 : ℝ) ≤ Real.log T := le_trans (le_max_left _ _) hlogBig
+  have hlog2 : 2 * (C₁ + C₂) / ε ≤ Real.log T := by
+    have hXA : 2 * (C₁ + C₂) / ε ≤ max 1 (2 * (C₁ + C₂) / ε + 1) :=
+      le_trans (by linarith) (le_max_right (1 : ℝ) (2 * (C₁ + C₂) / ε + 1))
+    exact le_trans hXA hlogBig
+  have hlogpos : (0 : ℝ) < Real.log T := lt_of_lt_of_le zero_lt_one hlog1
+  -- (C₁+C₂) * (log T)⁻¹ ≤ ε/2
+  have hsmall : (C₁ + C₂) * (Real.log T)⁻¹ ≤ ε / 2 := by
+    have hmul : 2 * (C₁ + C₂) ≤ Real.log T * ε := by
+      have h := mul_le_mul_of_nonneg_right hlog2 (le_of_lt hε)
+      have heq : 2 * (C₁ + C₂) / ε * ε = 2 * (C₁ + C₂) :=
+        div_mul_cancel₀ _ (ne_of_gt hε)
+      linarith [h, heq]
+    have hb : C₁ + C₂ ≤ (ε / 2) * Real.log T := by linarith
+    calc (C₁ + C₂) * (Real.log T)⁻¹ ≤ ((ε / 2) * Real.log T) * (Real.log T)⁻¹ :=
+          mul_le_mul_of_nonneg_right hb (inv_nonneg.mpr (le_of_lt hlogpos))
+      _ = ε / 2 := by
+          rw [mul_assoc, mul_inv_cancel₀ (ne_of_gt hlogpos), mul_one]
+  -- 三块拼装
+  have hoffT : |offCriticalError T / N_L T| ≤ ε / 2 := (hA₁ T hA₁T).2.2 hweak
+  rcases hA₂ T hA₂T hweak with ⟨diag, prime, hsplit, hdiag, hprime⟩
+  calc pairConstant sincKer (Real.log T / (2 * Real.pi)) (N_L T) (zerosLChi5UpTo T)
+      = diag + prime + offCriticalError T / N_L T := hsplit
+    _ ≤ (C_FLAT + C₁ * (Real.log T)⁻¹) + |prime| + |offCriticalError T / N_L T| := by
+        linarith [hdiag, le_abs_self prime, le_abs_self (offCriticalError T / N_L T)]
+    _ ≤ (C_FLAT + C₁ * (Real.log T)⁻¹) + C₂ * (Real.log T)⁻¹ + ε / 2 := by
+        linarith [hprime, hoffT]
+    _ = C_FLAT + (C₁ + C₂) * (Real.log T)⁻¹ + ε / 2 := by ring
+    _ ≤ C_FLAT + ε / 2 + ε / 2 := by linarith [hsmall]
+    _ = C_FLAT + ε := by ring
+
+/-- **主定理 S7.1 尾部形状（只条件于核心残余 `DiagRate`）**：由 `DiagRate_to_uniform`
+    把 prime 槽换成真证、把分解恒等式换成定义后得到。此时未证内容只剩
+    「`diagTerm T ≤ C_FLAT + C₁/log T`」一条（= BGS 引理 3 的量化内容）。 -/
+theorem s71_main_tail_diag (h : DiagRate) (ε : ℝ) (hε : 0 < ε) :
+    ∀ᶠ T : ℝ in Filter.atTop,
+      WeakRealPart T zerosLChi5 →
+        pairConstant sincKer (Real.log T / (2 * Real.pi)) (N_L T) (zerosLChi5UpTo T)
+          ≤ C_FLAT + ε :=
+  s71_main_tail (DiagRate_to_uniform h) ε hε
 
 /-! ## 4. 击破清单（下一轮逐个替换 sorry/axiom）
 
@@ -1371,14 +1888,15 @@ theorem s71_main
       LFun opaque + 新增 (L0a) `lfun_conj_symm`（conj 对称，支撑 conj_closed 真证）+
       (L0b) `lfun_dirichlet_series`（Re s>0 的 Dirichlet 卷积表示，长线真证目标）；
       原 `{z | True}` 占位已移除）。
-- [ ] (L1) `landau_explicit_L`：**精确陈述完成**（2026-10-27，Yildirim 公式 (6) 重排式）；
-      形式化真证需先把 `-L'/L` 的 Dirichlet 级数展开与 Mellin 变换写成引理——长线目标。
+- [x] ~~(L1) `landau_explicit_L`~~：**已退役**（2026-11-25，第十四刀）——全库零消费、从未进闭包、
+      且无收敛性前提（`zerosLChi5` 的可和性未落地）；库内 axiom 7 → 6。原陈述保留在 §2.1 备查，
+      将来若做一阶矩显式公式，需先有 (L1c) 零点计数估计再以真定理骨架重建。
 - [ ] (L2) `siegel_walfisz_chi5`：**精确陈述完成**（2026-10-27，Finset.Icc 1 ⌊x⌋₊ 真实和式）；
       形式化真证需 PNT 在算术级数 + 特征和估计——长线目标。
 - [x] (L3) `pair_sum_expansion`：**BGS 引理 3-5 逐条移植完成**（2026-10-27）——
       引理 5 `KernelAdmissible`（K 0 = 1 + supp K ⊆ [−1,1]，profile 口径）+ `triKer_admissible` 组装
       （两条皆定义即得的真证；载体核 = `triKer`，第七刀）；引理 3 `bgs3_pair_expansion`
-      （分解 + diag≤C_MT+C₁ε + |prime|,|offcrit|≤1）；引理 4 承接 `offcritical_small`；
+      （分解 + diag≤C_MT+C₁ε + |prime|≤C₂ε（第八刀）+ |offcrit|≤1）；引理 4 承接 `offcritical_small`；
       `pair_sum_expansion` 定理化（KernelAdmissible 条件化），s71_main 已接入。
 - [x] (L4) `offcritical_small`：**BGS 引理 4 移植完成**（2026-10-27，T^{3/8} 切割链）——
       切割分解 `bgs4_offcrit_split`（余项 = 低频 offcritLow + 高频 offcritHigh）：
@@ -1387,7 +1905,7 @@ theorem s71_main
       `offcritical_small` 组装真证（三角不等式，R = R₁+R₂）。
 - [x] `s71_main`：**组装真证**（2026-10-27）——pair_sum_expansion 分解
       A_L = diag + prime + offcrit；diag ≤ C_MT + C₁ε（n2_linkage O(ε)）、
-      |prime|,|offcrit| ≤ 1 并入 C₂=2（SW/BGS 占位界）；C₁, C₂ 显式。
+      |prime| ≤ C₂ε（第八刀，并入 ε 系数）、|offcrit| ≤ 1 并入绝对常数 C₂ = 1；C₁, C₂ 显式。
 
 「推 1」断层（超支撑 λ→∞）三件套——S7 闭路只覆盖 λ≤1/2（BGS 引理 5 supp r⊂[−1,1]）；
   Stage 3+ 已于 S7_1_Stage3.lean 形式化（2026-10-26）：

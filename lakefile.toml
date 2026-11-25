@@ -1,5 +1,19 @@
+# ============================================================
+# _ci/lakefile.toml —— CI 改造草案（2026-11-25）
+#
+# 用法：完成 QRH 目录迁移后，用它覆盖仓库根的 lakefile.toml
+#
+# 依据：C:\proj2\lakefile.toml 已在本地验证过 `lake build QRH`（4025 jobs 成功），
+#       本草案照抄它的库声明，只补 mathlib 的相对路径（镜像里 ./mathlib4-master 存在）
+#
+# 注意：镜像现有 lakefile.toml 只有 OrderPreservingBijection + BSD 两个 lib，
+#       这正是 CI 从不编译 QRH 的直接原因。
+# ============================================================
+
 name = "OrderPreservingBijection"
 version = "0.1.0"
+
+# 保持在 exe 上：默认目标不该背着 QRH 一起跑（否则每次 push 都全量）
 defaultTargets = ["orderpreservingbijection"]
 
 [[require]]
@@ -11,6 +25,30 @@ name = "OrderPreservingBijection"
 
 [[lean_lib]]
 name = "BSD"
+
+# ---- QRH ----
+# 方案 B（推荐，配合 migrate_qrh_layout.ps1）：QRH/ 下只剩 8 个顶层 .lean，
+# 无子目录，default globs 即可，与本地已验证配置一致。
+[[lean_lib]]
+name = "QRH"
+
+# 方案 A（备选，不搬目录时启用）：显式锁死 8 个顶层模块，
+# 绕开 QRH/<日期>/ 下的快照（日期名含数字与连字符，不是合法 Lean 标识符，
+# 一旦进入 glob 会解析成非法模块名 QRH.2026-11-25.S7_1_Main）。
+#
+# [[lean_lib]]
+# name = "QRH"
+# globs = ["QRH",
+#          "QRH.S7_1_Core",
+#          "QRH.S7_1_Main",
+#          "QRH.S7_1_Stage3",
+#          "QRH.Dbg_Khat",
+#          "QRH.Test_import",
+#          "QRH.Probe_f0",
+#          "QRH.Probe_norm"]
+
+[[lean_lib]]
+name = "A5CharQ5"
 
 [[lean_exe]]
 name = "orderpreservingbijection"

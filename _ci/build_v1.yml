@@ -1,0 +1,72 @@
+# ============================================================
+# _ci/build_v1.yml —— CI 改造草案（2026-11-25）
+#
+# 用法：确认后覆盖 .github/workflows/build.yml
+# 本文件现在放在 _ci/ 下，GitHub 不会读取、不会触发。
+#
+# 相对原 build.yml 的四处改动：
+#   ① 新增 workflow_dispatch：允许手动触发（不必靠 push 才能跑）
+#   ② cache key 补 lake-manifest.json：否则依赖变了缓存仍然命中
+#   ③ lake exe cache get 去掉 `|| true`：拿不到 cache 就红，别静默降级成全量编译
+#   ④ Build 拆两步：先 core 再 QRH，失败时一眼看出是哪一层
+# ============================================================
+
+name: Build and test
+
+on:
+  push:
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:        # ① 手动触发
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # 本地实测：Stage3 单模块 2.8 分钟（32 核、mathlib oleans 已热）。
+    # ubuntu-latest 只有 2 核，首次冷构建全链预计 30–60 分钟，故留 120。
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Install elan
+        run: |
+          set -o pipefail
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - name: Cache .lake
+        uses: actions/cache@v4
+        with:
+          path: .lake
+          # ② 补 lake-manifest.json
+          key: ${{ runner.os }}-lake-${{ hashFiles('lakefile.toml', 'lake-manifest.json', 'lean-toolchain') }}
+
+      - name: Fetch dependencies
+        run: lake update
+
+      - name: Get mathlib cache
+        run: lake exe cache get          # ③ 去掉 `|| true`
+
+      - name: Show build plan
+        run: |
+          echo "--- lakefile.toml ---"
+          cat lakefile.toml
+          echo "--- QRH 顶层模块 ---"
+          ls -1 QRH/*.lean || true
+          echo "--- QRH 子目录（应为空） ---"
+          find QRH -mindepth 1 -maxdepth 1 -type d || true
+
+      # ④ 分两步：core 先行，快速反馈
+      - name: Build core (OrderPreservingBijection + BSD)
+        run: lake build OrderPreservingBijection BSD
+
+      - name: Build QRH
+        run: lake build QRH
+
+      - name: Print main-chain axioms
+        run: |
+          printf 'import QRH\n#print axioms QRH.s71_main\n#print axioms QRH.s71_main_tail\n' > _ci_axioms.lean
+          cat _ci_axioms.lean
+          lake env lean _ci_axioms.lean

@@ -2137,7 +2137,8 @@ lemma sum_abel (N : ℕ) (a b : ℕ → ℝ) :
       + L¹ 界（f0_sub_feps_L1_bound 真证）；C₁ = 4M²D。
 - [ ] `C_MT < 4/3`（Core 清单项）：级数余项层（cos 四阶 Taylor 上界 73/96 自证）——
       **非积分阻塞**，可独立立项；mathlib 内置 cos_bound 余项 (5/96)|x|⁴ 不够（差 0.13%）。
-- [x] s71_main 组装（Stage 4）：**真证**（2026-10-27，pair_sum_expansion 分解 + C₂=2）。
+- [x] s71_main 组装（Stage 4）：**真证**（2026-10-27，pair_sum_expansion 分解；C₂ 先 2，
+      2026-11-24 第八刀把素数项 `|prime| ≤ 1` 换成 `|prime| ≤ C₂ε` 后降为 1）。
 -/
 
 end QRH

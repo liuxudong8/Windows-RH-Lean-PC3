@@ -1,13 +1,35 @@
+# ============================================================
+# CI 主 workflow —— 2026-11-25 起生效
+#
+# 来历：由 _ci/build_v1.yml 草案覆盖而来。草案原件仍留在 _ci/ 备查。
+#
+# 相对旧版（裸 `lake build`）的四处改动：
+#   ① 新增 workflow_dispatch：可手动触发，不必靠 push
+#   ② cache key 补 lake-manifest.json：否则依赖变了缓存仍然假命中
+#   ③ `lake exe cache get` 去掉 `|| true`：拿不到 cache 就红，
+#      别静默降级成"全量编 mathlib"（2 核机必然超时，红得越早越好）
+#   ④ Build 拆两步：core 先行再 QRH，失败时一眼定位是哪一层
+#
+# 本地实测依据（2026-11-25，镜像根）：
+#   lake build QRH        → 4025 jobs / exit 0
+#   lake exe cache get    → exit 0（查不到 fork 缓存时自动 fallback mathlib master cache）
+# ============================================================
+
 name: Build and test
 
 on:
   push:
   pull_request:
     branches: [ main ]
+  workflow_dispatch:        # ① 手动触发
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    # 本地实测：Stage3 单模块 2.8 分钟（32 核、mathlib oleans 已热）。
+    # ubuntu-latest 只有 2 核，首次冷构建全链预计 30–60 分钟，故留 120。
+    timeout-minutes: 120
+
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -22,13 +44,33 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .lake
-          key: ${{ runner.os }}-lake-${{ hashFiles('lakefile.toml', 'lean-toolchain') }}
+          # ② 补 lake-manifest.json
+          key: ${{ runner.os }}-lake-${{ hashFiles('lakefile.toml', 'lake-manifest.json', 'lean-toolchain') }}
 
       - name: Fetch dependencies
         run: lake update
 
       - name: Get mathlib cache
-        run: lake exe cache get || true
+        run: lake exe cache get          # ③ 去掉 `|| true`
 
-      - name: Build project
-        run: lake build
+      - name: Show build plan
+        run: |
+          echo "--- lakefile.toml ---"
+          cat lakefile.toml
+          echo "--- QRH 顶层模块 ---"
+          ls -1 QRH/*.lean || true
+          echo "--- QRH 子目录（应为空） ---"
+          find QRH -mindepth 1 -maxdepth 1 -type d || true
+
+      # ④ 分两步：core 先行，快速反馈
+      - name: Build core (OrderPreservingBijection + BSD)
+        run: lake build OrderPreservingBijection BSD
+
+      - name: Build QRH
+        run: lake build QRH
+
+      - name: Print main-chain axioms
+        run: |
+          printf 'import QRH\n#print axioms QRH.s71_main\n#print axioms QRH.s71_main_tail\n' > _ci_axioms.lean
+          cat _ci_axioms.lean
+          lake env lean _ci_axioms.lean
