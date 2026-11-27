@@ -19,3 +19,6 @@ build_serial*.log
 # ---- Python 缓存 ----
 __pycache__/
 *.pyc
+
+# ---- Office 锁文件（Word 打开文档时生成，绝不入库）----
+~\$*
