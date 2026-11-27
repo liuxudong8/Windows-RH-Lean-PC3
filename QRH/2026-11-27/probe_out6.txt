@@ -1,0 +1,36 @@
+QRH/Probe_f0.lean:12:7: error(lean.unknownIdentifier): Unknown identifier `MeasureTheory.AEMeasurable.aestronglyMeasurable`
+QRH/Probe_f0.lean:13:7: error(lean.unknownIdentifier): Unknown identifier `MeasureTheory.Measurable.aemeasurable`
+aestronglyMeasurable_iff_aemeasurable.{u_1, u_2} {α : Type u_1} {β : Type u_2} [TopologicalSpace β]
+  {m₀ : MeasurableSpace α} {μ : MeasureTheory.Measure α} {f : α → β} [MeasurableSpace β]
+  [TopologicalSpace.PseudoMetrizableSpace β] [BorelSpace β] [SecondCountableTopology β] :
+  MeasureTheory.AEStronglyMeasurable f μ ↔ AEMeasurable f μ
+QRH/Probe_f0.lean:15:7: error(lean.unknownIdentifier): Unknown identifier `MeasureTheory.aestronglyMeasurable`
+MeasureTheory.IntegrableOn.congr_fun.{u_1, u_3} {α : Type u_1} {ε : Type u_3} {mα : MeasurableSpace α} {f g : α → ε}
+  {s : Set α} {μ : MeasureTheory.Measure α} [TopologicalSpace ε] [ContinuousENorm ε]
+  (h : MeasureTheory.IntegrableOn f s μ) (hst : Set.EqOn f g s) (hs : MeasurableSet s) :
+  MeasureTheory.IntegrableOn g s μ
+MeasureTheory.Integrable.const_mul.{u_1, u_7} {α : Type u_1} {m : MeasurableSpace α} {μ : MeasureTheory.Measure α}
+  {𝕜 : Type u_7} [NormedRing 𝕜] {f : α → 𝕜} (h : MeasureTheory.Integrable f μ) (c : 𝕜) :
+  MeasureTheory.Integrable (fun x => c * f x) μ
+MeasureTheory.integral_mono_ae.{u_1, u_2} {α : Type u_1} {E : Type u_2} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {m : MeasurableSpace α} {μ : MeasureTheory.Measure α} [PartialOrder E] [IsOrderedAddMonoid E] [IsOrderedModule ℝ E]
+  [ClosedIciTopology E] {f g : α → E} (hf : MeasureTheory.Integrable f μ) (hg : MeasureTheory.Integrable g μ)
+  (h : f ≤ᵐ[μ] g) : ∫ (x : α), f x ∂μ ≤ ∫ (x : α), g x ∂μ
+Set.indicator_of_mem.{u_1, u_3} {α : Type u_1} {M : Type u_3} [Zero M] {s : Set α} {a : α} (h : a ∈ s) (f : α → M) :
+  s.indicator f a = f a
+MeasureTheory.integrableOn_iff_integrable_of_support_subset.{u_1, u_6} {α : Type u_1} {mα : MeasurableSpace α}
+  {s : Set α} {μ : MeasureTheory.Measure α} {ε' : Type u_6} [TopologicalSpace ε'] [ENormedAddMonoid ε']
+  [TopologicalSpace.PseudoMetrizableSpace ε'] {f : α → ε'} (h1s : Function.support f ⊆ s) :
+  MeasureTheory.IntegrableOn f s μ ↔ MeasureTheory.Integrable f μ
+MeasureTheory.Integrable.aestronglyMeasurable.{u_1, u_5} {α : Type u_1} {ε : Type u_5} {m : MeasurableSpace α}
+  {μ : MeasureTheory.Measure α} [TopologicalSpace ε] [ContinuousENorm ε] {f : α → ε}
+  (hf : MeasureTheory.Integrable f μ) : MeasureTheory.AEStronglyMeasurable f μ
+MeasureTheory.AEStronglyMeasurable.norm.{u_1, u_5} {α : Type u_1} {m₀ : MeasurableSpace α} {μ : MeasureTheory.Measure α}
+  {β : Type u_5} [SeminormedAddCommGroup β] {f : α → β} (hf : MeasureTheory.AEStronglyMeasurable f μ) :
+  MeasureTheory.AEStronglyMeasurable (fun x => ‖f x‖) μ
+MeasureTheory.integral_add.{u_1, u_5} {α : Type u_1} {G : Type u_5} [NormedAddCommGroup G] [NormedSpace ℝ G]
+  {m : MeasurableSpace α} {μ : MeasureTheory.Measure α} {f g : α → G} (hf : MeasureTheory.Integrable f μ)
+  (hg : MeasureTheory.Integrable g μ) : ∫ (a : α), f a + g a ∂μ = ∫ (a : α), f a ∂μ + ∫ (a : α), g a ∂μ
+MeasureTheory.Integrable.add.{u_1, u_7} {α : Type u_1} {m : MeasurableSpace α} {μ : MeasureTheory.Measure α}
+  {ε' : Type u_7} [TopologicalSpace ε'] [ESeminormedAddMonoid ε'] [ContinuousAdd ε'] {f g : α → ε'}
+  (hf : MeasureTheory.Integrable f μ) (hg : MeasureTheory.Integrable g μ) : MeasureTheory.Integrable (f + g) μ

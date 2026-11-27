@@ -1,0 +1,49 @@
+== b_8 链 ==
+OK  b8.1 hba代入
+OK  b8.2 结合
+OK  b8.3 b_a2_comm反向
+OK  b8.4 结合
+== hba 证明链 ==
+OK  hba.1 展开a
+OK  hba.2 结合
+OK  hba.3 a2_b_comm反向
+== hbab4 证明链 ==
+OK  hbab4.1 展开a^4
+OK  hbab4.2 结合
+OK  hbab4.3 交换两处
+OK  hbab4.4 结合
+OK  hbab4.5 pow_four
+== b_7 链 ==
+OK  b7.1 F
+OK  b7.2 b_a4_b2分解
+OK  b7.3 结合(头2)
+OK  b7.4 尾部b_a4_b
+OK  b7.5 合并a^3a^3
+OK  b7.6 a6=a
+OK  b7.7 拆a^3=a^2a
+OK  b7.8 F内层
+OK  b7.9 合并a^2a^4
+OK  b7.10 a6=a
+FAIL b7.11 a^4ba^3拆
+FAIL b7.12 a^4ba^4=hbab4逆
+FAIL b7.13 合并a^3a^3=1
+OK  b7.14 合并a5=1
+OK  b7.15 结合b^2a^3
+OK  b7.16 合并a
+FAIL b7.goal 元素等
+== b_11 链 ==
+OK  b11.1 Ci反向x2
+OK  b11.2 合并a^2a,a^2a
+FAIL b11.3 结合b_a^3_b
+FAIL b11.4 结合a^2b^2a^2
+OK  b11.5 b^4=b
+OK  b11.6 b^4=b
+OK  b11.7 b_a^3_b=G反向
+OK  b11.8 结合
+OK  b11.9 尾部b^2a^2?
+FAIL b11.goal 元素等
+== a_11 链 ==
+OK  a11.1 起(已编译点)
+OK  a11.2 结合
+OK  a11.3 b^2a^2b^2=G
+OK  a11.goal 元素等

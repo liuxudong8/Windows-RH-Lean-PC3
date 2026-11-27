@@ -1,0 +1,16 @@
+Matrix.GeneralLinearGroup.toLin.{u, v} {n : Type u} [DecidableEq n] [Fintype n] {R : Type v} [CommRing R] :
+  GL n R ≃* LinearMap.GeneralLinearGroup R (n → R)
+Matrix.GeneralLinearGroup.toLin'.{u, v, u_1} {n : Type u} [DecidableEq n] [Fintype n] {R : Type v} [CommRing R]
+  {V : Type u_1} [AddCommGroup V] [Module R V] (b : Module.Basis n R V) : GL n R ≃* LinearMap.GeneralLinearGroup R V
+ModuleCat.endRingEquiv.{v, u} {R : Type u} [Ring R] (M : ModuleCat R) : CategoryTheory.End M ≃+* (↑M →ₗ[R] ↑M)
+Fintype.bijective_iff_injective_and_card.{u_1, u_2} {α : Type u_1} {β : Type u_2} [Fintype α] [Fintype β] (f : α → β) :
+  Function.Bijective f ↔ Function.Injective f ∧ Fintype.card α = Fintype.card β
+Fintype.bijective_iff_surjective_and_card.{u_1, u_2} {α : Type u_1} {β : Type u_2} [Fintype α] [Fintype β] (f : α → β) :
+  Function.Bijective f ↔ Function.Surjective f ∧ Fintype.card α = Fintype.card β
+FGModuleCat.of.{v, u} (R : Type u) [Ring R] (V : Type v) [AddCommGroup V] [Module R V] [Module.Finite R V] :
+  FGModuleCat R
+Module.finrank_pi.{u, v} (R : Type u) [Semiring R] [StrongRankCondition R] {ι : Type v} [Fintype ι] :
+  Module.finrank R (ι → R) = Fintype.card ι
+Function.LeftInverse.{u_1, u_2} {α : Sort u_1} {β : Sort u_2} (g : β → α) (f : α → β) : Prop
+FDRep.ρ.{u, v} {R : Type u} {G : Type v} [CommRing R] [Monoid G] (V : FDRep R G) : G →* ↑V.V →ₗ[R] ↑V.V
+FDRep.character.{u, v} {k : Type u} [Field k] {G : Type v} [Monoid G] (V : FDRep k G) (g : G) : k

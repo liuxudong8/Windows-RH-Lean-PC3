@@ -1,0 +1,51 @@
+QRH/Probe_f0.lean:11:7: error(lean.unknownIdentifier): Unknown constant `MeasureTheory.IntegrableOn.congr`
+MeasureTheory.IntegrableOn.congr_fun.{u_1, u_3} {α : Type u_1} {ε : Type u_3} {mα : MeasurableSpace α} {f g : α → ε}
+  {s : Set α} {μ : MeasureTheory.Measure α} [TopologicalSpace ε] [ContinuousENorm ε]
+  (h : MeasureTheory.IntegrableOn f s μ) (hst : Set.EqOn f g s) (hs : MeasurableSet s) :
+  MeasureTheory.IntegrableOn g s μ
+MeasureTheory.Integrable.restrict.{u_1, u_7} {α : Type u_1} {m : MeasurableSpace α} {μ : MeasureTheory.Measure α}
+  {ε : Type u_7} [TopologicalSpace ε] [ContinuousENorm ε] {f : α → ε} (hf : MeasureTheory.Integrable f μ) {s : Set α} :
+  MeasureTheory.Integrable f (μ.restrict s)
+QRH/Probe_f0.lean:14:7: error(lean.unknownIdentifier): Unknown identifier `MeasureTheory.integrableOn_iff_integrable_restrict`
+MeasureTheory.Integrable.const_mul.{u_1, u_7} {α : Type u_1} {m : MeasurableSpace α} {μ : MeasureTheory.Measure α}
+  {𝕜 : Type u_7} [NormedRing 𝕜] {f : α → 𝕜} (h : MeasureTheory.Integrable f μ) (c : 𝕜) :
+  MeasureTheory.Integrable (fun x => c * f x) μ
+MeasureTheory.Integrable.mul_const.{u_1, u_7} {α : Type u_1} {m : MeasurableSpace α} {μ : MeasureTheory.Measure α}
+  {𝕜 : Type u_7} [NormedRing 𝕜] {f : α → 𝕜} (h : MeasureTheory.Integrable f μ) (c : 𝕜) :
+  MeasureTheory.Integrable (fun x => f x * c) μ
+QRH/Probe_f0.lean:17:7: error(lean.unknownIdentifier): Unknown identifier `MeasureTheory.Measurable.aestronglyMeasurable`
+QRH/Probe_f0.lean:18:7: error(lean.unknownIdentifier): Unknown constant `MeasureTheory.AEStronglyMeasurable.of_measurable`
+QRH/Probe_f0.lean:19:7: error(lean.unknownIdentifier): Unknown constant `MeasureTheory.Integrable.congr_ae`
+QRH/Probe_f0.lean:20:7: error(lean.unknownIdentifier): Unknown constant `MeasureTheory.Integrable.congr_fun_ae`
+Set.indicator_eq_self.{u_1, u_3} {α : Type u_1} {M : Type u_3} [Zero M] {s : Set α} {f : α → M} :
+  s.indicator f = f ↔ Function.support f ⊆ s
+QRH/Probe_f0.lean:22:7: error(lean.unknownIdentifier): Unknown identifier `MeasureTheory.integrableOn_congr`
+MeasureTheory.IntegrableOn.congr_fun_ae.{u_1, u_3} {α : Type u_1} {ε : Type u_3} {mα : MeasurableSpace α} {f g : α → ε}
+  {s : Set α} {μ : MeasureTheory.Measure α} [TopologicalSpace ε] [ContinuousENorm ε]
+  (h : MeasureTheory.IntegrableOn f s μ) (hst : f =ᵐ[μ.restrict s] g) : MeasureTheory.IntegrableOn g s μ
+QRH/Probe_f0.lean:24:7: error(lean.unknownIdentifier): Unknown identifier `MeasureTheory.restrict_eq_self_of_subset_of_nulldiff`
+QRH/Probe_f0.lean:25:7: error(lean.unknownIdentifier): Unknown identifier `MeasureTheory.integrableOn_iff_integrable_restrict`
+Continuous.max.{u, v} {α : Type u} {β : Type v} [TopologicalSpace α] [LinearOrder α] [OrderClosedTopology α]
+  {f g : β → α} [TopologicalSpace β] (hf : Continuous f) (hg : Continuous g) : Continuous fun b => max (f b) (g b)
+Continuous.min.{u, v} {α : Type u} {β : Type v} [TopologicalSpace α] [LinearOrder α] [OrderClosedTopology α]
+  {f g : β → α} [TopologicalSpace β] (hf : Continuous f) (hg : Continuous g) : Continuous fun b => min (f b) (g b)
+continuous_abs.{u_1} {G : Type u_1} [TopologicalSpace G] [AddCommGroup G] [LinearOrder G] [IsOrderedAddMonoid G]
+  [OrderTopology G] : Continuous abs
+MeasureTheory.integral_mono_ae.{u_1, u_2} {α : Type u_1} {E : Type u_2} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {m : MeasurableSpace α} {μ : MeasureTheory.Measure α} [PartialOrder E] [IsOrderedAddMonoid E] [IsOrderedModule ℝ E]
+  [ClosedIciTopology E] {f g : α → E} (hf : MeasureTheory.Integrable f μ) (hg : MeasureTheory.Integrable g μ)
+  (h : f ≤ᵐ[μ] g) : ∫ (x : α), f x ∂μ ≤ ∫ (x : α), g x ∂μ
+le_div_iff₀.{u_3} {G₀ : Type u_3} [GroupWithZero G₀] [PartialOrder G₀] [MulPosReflectLT G₀] {a b c : G₀} (hc : 0 < c) :
+  a ≤ b / c ↔ a * c ≤ b
+min_eq_left.{u_1} {α : Type u_1} [LinearOrder α] {a b : α} (h : a ≤ b) : min a b = a
+max_eq_left.{u_1} {α : Type u_1} [LinearOrder α] {a b : α} (h : b ≤ a) : max a b = a
+max_eq_right.{u_1} {α : Type u_1} [LinearOrder α] {a b : α} (h : a ≤ b) : max a b = b
+ENNReal.ofReal_ne_top {r : ℝ} : ENNReal.ofReal r ≠ ⊤
+MeasureTheory.Integrable.add.{u_1, u_7} {α : Type u_1} {m : MeasurableSpace α} {μ : MeasureTheory.Measure α}
+  {ε' : Type u_7} [TopologicalSpace ε'] [ESeminormedAddMonoid ε'] [ContinuousAdd ε'] {f g : α → ε'}
+  (hf : MeasureTheory.Integrable f μ) (hg : MeasureTheory.Integrable g μ) : MeasureTheory.Integrable (f + g) μ
+abs_of_nonpos.{u_1} {α : Type u_1} [Lattice α] [AddGroup α] {a : α} [AddLeftMono α] (h : a ≤ 0) : |a| = -a
+abs_of_nonneg.{u_1} {α : Type u_1} [Lattice α] [AddGroup α] {a : α} [AddLeftMono α] (h : 0 ≤ a) : |a| = a
+lt_of_not_ge.{u_1} {α : Type u_1} [LinearOrder α] {a b : α} (h : ¬b ≤ a) : a < b
+not_le_of_gt.{u_1} {α : Type u_1} [Preorder α] {a b : α} (hab : a < b) : ¬b ≤ a
+abs_le.{u_1} {G : Type u_1} [AddCommGroup G] [LinearOrder G] [IsOrderedAddMonoid G] {a b : G} : |a| ≤ b ↔ -b ≤ a ∧ a ≤ b

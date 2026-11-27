@@ -1,0 +1,45 @@
+A5CharQ5\probe3.lean:5:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * ?a ^ ?n
+in the target expression
+  pA ^ 2 * pA = pA ^ 3
+
+⊢ pA ^ 2 * pA = pA ^ 3
+A5CharQ5\probe3.lean:11:2: error: No goals to be solved
+A5CharQ5\probe3.lean:15:6: error(lean.unknownIdentifier): Unknown identifier `pA_pow_mod`
+A5CharQ5\probe3.lean:14:25: error: unsolved goals
+⊢ pA ^ 6 = pA
+A5CharQ5\probe3.lean:21:2: error: No goals to be solved
+A5CharQ5\probe3.lean:26:2: error: No goals to be solved
+A5CharQ5\probe3.lean:31:2: error: No goals to be solved
+A5CharQ5\probe3.lean:40:46: error(lean.unknownIdentifier): Unknown identifier `a2_b_a2_eq_b2`
+A5CharQ5\probe3.lean:40:37: error: unsolved goals
+⊢ pB ^ 2 * pA = pA ^ 2 * pB * pA ^ 2 * pA
+A5CharQ5\probe3.lean:43:12: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * ?a ^ ?n
+in the target expression
+  pA ^ 2 * pB * (pA ^ 2 * pA) = pA ^ 2 * pB * pA ^ 3
+
+⊢ pA ^ 2 * pB * (pA ^ 2 * pA) = pA ^ 2 * pB * pA ^ 3
+A5CharQ5\probe3.lean:52:10: error: No goals to be solved
+A5CharQ5\probe3.lean:55:58: error(lean.unknownIdentifier): Unknown identifier `b_a2_comm`
+A5CharQ5\probe3.lean:55:51: error: unsolved goals
+⊢ pB * pA ^ 2 * (pA ^ 2 * pB) = pA ^ 3 * pB ^ 2 * (pB ^ 2 * pA ^ 3)
+A5CharQ5\probe3.lean:57:51: error: unsolved goals
+⊢ pA ^ 3 * (pB ^ 2 * pB ^ 2 * pA ^ 3) = pA ^ 3 * (pB ^ 2 * pB ^ 2 * pA ^ 3)
+A5CharQ5\probe3.lean:58:40: error: unsolved goals
+⊢ pA ^ 3 * ((pB ^ 2) ^ 2 * pA ^ 3) = pA ^ 3 * (pB ^ 4 * pA ^ 3)
+A5CharQ5\probe3.lean:59:43: error(lean.unknownIdentifier): Unknown identifier `pB_pow_four`
+A5CharQ5\probe3.lean:59:36: error: unsolved goals
+⊢ pA ^ 3 * (pB ^ 4 * pA ^ 3) = pA ^ 3 * (pB * pA ^ 3)
+A5CharQ5\probe3.lean:65:50: error(lean.unknownIdentifier): Unknown identifier `a2_b_a2_eq_b2`
+A5CharQ5\probe3.lean:65:41: error: unsolved goals
+⊢ pB ^ 2 * pA ^ 2 = pA ^ 2 * pB * pA ^ 2 * pA ^ 2
+A5CharQ5\probe3.lean:69:8: error: No goals to be solved
+A5CharQ5\probe3.lean:78:58: error(lean.unknownIdentifier): Unknown identifier `a2_b_a2_eq_b2`
+A5CharQ5\probe3.lean:78:49: error: unsolved goals
+⊢ pB ^ 2 * pA ^ 2 = pA ^ 2 * pB * pA ^ 2 * pA ^ 2
+A5CharQ5\probe3.lean:82:16: error: No goals to be solved
+A5CharQ5\probe3.lean:88:10: error: No goals to be solved
+A5CharQ5\probe3.lean:91:14: error(lean.unknownIdentifier): Unknown identifier `pA_pow_mod`
+A5CharQ5\probe3.lean:90:12: error: unsolved goals
+⊢ pA ^ 6 = pA

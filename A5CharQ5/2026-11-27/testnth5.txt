@@ -1,0 +1,54 @@
+C:\proj2\A5CharQ5\TestNth5.lean:9:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * (?b * ?c)
+in the target expression
+  pA ^ 2 * pB * pA ^ 3 * pB * pB = pA ^ 2 * pB * pA ^ 3 * pB * pB
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+⊢ pA ^ 2 * pB * pA ^ 3 * pB * pB = pA ^ 2 * pB * pA ^ 3 * pB * pB
+C:\proj2\A5CharQ5\TestNth5.lean:14:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * (?b * ?c)
+in the target expression
+  pB * pA ^ 2 * pB ^ 2 * pA ^ 3 * pB * pA ^ 4 * pB = pB * pA ^ 2 * pB ^ 2 * pA ^ 3 * pB * pA ^ 4 * pB
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+⊢ pB * pA ^ 2 * pB ^ 2 * pA ^ 3 * pB * pA ^ 4 * pB = pB * pA ^ 2 * pB ^ 2 * pA ^ 3 * pB * pA ^ 4 * pB
+C:\proj2\A5CharQ5\TestNth5.lean:29:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * (?b * ?c)
+in the target expression
+  pA * pA ^ 2 * pB * pA ^ 3 * pB * pA ^ 4 * pB = pA * pA ^ 2 * pB * pA ^ 3 * pB * pA ^ 4 * pB
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+⊢ pA * pA ^ 2 * pB * pA ^ 3 * pB * pA ^ 4 * pB = pA * pA ^ 2 * pB * pA ^ 3 * pB * pA ^ 4 * pB
+C:\proj2\A5CharQ5\TestNth5.lean:39:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * (?b * ?c)
+in the target expression
+  pA * pB * pB * pA * pB * pA ^ 4 * pB = pA * pB * pB * pA * pB * pA ^ 4 * pB
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+⊢ pA * pB * pB * pA * pB * pA ^ 4 * pB = pA * pB * pB * pA * pB * pA ^ 4 * pB
+C:\proj2\A5CharQ5\TestNth5.lean:44:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * (?b * ?c)
+in the target expression
+  pA * pB * pA ^ 3 * pB * pA * pB * pA ^ 4 = pA * pB * pA ^ 3 * pB * pA * pB * pA ^ 4
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+⊢ pA * pB * pA ^ 3 * pB * pA * pB * pA ^ 4 = pA * pB * pA ^ 3 * pB * pA * pB * pA ^ 4
+C:\proj2\A5CharQ5\TestNth5.lean:49:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * (?b * ?c)
+in the target expression
+  pB * pA ^ 2 * pB ^ 2 * pA * pB * pA ^ 3 * pB * pA ^ 4 = pB * pA ^ 2 * pB ^ 2 * pA * pB * pA ^ 3 * pB * pA ^ 4
+
+x : Type
+inst✝ : Monoid x
+pA pB : x
+⊢ pB * pA ^ 2 * pB ^ 2 * pA * pB * pA ^ 3 * pB * pA ^ 4 = pB * pA ^ 2 * pB ^ 2 * pA * pB * pA ^ 3 * pB * pA ^ 4

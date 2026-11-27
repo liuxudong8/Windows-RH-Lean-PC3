@@ -1,0 +1,212 @@
+QRH/S7_1_Stage3.lean:481:33: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ zerosLChi5 ∧ p.2 ∈ zerosLChi5 ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:484:21: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ zerosLChi5 ∧ p.2 ∈ zerosLChi5 ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:492:8: error(lean.unknownIdentifier): Unknown identifier `tsum_sub`
+QRH/S7_1_Stage3.lean:491:53: error: unsolved goals
+f g : ℂ × ℂ → ℝ
+hf : Summable f
+hg : Summable g
+⊢ |∑' (p : ℂ × ℂ), f p - ∑' (p : ℂ × ℂ), g p| ≤ ∑' (p : ℂ × ℂ), |f p - g p|
+QRH/S7_1_Stage3.lean:500:39: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:505:23: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:512:8: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:513:11: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:514:21: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:518:12: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+QRH/S7_1_Stage3.lean:526:8: error: invalid 'calc' step, left-hand side is
+  |f_eps ε a ^ 2 - f0 a ^ 2| : ℝ
+but is expected to be
+  0 : ℝ
+QRH/S7_1_Stage3.lean:530:12: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+QRH/S7_1_Stage3.lean:530:4: error: unsolved goals
+case neg
+ε δ N : ℝ
+Z : ZeroSet
+hN : 0 < N
+hsum : Summable fun p => sorry
+M : ℝ := (√2 * |sin (1 / √2)|)⁻¹
+hM0 : 0 ≤ M
+p : ℂ × ℂ
+hz : ¬(p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+⊢ 0 ≤ 2 * M * sorry ()
+QRH/S7_1_Stage3.lean:531:39: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:533:10: error(lean.unknownIdentifier): Unknown constant `Summable.mono`
+QRH/S7_1_Stage3.lean:545:40: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:547:10: error(lean.unknownIdentifier): Unknown constant `Summable.mono`
+QRH/S7_1_Stage3.lean:565:40: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:567:10: error(lean.unknownIdentifier): Unknown constant `Summable.mono`
+QRH/S7_1_Stage3.lean:585:52: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:590:31: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:592:34: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:595:25: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:597:27: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:599:24: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:601:25: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:603:24: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:605:25: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:607:25: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:609:13: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:618:34: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:621:33: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:624:37: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:593:64: error: unsolved goals
+ε δ N : ℝ
+Z : ZeroSet
+hN : 0 < N
+hsum : Summable fun p => sorry
+M : ℝ := (√2 * |sin (1 / √2)|)⁻¹
+hM0 : 0 ≤ M
+hterm : ∀ (p : ℂ × ℂ), |sorry - sorry| ≤ 2 * M * sorry
+hy : Summable fun p => sorry
+hx2 : Summable fun p => sorry
+hx0 : Summable fun p => sorry
+h2My : Summable fun p => 2 * M * sorry
+⊢ (∑' (p : ℂ × ℂ), if p.1 ∈ Z ∧ p.2 ∈ Z ∧ ¬p.1 = p.2 then f_eps ε (δ * (p.1.im - p.2.im)) ^ 2 else 0) / N -
+      (∑' (p : ℂ × ℂ), if p.1 ∈ Z ∧ p.2 ∈ Z ∧ ¬p.1 = p.2 then f0 (δ * (p.1.im - p.2.im)) ^ 2 else 0) / N =
+    0
+Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+QRH/S7_1_Stage3.lean:613:28: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:615:28: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ Z ∧ p.2 ∈ Z ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:620:40: error(lean.unknownIdentifier): Unknown identifier `tsum_le_tsum`
+QRH/S7_1_Stage3.lean:623:10: error: Function expected at
+  tsum_mul_left
+but this term has type
+  ∑'[?m.1822] (x : ?m.1820), ?m.1827 * ?m.1826 x = ?m.1827 * ∑'[?m.1822] (x : ?m.1820), ?m.1826 x
+
+Note: Expected a function because this term is being applied to the argument
+  hy
+QRH/S7_1_Stage3.lean:622:89: error: unsolved goals
+ε δ N : ℝ
+Z : ZeroSet
+hN : 0 < N
+hsum : Summable fun p => sorry
+M : ℝ := (√2 * |sin (1 / √2)|)⁻¹
+hM0 : 0 ≤ M
+hterm : ∀ (p : ℂ × ℂ), |sorry - sorry| ≤ 2 * M * sorry
+hy : Summable fun p => sorry
+hx2 : Summable fun p => sorry
+hx0 : Summable fun p => sorry
+h2My : Summable fun p => 2 * M * sorry
+⊢ (∑' (p : ℂ × ℂ), 2 * M * sorry) / N = (2 * M * ∑' (p : ℂ × ℂ), sorry) / N
+QRH/S7_1_Stage3.lean:518:12: warning: This simp argument is unused:
+  if_pos hz
+
+Hint: Omit it from the simp argument list.
+  [apply] simp
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+QRH/S7_1_Stage3.lean:530:12: warning: This simp argument is unused:
+  if_neg hz
+
+Hint: Omit it from the simp argument list.
+  [apply] simp
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+QRH/S7_1_Stage3.lean:647:21: error: Application type mismatch: The argument
+  ?m.186
+has type
+  0 ≤ 4
+but is expected to have type
+  0 ≤ 4 * M ^ 2
+in the application
+  mul_nonneg ?m.186
+QRH/S7_1_Stage3.lean:657:27: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (p.1 ∈ zerosLChi5 ∧ p.2 ∈ zerosLChi5 ∧ p.1 ≠ p.2)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+QRH/S7_1_Stage3.lean:655:6: error: invalid 'calc' step, left-hand side is
+  |pairConstant (f_eps ε) δ δ zerosLChi5 - pairConstant f0 δ δ zerosLChi5| : ℝ
+but is expected to be
+  |(fun T =>
+        |pairConstant (f_eps ε) (log T / (2 * π)) (log T / (2 * π)) zerosLChi5 -
+            pairConstant f0 (log T / (2 * π)) (log T / (2 * π)) zerosLChi5|)
+      T| : ℝ
+QRH/S7_1_Stage3.lean:666:8: error: No goals to be solved
+Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.

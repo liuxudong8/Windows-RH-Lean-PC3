@@ -1,0 +1,27 @@
+A5CharQ5\probe_group.lean:6:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * ?a
+in the target expression
+  pA ^ 2 * pB * pB * pA ^ 2 = pA ^ 2 * pB ^ 2 * pA ^ 2
+
+⊢ pA ^ 2 * pB * pB * pA ^ 2 = pA ^ 2 * pB ^ 2 * pA ^ 2
+A5CharQ5\probe_group.lean:11:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * ?a
+in the target expression
+  pA ^ 2 * pB * pA ^ 3 * pB * pB = pA ^ 2 * pB * pA ^ 3 * pB ^ 2
+
+⊢ pA ^ 2 * pB * pA ^ 3 * pB * pB = pA ^ 2 * pB * pA ^ 3 * pB ^ 2
+A5CharQ5\probe_group.lean:15:6: error(lean.unknownIdentifier): Unknown identifier `hba`
+A5CharQ5\probe_group.lean:14:62: error: unsolved goals
+⊢ pB ^ 2 * pA * pB * pB = pA ^ 2 * pB ^ 2 * pA ^ 2
+A5CharQ5\probe_group.lean:21:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pA ^ 3 * pB ^ 2
+in the target expression
+  pA ^ 2 * pB * pA ^ 3 * pB * pB = pA ^ 2 * pB * (pB * pA ^ 2)
+
+⊢ pA ^ 2 * pB * pA ^ 3 * pB * pB = pA ^ 2 * pB * (pB * pA ^ 2)
+A5CharQ5\probe_group.lean:26:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  pA ^ 4 * pB ^ 2 * pA ^ 2
+in the target expression
+  pA * pB * pA ^ 3 * pB * pA ^ 4 * pB ^ 2 * pA ^ 2 = pA * pB * pA ^ 3 * pB * pA * pB * pA ^ 4
+
+⊢ pA * pB * pA ^ 3 * pB * pA ^ 4 * pB ^ 2 * pA ^ 2 = pA * pB * pA ^ 3 * pB * pA * pB * pA ^ 4
