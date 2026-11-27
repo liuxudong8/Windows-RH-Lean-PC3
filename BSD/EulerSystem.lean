@@ -131,15 +131,18 @@ theorem lambda_zero_iff_corank_eq_rank (E : Type) (K : Type) (p : ℕ) :
 
 -- ============ B-4：389a1 / p = 2 实例锚点 ============
 
-/-- 389a1 曲线标记（y² + y = x³ − x² − 2x + 1，N = 389，rank 2）。 -/
+/-- 389a1 曲线标记（最小模型 [0,1,1,−2,0]：y² + y = x³ + x² − 2x，N = 389，rank 2。
+    注：早期记录曾误用 y²+y=x³−x²−2x+1，已于 2026-10-13 纠错（kato_framework_check.md）。 -/
 axiom Curve389a1 : Type
 
 /-- K = E[2] 分裂域（ℚ(β)，β = 2θ，θ 是 4x³+4x²−8x+1 的根；
     G = x³+2x²−8x+2，Disc = 1556，O_K = ℤ[β]；Probe389 三次域复算）。 -/
 axiom K389a1 : Type
 
-/-- 389a1 ordinary at 2（good reduction，2 ∤ 389）。 -/
-axiom ordinary_389a1_2 : OrdinaryAt Curve389a1 2
+/-- **389a1 在 p = 2 非 ordinary**（a₂ = −2 恒偶 ⟹ 2 | a₂ ⟹ ordinary 条件 a_p ≢ 0 mod p 失败）。
+    OrdinaryAt 在 mathlib 无结构定义，故以 axiom 挂账（数学事实可由有限域点计数真证化）。
+    影响：Greenberg 控制定理在 p = 2 前提不成立，λ₂ 挂账（lambda2_389a1_eq_zero）比 B-4 所述更独立。 -/
+axiom not_ordinary_389a1_2 : ¬ OrdinaryAt Curve389a1 2
 
 /-- 389a1 秩 2（LMFDB，生成元 (0,0), (1,0)）。 -/
 axiom rank_389a1 : Rank Curve389a1 K389a1 = 2

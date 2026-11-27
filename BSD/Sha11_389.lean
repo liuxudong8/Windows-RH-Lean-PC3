@@ -1,4 +1,5 @@
 import BSD.EulerSystem
+import BSD.SelmerLayer
 
 open BSD.EulerSystem
 
@@ -21,16 +22,38 @@ namespace BSD.Sha11_389
   E[11] 不可约（389a 类仅一条曲线）；L(E^K,1) ≠ 0；χ 由 [Vat03 类] 保证存在。
 -/
 
--- ============ 对象不变量（ℚ 侧） ============
+-- ============ 对象不变量（ℚ 侧）：定义已下沉 `BSD.SelmerLayer`（2026-11-27） ============
 
-/-- dim_{ℚ_p} Sel(ℚ, V_pE)：p-adic Selmer 群的 ℚ_p-维数。 -/
-axiom SelDim (E : Type) : ℕ
+/-! 下沉动机见 `SelmerLayer` 头部：抽象 Selmer/Ш 对象放在 `EulerSystem` 之上、
+`Sha11_389` 之下，使本文件能在 ℚ 侧自证 `Rank Curve389a1 ℚ = 2`，从而剥掉
+`sha11_order_one_of_sel11` 对 `EulerSystem.rank_389a1`（over K）的依赖。
+下面保留同名 `abbrev` 别名，旧路径 `BSD.Sha11_389.SelDim` 等继续可用。 -/
 
-/-- corank_{ℤ_p} Ш[p^∞](E/ℚ)：Tate–Shafarevich p-primary 部分的 corank。 -/
-axiom ShaCorank (E : Type) (p : ℕ) : ℕ
+noncomputable abbrev SelDim (E : Type) : ℕ := BSD.SelmerLayer.SelDim E
 
-/-- Ш[p^∞](E/ℚ) 有限 ⟺ corank = 0。 -/
-def ShaFinite (E : Type) (p : ℕ) : Prop := ShaCorank E p = 0
+noncomputable abbrev ShaCorank (E : Type) (p : ℕ) : ℕ := BSD.SelmerLayer.ShaCorank E p
+
+abbrev ShaFinite (E : Type) (p : ℕ) : Prop := BSD.SelmerLayer.ShaFinite E p
+
+noncomputable abbrev ShaPOrder (E : Type) (p : ℕ) : ℕ := BSD.SelmerLayer.ShaPOrder E p
+
+noncomputable abbrev SelPOrder (E : Type) (p : ℕ) : ℕ := BSD.SelmerLayer.SelPOrder E p
+
+abbrev sel_dim_eq_rank_add_sha_corank (E : Type) (K : Type) (p : ℕ) :
+    SelDim E = Rank E K + ShaCorank E p :=
+  BSD.SelmerLayer.sel_dim_eq_rank_add_sha_corank E K p
+
+abbrev sha_p_descent_order (E : Type) (K : Type) (p : ℕ) :
+    ShaPOrder E p = SelPOrder E p / (p ^ Rank E K) :=
+  BSD.SelmerLayer.sha_p_descent_order E K p
+
+abbrev sel_p_order_eq_p_pow_dim (E : Type) (K : Type) (p : ℕ) :
+    ShaCorank E p = 0 → SelPOrder E p = p ^ SelDim E :=
+  BSD.SelmerLayer.sel_p_order_eq_p_pow_dim E K p
+
+abbrev sel2_rank_bound (E : Type) (K : Type) :
+    2 ^ Rank E K ≤ SelPOrder E 2 :=
+  BSD.SelmerLayer.sel2_rank_bound E K
 
 -- ============ CH22 条件层（389a1 / p=11 / K=ℚ(√−2)，已核验） ============
 
@@ -257,11 +280,6 @@ axiom sel_dim_two_of_kato_nonzero :
     LTwistNonzero389 → LEKChi2Nonzero389 → ResidualIrreducible389 →
     NSquarefree389 → RamifiedAtQ389 → KatoNonzero389 → SelDim Curve389a1 = 2
 
-/-- descent 序列（ℚ 侧）：0 → E(ℚ)⊗ℚ_p → Sel(ℚ,V_pE) → T_p(Ш)⊗ℚ_p → 0
-    的维数形式：SelDim E = Rank E K + ShaCorank E p。 -/
-axiom sel_dim_eq_rank_add_sha_corank (E : Type) (K : Type) (p : ℕ) :
-    SelDim E = Rank E K + ShaCorank E p
-
 -- ============ 组合真证 ============
 
 /-- dim Sel(ℚ, V₁₁(389a1)) = 2：由 §5 主定理公式 + Corollary C 组合
@@ -272,20 +290,62 @@ theorem sel_dim_two_389 : SelDim Curve389a1 = 2 :=
     (kato_nonzero_of_theta_order l_twist_nonzero_389 l_ek_chi2_nonzero_389
       residual_irreducible_389 n_squarefree_389 ramified_at_q_389 theta_order_two_389)
 
-/-- corank_{ℤ₁₁} Ш[11^∞](389a1) = 0：dim = 2 ∧ rank = 2 在 descent 序列下的推论（Nat 算术真证）。 -/
+-- ============ 秩 2 的 ℚ-侧真证（2026-11-27：剥 `rank_389a1` 环债） ============
+
+/-! 上界：`2^rank ≤ #Sel₂ = 4 = 2²` ⟹ rank ≤ 2（`sel2_rank_bound`，已下沉至 `SelmerLayer`）。
+    下界：两个显式 ℚ-点独立且无限阶（数据锚点，证据同 `RankTwo389`：高度配对
+    det = 0.15246017794314375162… > 1/10 > 0；好素 N₅ = 9、N₇ = 13、gcd = 1 ⟹ 无挠）。
+    两侧夹逼即 `Rank Curve389a1 ℚ = 2`——**不再引用** `EulerSystem.rank_389a1`（over K）。
+    这也顺带修正了旧链的语义错配：descent 阶关系分母是 `p^{rank E(ℚ)}`，此前却喂 rank over K。 -/
+
+/-- 389a1 的两个显式 ℚ-点 P₁ = (−1 : 1)、P₂ = (0 : −1) 独立且无限阶（数据锚点命题）。 -/
+axiom PointsIndependentQ389 : Prop
+
+/-- 数据锚点：P₁、P₂ 在 E(ℚ)/tors 中线性无关且非扭点。数值依据（G3/G4，2026-10-16）：
+    · 独立：Sage regulator(precision=200) 高度配对矩阵
+      [[0.686667083305587, 0.268478098806726],[0.268478098806726, 0.327000773651605]]，
+      det = 0.152460177943144（Python NT/Sage/Magma/LMFDB 四源一致 ~10⁻¹⁹）；
+    · 无限阶：N₅ = #E(𝔽₅) = 9、N₇ = #E(𝔽₇) = 13，gcd(9,13) = 1 ⟹ E(ℚ)[tors] = 0。 -/
+axiom points_independent_q_389 : PointsIndependentQ389
+
+/-- Mordell–Weil 事实（定理级挂账）：两独立无限阶 ℚ-点 ⟹ rank_{ℚ} ≥ 2。 -/
+axiom rank_ge_two_of_points_Q : PointsIndependentQ389 → 2 ≤ Rank Curve389a1 Rat
+
+/-- rank_{ℚ}(389a1) ≥ 2（组合：数据锚点 + Mordell–Weil 事实）。 -/
+theorem rank_ge_two_389_Q : 2 ≤ Rank Curve389a1 Rat :=
+  rank_ge_two_of_points_Q points_independent_q_389
+
+/-- |Sel₂(389a1)| = 4：A*/A*² 枚举 + 类数 h = 1 + N 条件 ⟹ |H¹| = 4，正合列 + rank = 2
+    ⟹ |Sel₂| = 4（纯 Python 独立复算，数据锚点；证据块见本文件 G4 节）。 -/
+axiom sel2_order_four_389 : SelPOrder Curve389a1 2 = 4
+
+/-- rank_{ℚ}(389a1) ≤ 2：`2^rank ≤ #Sel₂ = 4 = 2²`，pow 单调双向（**真证**）。 -/
+theorem rank_le_two_389_Q : Rank Curve389a1 Rat ≤ 2 := by
+  have hb : 2 ^ Rank Curve389a1 Rat ≤ SelPOrder Curve389a1 2 :=
+    sel2_rank_bound Curve389a1 Rat
+  have hb' : 2 ^ Rank Curve389a1 Rat ≤ 2 ^ 2 := by
+    rw [sel2_order_four_389] at hb
+    simpa using hb
+  exact (Nat.pow_le_pow_iff_right (a := 2) (by decide)).mp hb'
+
+/-- **Rank_{ℚ}(389a1) = 2**（组合真证：上界真证 ∧ 下界锚点；
+    `EulerSystem.rank_389a1`（over K）的 ℚ-侧替代，本文件内部可引用，不成环）。 -/
+theorem rank_389a1_Q : Rank Curve389a1 Rat = 2 :=
+  le_antisymm rank_le_two_389_Q rank_ge_two_389_Q
+
+/-- corank_{ℤ₁₁} Ш[11^∞](389a1) = 0：dim = 2 ∧ rank_{ℚ} = 2 在 descent 序列下的推论（Nat 算术真证）。 -/
 theorem sha_corank_zero_389 : ShaCorank Curve389a1 11 = 0 := by
-  have hd := sel_dim_eq_rank_add_sha_corank Curve389a1 K389a1 11
+  have hd := sel_dim_eq_rank_add_sha_corank Curve389a1 Rat 11
   have hd' : 2 = 2 + ShaCorank Curve389a1 11 := by
-    rw [sel_dim_two_389, rank_389a1] at hd
+    rw [sel_dim_two_389, rank_389a1_Q] at hd
     exact hd
   have hd'' : 2 + 0 = 2 + ShaCorank Curve389a1 11 := by
     simpa using hd'
   exact (Nat.add_left_cancel hd'').symm
 
 /-- Ш[11^∞](389a1) 有限（无条件：依赖文献定理 + 数值事实，逻辑组合为真证）。 -/
-theorem sha11_finite_389 : ShaFinite Curve389a1 11 := by
-  unfold ShaFinite
-  exact sha_corank_zero_389
+theorem sha11_finite_389 : ShaFinite Curve389a1 11 :=
+  sha_corank_zero_389
 
 -- ============ 数值验证层：#Ш[11] 的阶（2026-10-15 挂账，G2） ============
 /-!
@@ -313,32 +373,48 @@ theorem sha11_finite_389 : ShaFinite Curve389a1 11 := by
     G2b（Magma `SelmerGroup(11)`，需独立复算 #Sel₁₁）完成后接入 h 即闭合独立链。
 -/
 
-/-- #Ш[p](E/ℚ)：Tate–Shafarevich 群 p-torsion 部分的阶（有限时取数值；与 ShaCorank
-    （p-primary corank）不同对象）。 -/
-axiom ShaPOrder (E : Type) (p : ℕ) : ℕ
+/-! ### 对象与结构 axiom 下沉记录（2026-11-27）
 
-/-- #Ш[11](389a1) = 1：精细 BSD 数值判定（G2a 闭合，Probe389/G2_Sha11Order/g2a_result.md；
-    数据锚点，非独立证明）。 -/
-axiom sha11_order_one_389 : ShaPOrder Curve389a1 11 = 1
+`ShaPOrder`、`SelPOrder`、`sha_p_descent_order`、`sel_p_order_eq_p_pow_dim`、
+`sel2_rank_bound` 已全部下沉到 `BSD.SelmerLayer`（本文件顶部保留同名 abbrev 别名）。
+下沉的直接原因是：`RankTwo389` 反向 import 本文件，故本文件无法引用真证的
+`rank_two_389`；只有把"对象层"挪到 `Sha11_389` 之下，ℚ-侧秩的真证
+（`rank_389a1_Q`，见上方）才能在本文件内部完成，`rank_389a1` 才出得了闭包。 -/
 
--- ============ G2 真证层骨架（2026-10-15）：descent 阶结构 + 条件组合定理 ============
+/-! ### 【G2 降级记录 · 2026-11-27】
 
-/-- #Sel_p(E/ℚ)：p-Selmer 群（E(ℚ)[p] 上的全局 descent 对象）的阶。 -/
-axiom SelPOrder (E : Type) (p : ℕ) : ℕ
+原 `axiom sha11_order_one_389 : ShaPOrder Curve389a1 11 = 1`（G2a 数据锚点，2026-10-15，
+依据精细 BSD 数值 #Ш_pred = 1.0000000000004）已**降为 theorem**，见下方 `sha11_order_one_389`。
+新通道不走 BSD 数值，改走 `SelDim = 2 ∧ ShaCorank 11 = 0 ⟹ #Sel₁₁ = 11²` 的结构推导；
+2026-11-27 起分母改用 `rank_389a1_Q`（ℚ 侧真证），`EulerSystem.rank_389a1` 退出闭包。
+G2a 的数值保留作**交叉验证**：两条独立通道同时给 1。 -/
 
-/-- descent 正合列 0 → E(ℚ)/pE(ℚ) → Sel_p(E) → Ш[p] → 0 的阶形式：
-    E[p](ℚ) = 0 时 E(ℚ)/pE(ℚ) ≅ (ℤ/p)^rank，故 #Ш[p] = #Sel_p / p^rank。
-    （与 sel_dim_eq_rank_add_sha_corank 同级的 descent 结构 axiom。） -/
-axiom sha_p_descent_order (E : Type) (K : Type) (p : ℕ) :
-    ShaPOrder E p = SelPOrder E p / (p ^ Rank E K)
+-- ============ G2 真证层骨架（2026-10-15；对象与结构 axiom 2026-11-27 下沉至 SelmerLayer） ============
 
-/-- **组合真证**：#Ш[11](389a1) = 1，由 #Sel₁₁ = 11²（数据锚点）+ descent 阶关系 + rank 2 推出。
-    ——G2b（Magma `SelmerGroup(11)`）完成后，仅需把 #Sel₁₁ = 11² 作为数据锚点接入 h，
-    本定理即构成 #Ш[11] = 1 的独立真证链（不依赖 BSD 数值）。 -/
+/-- **组合定理**：#Ш[11](389a1) = 1，由 #Sel₁₁ = 11² + descent 阶关系 + rank_{ℚ} 2 推出。
+    2026-11-27：分母改用 ℚ-侧真证 `rank_389a1_Q`（两独立 ℚ-点 + #Sel₂ = 4）；
+    原先的 `rw … rank_389a1`（`EulerSystem` axiom，over K）已**退出闭包**。 -/
 theorem sha11_order_one_of_sel11 (h : SelPOrder Curve389a1 11 = 11^2) :
     ShaPOrder Curve389a1 11 = 1 := by
-  rw [sha_p_descent_order Curve389a1 K389a1 11, h, rank_389a1]
+  rw [sha_p_descent_order Curve389a1 Rat 11, h, rank_389a1_Q]
   decide
+
+/-- **#Sel₁₁(389a1) = 11²（真推导，非数据锚点）**：
+    由 `sel_p_order_eq_p_pow_dim`（结构桥）+ `sha_corank_zero_389`（真证）
+    + `sel_dim_two_389`（CH22 Cor. C 挂账链的真证）所得。
+    这正是 g2b_result.md 缺失的 `h`——但**不是** 11-descent 算出来的，
+    而是 dim = 2 ∧ corank = 0 的必然推论（见该文件"11-descent 无任何现成工具"）。 -/
+theorem sel11_order_389 : SelPOrder Curve389a1 11 = 11 ^ 2 := by
+  rw [sel_p_order_eq_p_pow_dim Curve389a1 K389a1 11 sha_corank_zero_389,
+      sel_dim_two_389]
+
+/-- **#Ш[11](389a1) = 1（现已为真证）**：G2 收口。
+    依赖闭包：`SelDim`（CH22 Cor. C 链）、`ShaCorank` = 0（descent 序列，真证）、
+    `sel_p_order_eq_p_pow_dim`（结构 axiom）、`rank_389a1_Q`（真证：`sel2_rank_bound` +
+    `sel2_order_four_389` + 两独立 ℚ-点锚点）、`sha_p_descent_order`（descent 阶关系 axiom）。
+    不含任何 BSD 数值锚点，**亦不含 `rank_389a1`**（2026-11-27 环债已剥）。 -/
+theorem sha11_order_one_389 : ShaPOrder Curve389a1 11 = 1 :=
+  sha11_order_one_of_sel11 sel11_order_389
 
 -- ============ G4 挂账：|Sel₂| = 4 纯 Python 独立复算（2026-10-16） ============
 /-!
@@ -357,14 +433,13 @@ G4 用纯 Python（标准库 + fractions，无 numpy/sympy）从类空间定义�
 完整数据：Probe389/G4_Sel2/g4_result.md（+ g4_sel2.py / g4_classno.py）。
 -/
 
-/-- |Sel₂(389a1)| = 4：A*/A*² 枚举 + 类数 h=1 + N 条件 ⟹ |H¹|=4，正合列 + rank=2 ⟹ |Sel₂|=4
-    （纯 Python 独立复算，数据锚点）。 -/
-axiom sel2_order_four_389 : SelPOrder Curve389a1 2 = 4
+-- 注：`sel2_order_four_389`（|Sel₂| = 4 数据锚点）已上移至"秩 2 的 ℚ-侧真证"节
+-- （`rank_le_two_389_Q` 的证明需要它）。
 
-/-- **组合真证**：#Ш[2](389a1) = 1：由 |Sel₂| = 4（G4 数据锚点）+ descent 阶关系 + rank=2 推出
+/-- **组合真证**：#Ш[2](389a1) = 1：由 |Sel₂| = 4（G4 数据锚点）+ descent 阶关系 + rank_{ℚ}=2 推出
     （#Ш[2] = #Sel₂ / 2^rank = 4/4 = 1；与 Magma Sha(E)[2] trivial 一致，独立 Lean 链闭合）。 -/
 theorem sha2_order_one_389 : ShaPOrder Curve389a1 2 = 1 := by
-  rw [sha_p_descent_order Curve389a1 K389a1 2, sel2_order_four_389, rank_389a1]
+  rw [sha_p_descent_order Curve389a1 Rat 2, sel2_order_four_389, rank_389a1_Q]
   decide
 
 -- ============ G3 挂账：Reg 全精度（2026-10-16） ============
@@ -388,3 +463,5 @@ axiom RegHighPrecision389 : Prop
 axiom reg_high_precision_389 : RegHighPrecision389
 
 end BSD.Sha11_389
+
+

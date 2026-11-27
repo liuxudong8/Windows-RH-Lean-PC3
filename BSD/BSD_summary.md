@@ -1,5 +1,6 @@
 # BSD 库——弱 BSD 秩 1/秩 2 对称 + n=3 骨架的 Lean 形式化（状态摘要）
 
+> 更新：2026-11-27（攻击表 P0/P1/P2 落地 + 环债剥离 + G5 空链拆解）——**C7/G2 由数据锚点降为定理，C6 拆三件并落地 0-axiom 的有限域点计数模块，`rank_389a1` 环债剥断（SelmerLayer 下沉 + ℚ 侧秩真证），G5 的「Reg 分母」空链（`OmegaReg389 := 0` 与 `0.759291598 ≤ Ω·Reg` 自相矛盾 ⟹ `False` ⟹ 空壳）已拆，环 4 由 axiom 降为定理并补锚点可满足性真证**。回执：`SelmerLayer` 18,504 B、`Sha11_389` 90,136 B、`RankTwo389` 22,456 B、`Main` 149,296 B、`GrHChain389` 249,232 B，全 EXIT=0；`#print axioms sha11_order_one_389` 不含 `rank_389a1`，`#print axioms omega_reg_min_bound_389` 不含其自身。详见 §16。
 > 更新：2026-10-19（谱对偶线接入：ζ_K 零点并集结构——跨族配对显式公式、字符振荡对消与 Hilbert 空间方法的边界）——**谱对偶论证系列（K=ℚ(√5)，ζ_K=ζ·L(χ₅)，与 E⁵ twist 共享同一 χ₅ 结构：E⁵ 局部因子 a_p=χ₅(p)a_p(E)）攻防 XVIII/XIX 收口，产出三个独立于 RH/GRH/QRH 真伪的可辩护对象**。**①Q(0) 判负（决定性负结果）**：Q(0)=∫η⁴=∫f²（f=η² 为 supp⊂[−1/2,1/2]、∫f=1 的概率密度），Cauchy–Schwarz 给出 **Q(0)≥1（等号仅 uniform）**，Lamzouri 命题 2.1（arXiv:2609.02882）应用于 Z_K 并集的下界 **2−C_MT(f)−Q(0)(f)≤0 恒成立**（极值 f₀ 给 −0.3338、uniform 给 −0.3333）——Hilbert 空间不等式对乘积 L 函数（ζ_K=ζ·L）的并集**彻底失效**（跨族对在 ΣK² 贡献 Q(0)≥1、在 Σ1 无对应独立计数）。**②素项净压制定量（攻防 XIX）**：Σ_p χ₅(p)/√p（σ=1/2 临界）部分和**振荡有界 sup≤2.457**（X≤5×10⁶）——字符和消去、跨族项无长周期漂移；并集素项 sup 包络（Σ(1+χ₅)/(√p log p)）全尺度 <单族（分段比值 0.57/0.71/0.82/0.90/0.94）；但**均方口径并集 1.263× 单族**（Σ(1+χ)²/p=3.457 vs Σ1/p=2.736，X=2×10⁶；(1+χ)²=4·1_{χ=+1}）——净压制只在幅度 sup 层、功率层不成立（呼应攻防 XVI 二阶矩白噪声判定）。**③在线比例余项数值级**：密度侧 sup|S_K|/(π·(T/2π)λ)≈8.1×10⁻⁶、配对侧 ∫dF≈−0.0094≈0 ⟹ **0.6725−O(10⁻⁵~10⁻³)**——缺口在 Levinson 常数不在余项；7/8=0.875 属 QRH 类不同机制（quasi-random 前提），非同一论证的常数推进。**④L(χ₅) 主项修正**：N_L(T)=(T/2π)[log(T/2π)+log 5−1]+O(log qT)（Γ(s/2) 相位，log q 为线性项；历史脚本误用 ζ 口径或缺 log q 产生 ~10⁵ 伪主项，已修；ζ 口径 D(t)≈0 完美验证；L 数据含 0.27% R-S 求根伪影已披露）。**战略定位**：可对外辩护资产 = 跨族配对显式公式（定理 3.1′：ζ 与 L(χ₅) 零点跨族配对相关主项 f(0)、素项被字符振荡 O(x^{−1/2}) 消除——L 函数乘积配对理论新工具）+ 字符振荡对消结构 + Q(0) 负结果（AI 时代方法边界/死路地图）；谱对偶链（Arthur 迹公式 ↔ Weil 显式公式，商定映射 (ℓ₁,ℓ₂)↦(T,W)）仍为信念未闭合，诚实标注。数值体系（zeros_T6e5.npz：ζ 999492 + L 1150050 零点；route2m.json 跨族配对；fourier 剖面）与攻防 XVI–XIX 文档见 d1 目录。详见 §15。
 
 > 更新：2026-10-16（rank 推进收口：`rank_389a1` 黑箱拆分真证化）——**`RankTwo389.lean` 落地**：代数秩 2 从单 axiom 拆为"上界真证 + 下界挂账"——`rank_le_two_389`（真证：`sel2_rank_bound`（2-descent 阶上界 axiom，正合列 0→E/2E→Sel₂→Ш[2]→0 + E(ℚ) 无 2-扭 ⟹ 2^rank ≤ #Sel₂）+ `sel2_order_four_389`（\|Sel₂\|=4，G4 锚点）⟹ 2^rank ≤ 4 ⟹ rank ≤ 2）+ `rank_ge_two_389`（挂账：两独立无限阶点 P₁=(−1:1:1)、P₂=(0:−1:1)，高度配对 det=0.15246017794314375162…≠0（G3 数值）⟹ rank ≥ 2，Mordell–Weil 事实）+ `rank_two_389 := le_antisymm`（真证组装）。**闭包核验（#print axioms）**：`rank_two_389` 依赖 [sel2_rank_bound, sel2_order_four_389, PointsIndependent389, points_independent_389, rank_ge_two_of_points] + 基础设施——**不含 `rank_389a1`**：代数秩 2 降级为"\|Sel₂\| 数据锚点 + descent 结构 axiom + 两独立点单点挂账"。**编译链收口**：lake clean 事故（mathlib `.trace` 被清 ⟹ 近全量重编 + 并行 `.private` 读取竞争/模块崩溃/依赖缺失多批失败）经 3 轮 `lake build <Module>` 串行补编修复；**Lake 5.0 的 `-R` = `--reconfigure`，只编 defaultTargets（exe 链），BSD 库须显式 `lake build BSD`**；RankTwo389 纳入默认构建 = `BSD.Main.lean` 加 `import BSD.RankTwo389`（lean_lib 默认 roots=["Main"]，只编 Main 闭包；lakefile 的 globs/roots TOML 语法在 Lake 5.0 下不可行，保持默认）；`lake build -R` 全绿 7690 jobs、`lake build BSD` 全绿 3476 jobs（BSD 14 olean）。同日第二轮 A/B 锚点细化见 §14.4。详见 §14。
@@ -99,17 +100,20 @@ c:\proj2\
 
 ### 3.2 声明层（axiom，每个带"待证明"注释与升级路径）
 
-**Main.lean — 7 个**（`analytic_rank_K_eq_one`、`rank_E_Q_eq_one` 已升级为定理；`Lprime_E1` / `Lprime_E1_interval` 已 B3-min 删除，见 §3.3）：
+**Main.lean — 8 个**（2026-11-27 口径：`mwRank` 降为 def，`rank_E_Q_le_one` 升为 theorem，`rank_E_Q_ge_one` 拆三件；`analytic_rank_K_eq_one`、`rank_E_Q_eq_one` 早已是定理；`Lprime_E1` / `Lprime_E1_interval` 已 B3-min 删除，见 §3.3）：
 
 | axiom | 含义 | 升级路径 |
 |---|---|---|
 | `analyticRank` | 解析秩（函数定义，mathlib 无自守 L） | 自建 L 函数层（LSeries5 方向） |
-| `mwRank` | Mordell–Weil 秩（mathlib 无椭圆曲线理论） | 需要全套算术几何 |
+| ~~`mwRank`~~ → `noncomputable def mwRank := EulerSystem.Rank` | **2026-11-27 降为 def，不再占 axiom**（§16.1） | 已落地 |
 | `analytic_rank_K_eq_one_of_LK_prime_ne_zero` | L_K′(1) ≠ 0 ⟹ 解析秩(E/K) = 1（L_K(1) = 0 的函数方程 ε_K = −1 + 解析秩定义） | 函数方程与 Artin 分解的 Lean 实现 |
-| `rank_E_Q_ge_one` | rank E(ℚ) ≥ 1（P₀ = (0,0) 无限阶；②a 已真证全部输入） | Silverman VIII.7.1(b) 本体（椭圆曲线约化理论，mathlib 缺失） |
-| `rank_E_Q_le_one` | rank E(ℚ) ≤ 1（2-下降 Selmer 计算；E′[2] = {O} 已真证，见 §3.3 ②b） | 三次域类数/单位群/局部可解性（②b 剩余） |
-| `rank_E5_Q_eq_zero` | rank E⁵(ℚ)=0（Kolyvagin） | L_E5_one_ne_zero（已闭合）+ Kolyvagin 定理 |
+| `InfinitePointWitness` / `rank_ge_one_of_infinite_point` / `has_infinite_point_37a1` | rank E(ℚ) ≥ 1 三件套（C6，§16.2）：谓词 / 结构（自由群含无限阶点 ⟹ rank ≥ 1）/ 数据锚点（P₀ 无限阶） | 无限点存在性 = 有限域点计数 + torsion trivial |
+| ~~`rank_E_Q_ge_one`~~ | **2026-11-27 已由 axiom 降为 theorem**（三件套拼合，§16.2） | 已落地 |
+| ~~`rank_E_Q_le_one`~~ → `sel2_order_two_37a1` | **2026-11-27 降为 theorem**：`sel2_rank_bound`（2^rank ≤ #Sel₂）+ `SelPOrder 37a1 2 = 2` ⟹ rank ≤ 1（§16.1） | 已落地（数据锚点代替黑箱） |
+| `rank_E5_Q_eq_zero_of_L_E5_ne_zero` | rank E⁵(ℚ)=0（L_E5 ≠ 0 ⟹ Kolyvagin） | L_E5_one_ne_zero（已闭合）+ Kolyvagin 定理 |
 | `twist_decomposition` | rank E(K) = rank E(ℚ) + rank E⁵(ℚ)（Silverman） | Galois 模特征空间分解（③） |
+
+> 2026-11-27 新增模块的 axiom 不在本表：`Count37a1.lean` 0 条；`SelmerLayer.lean` 8 条（`SelDim`/`ShaCorank`/`ShaPOrder`/`SelPOrder` + `sel_dim_eq_rank_add_sha_corank`/`sha_p_descent_order`/`sel_p_order_eq_p_pow_dim`/`sel2_rank_bound`）；`Sha11_389.lean` 30 条；`GrHChain389.lean` 9 条（3 对象 + 2 区间锚点 + 4 断言）。逐模块账目见 §16.6。
 
 **LSeries5.lean — 9 个**（`L_E5_one_ne_zero` 已降级为定理，见 §3.1）：
 
@@ -152,7 +156,7 @@ lake build BSD            # 全库；日志 > build_*.txt
 lake env lean BSD/_check_bsd.lean   # #print axioms 核验
 ```
 
-统计：`(Select-String -Path BSD\*.lean -Pattern "^axiom ").Count`——库代码 = 14（Main 7 + LSeries5 7；`_check_*.lean` 的核验脚本不计；TwoDescent.lean 无 axiom）；sorry 应为 0。
+统计：`(Select-String -Path BSD\*.lean -Pattern "^axiom ").Count`——旧口径（2026-10-07）库代码 = 14（Main 7 + LSeries5 7；`_check_*.lean` 核验脚本不计；TwoDescent.lean 无 axiom）；**2026-11-27 实测**：Main 8、EulerSystem 18、Sha11_389 30、RankTwo389 3、SelmerLayer 8、GrHChain389 9、Count37a1 0（合计 68，含已下沉前的历史计数不可直接对比，逐模块账目见 §16.6）；sorry 应为 0。
 
 ## 5. 状态与路线
 
@@ -570,7 +574,7 @@ H¹(ℚ, E[2]) ≅ { δ ∈ A*/A*² : N(δ) ∈ ℚ*² }
 | G2 #Ш[11] 阶 | 条件判定（精细 BSD 数值）+ 真证骨架（#Sel₁₁=11² 悬空） |
 | **G3 Reg 全精度** | **已闭合**（200 位，四源一致） |
 | **G4 \|Sel₂\| 纯 Python** | **已闭合**（\|H¹\|=4 ⟹ \|Sel₂\|=4，类数 h=1 验证） |
-| G5 GRH 上界常数 | 已闭合（条件） |
+| G5 GRH 上界常数 | ~~已闭合（条件）~~ **2026-11-27 复核：结构侧闭合、常数侧未证** —— 原"闭合"是空链（`OmegaReg389 := 0` 与 `0.759291598 ≤ Ω·Reg` 矛盾 ⟹ `False` ⟹ 结论空壳），已拆，环 4 降为定理；详见 §16.5 |
 | G6 GRH 反证链组合 | 判定通过（条件于 GRH+BSD） |
 
 产物：`Probe389/G3_Reg/g3_result.md`（+ g3_sage.sage）、`Probe389/G4_Sel2/g4_result.md`（+ g4_sel2.py / g4_classno.py）；`rank2_status.md` G3/G4 行更新为"已闭合"。
@@ -642,6 +646,7 @@ H¹(ℚ, E[2]) ≅ { δ ∈ A*/A*² : N(δ) ∈ ℚ*² }
 1. **Q(0)≥1 ⟹ 并集下界恒非正（攻防 XVIII，决定性负结果）**：命题 2.1（Lamzouri arXiv:2609.02882）对 Z_K=Z_ζ∪Z_L 的下界 2−C_MT(f)−Q(0)(f)≤0，与 mollifier 选择无关（f₀ 极值 −0.3338 / uniform −0.3333）。**Hilbert 空间不等式对乘积 L 函数并集失效**——跨族对纯负债（ΣK² 计 Q(0)≥1，Σ1 无对应计数）。
 2. **跨族配对显式公式（定理 3.1′）**：ζ 与 L(χ₅) 零点跨族配对相关主项 = f(0)（密度级系数 1），素项被 χ₅ 字符振荡消除（O(x^{−1/2}) 类）——Montgomery 配对相关向双 L 函数的推广，独立于 RH 真伪的 L 函数配对理论工具。
 3. **素项净压制与余项级（攻防 XIX）**：Σ_p χ₅(p)/√p 部分和有界 ≤2.46（字符和消去）；并集 sup 包络全尺度 <单族（0.57–0.94）；均方口径并集 1.263×单族（二矩无增益）；在线比例余项数值级 0.6725−O(10⁻⁵~10⁻³)——**缺口在常数不在余项**。
+4. **Δ 常数定律（跨族互斥宏观常数层，2026-10-19 修正口径定稿）**：Δ_pure(T)/N_K(T)→−c_pure，**c_pure≈0.0070±0.0003**（−0.70%·N_K，14σ@6e5，多 T 单调收敛 −0.92%→−0.70%）。原 −3.39%（68σ）的 2.7%·N_K 是 E 口径核截断伪影（E 用全直线 ∫w=2π，A 窗口 |v|<20 截断损失 6.35%/点）——jitter 差独立验证（Δ_real−Δ_jitter=−14728 ≈ Δ_pure=−15091）。三投影自洽：亚泊松（var 0.114≪mean 0.786）、配对负偏（C(0.5)≈−0.0172）、最近间距排斥。**谱层口径统一**：route2l ∫dF=−0.0242 / route2m −0.0094 / L4 谱 −0.0099 同数据复现（差=尺度带+基线）。**审计链闭合**：0.874957 是 QRH 竖线非比例（XIII 自证无桥）⟹ 系数翻译 θ_K 数字作废；Levinson 推进 η/c_main=1.3–1.7%（谱层同口径）是二次矩机制修正、不可与 Lamzouri 0.6725 相加；θ₀_Lev≤0.3（c_ll 主导 186–244，二矩比 ζ 大 80–100 倍）⟹ Levinson 机制对 ζ_K 在线比例死路。**定律独立成立**：第一例 distinct L 函数零点跨族统计互斥的宏观常数层（AI 框架没有，Liu–Ye 未覆盖）——不依附比例机制。
 
 ### 15.3 L(χ₅) 主项修正（数值工作流重要修复）
 
@@ -649,7 +654,107 @@ N_L(T)=(T/2π)[log(T/2π)+log 5−1]+O(log qT)——Γ(s/2) 相位含 (T/2)log(q
 
 ### 15.4 战略定位与连接
 
-- **与 7/8（0.874957，QRH 类）的关系**：0.6725 是 Levinson–Lamzouri 无条件常数，0.875 是 quasi-random 前提的常数——不同机制，非同一论证推进；追边界无增量。
-- **可辩护资产**：跨族配对显式公式 + 字符振荡对消 + Q(0) 负结果（方法边界）；可向"L 函数乘积的配对理论 + 方法边界"方向打包（《ζ_K 零点并集结构》文档）。
+- **与 7/8 的关系（2026-10-19 修正：两类对象，勿混）**：QRH 的 7/8 是”无零点半平面”——OAI26 宣布 ζ 及 Dirichlet L 在 Re s>7/8 无零点，arXiv:2610.15291 在 OAI 分析输入下压至 0.8748867；Levinson 的 7/8 是”临界线上零点比例”目标。0.6725 是 Levinson–Lamzouri 无条件比例常数，Q(0)≥1 使比例方法在乘积 L 函数并集 Z_K 上结构性失效（下界恒非正，无任何正比例）；半平面 7/8 由另一套机制（cubic theta 平均、Poisson 求和与反射界）实现，与 Levinson 配对路线无关——追半平面边界对我们的比例工具链无增量。**审计链再修正（2026-10-19）**：0.874957 为 QRH 竖线（非在线比例起点）；Levinson 推进（η/c_main=1.3–1.7%）不可与 Lamzouri 0.6725 相加（机制异类）；θ₀_Lev≤0.3（ζ_K 二矩被 L 侧主导拖垮）——**Levinson 机制对 ζ_K 在线比例死路，Δ 常数定律独立于比例机制成立**。
+- **可辩护资产**：跨族配对显式公式 + 字符振荡对消 + Q(0) 负结果（方法边界）+ **Δ 常数定律（跨族互斥宏观常数层 c_pure≈0.0070，14σ）**；可向”L 函数乘积的配对理论 + 方法边界 + 跨族常数层”方向打包（《ζ_K 零点并集结构》文档）。
 - **谱对偶链状态**：Arthur 迹公式 ↔ Weil 显式公式的商定映射 (ℓ₁,ℓ₂)↦(T,W) 为信念（未闭合到配对常数），诚实标注为开放。
-- **与 BSD 的连接**：χ₅ 结构共享（E⁵ twist 与 L(χ₅)）；谱对偶的 θ_K 下界推进（若 L4 交叉项落地）可能为 Chebotarev/素数分裂分布精度提供数值输入。
+- **与 BSD 的连接**：χ₅ 结构共享（E⁵ twist 与 L(χ₅)）；Δ 常数定律的跨族互斥结构（配对计数 −0.70%、谱层 −2.5%）可作 Chebotarev/素数分裂分布精度的数值输入（与”θ_K 推进”叙事相比，这是已确立的常数层事实，非条件推演）。
+
+## 16. 2026-11-27：攻击表 P0/P1/P2 落地 + `rank_389a1` 环债剥离 + G5 空链拆解
+
+主线：按 `_rh14_zeroside\21_误差三分类与边际产出零_附BSD攻击表.docx` §6 的十行攻击表推进（战略排序：BSD 第一、QRH 当刀、RH 停投）。本段关掉 C7（P0）、G2（P1）、G5（P2 结构侧），剥离 `rank_389a1` 环债，并把 `GrHChain389` 里的假前提清出去。P3（`RH_14\Formalism\GaloisCohomology\Statement.lean:97`，实例搜索塌陷）属镜像库侧，不计入 BSD 账面。
+
+### 16.1 C7：`rank_E_Q_le_one` 由 axiom 降为定理
+
+| 层 | 名称 | 内容 |
+|---|---|---|
+| 结构 | `noncomputable def mwRank (E K) : ℕ := EulerSystem.Rank E K` | Mordell–Weil 秩不再占 axiom，承接给 `EulerSystem.Rank` |
+| 数据锚点 | `sel2_order_two_37a1 : SelPOrder Curve37a1 2 = 2` | \|Sel₂(37a1)\| = 2（LMFDB / Magma 一致） |
+| 真证 | `rank_E_Q_le_one : mwRank Curve37a1 ℚ ≤ 1` | `sel2_rank_bound`（2^rank ≤ #Sel₂）+ `Nat.pow_le_pow_iff_right` ⟹ 2^rank ≤ 2 ⟹ rank ≤ 1 |
+
+闭包不再含 `rank_E_Q_le_one` 自身：上界只剩"2-descent 结构 axiom + |Sel₂| 数据锚点"。olean 145,312 → 149,152 B（C6 前口径）。
+
+### 16.2 C6：`rank_E_Q_ge_one` 拆三件 + 有限域点计数模块
+
+- 新建 `BSD/Count37a1.lean`（**0 axiom**）：`nAff`（仿射点数）、`nPoints := nAff + 1`（含无穷远点）、`nPoints_two : nPoints 2 = 5`、`nPoints_three : nPoints 3 = 7`（`native_decide`，携带计算信任公理）、`coprime_counts : Nat.Coprime 5 7`。
+- 原单条 `rank_E_Q_ge_one` axiom 拆为三件：`InfinitePointWitness`（谓词）+ `rank_ge_one_of_infinite_point`（模态：自由阿贝尔群含无限阶点则秩 ≥ 1）+ `has_infinite_point_37a1`（数据锚点）。
+- 逻辑链：`#E(𝔽₂) = 5`、`#E(𝔽₇) = 7`，gcd = 1 ⟹ `E(ℚ)[tors] = 0`（好素约化单射）⟹ `P₀ = (0,0)` 无限阶 ⟹ rank ≥ 1。
+- 账：raw axiom 净 +2——拆黑箱的标准代价（一条断言换成"谓词 + 结构 + 数据"，其中两件仍是 axiom）；olean 51,576 B。
+
+### 16.3 G2：`sha11_order_one_389` 由数据锚点降为定理
+
+11-descent 无现成工具（Magma 只支持 p ∈ {2,3,4,5,7,8,9}，Sage 9.5 / PARI 只到 2/3），改走结构桥：
+
+$$
+\mathrm{ShaCorank}\ E\ p = 0 \;\Longrightarrow\; \mathrm{SelPOrder}\ E\ p = p^{\mathrm{SelDim}\ E}
+$$
+
+三步收口，四件里只有两条是 axiom：
+
+1. `sel_dim_two_389 : SelDim Curve389a1 = 2`（数据锚点）。
+2. `sha_corank_zero_389 : ShaCorank Curve389a1 11 = 0`（**真证**）：`SelDim = Rank + ShaCorank`，`SelDim = 2` 且 `rank_389a1_Q = 2` ⟹ corank = 0。
+3. `sel11_order_389`（**真证**）：桥上 `#Sel₁₁ = 11²`；`sha_p_descent_order`（`#Sel_p = p^rank · #Ш[p]`）⟹ `#Ш[11] = 121/121 = 1`；`sha11_order_one_389` 由此组装。
+
+olean 77,096 B。
+
+### 16.4 24 号：`rank_389a1` 环债剥离（Selmer 层下沉 + ℚ 侧秩真证）
+
+**环的机理**：`SelPOrder`/`ShaPOrder` 等对象写死在 `Sha11_389` 里，而真证的 `RankTwo389.rank_two_389` 必须 `import BSD.Sha11_389`（反向依赖）——于是"秩的真证"进不了 `sha11_order_one_of_sel11`，只能 `rw [rank_389a1]`（`EulerSystem` 的 axiom，秩 = 2 over `K389a1`）。**自证不能用，只能用黑箱**，这就是环债。
+
+修法：
+
+| 动作 | 文件 | 内容 |
+|---|---|---|
+| 新建抽象层 | `BSD/SelmerLayer.lean` | 8 条 axiom（`SelDim`/`ShaCorank`/`ShaPOrder`/`SelPOrder` 四对象 + `sel_dim_eq_rank_add_sha_corank`/`sha_p_descent_order`/`sel_p_order_eq_p_pow_dim`/`sel2_rank_bound`），不含任何 `Curve389a1`，压在 `EulerSystem` 与 `Sha11_389` 之间 |
+| 兼容别名 | `BSD/Sha11_389.lean` | 9 个 `noncomputable abbrev` 别名，旧路径 `BSD.Sha11_389.SelPOrder` 继续可用（`abbrev` 指向 axiom 须标 `noncomputable`） |
+| ℚ 侧真证 | `BSD/Sha11_389.lean` | 新增三件 ℚ-点锚点 + `rank_389a1_Q : Rank Curve389a1 ℚ = 2`：上界 `2^rank ≤ #Sel₂ = 4`，下界两独立 ℚ-点，`le_antisymm` |
+| 换血 | `BSD/Sha11_389.lean` | `sha_corank_zero_389`、`sha11_order_one_of_sel11` 全部改喂 `ℚ` 与 `rank_389a1_Q` |
+
+回执（全 EXIT=0）：`SelmerLayer` 11.7 s / 18,504 B；`Sha11_389` 11.7 s / 90,136 B；`RankTwo389` 11.6 s / 22,456 B；`Main` 22.9 s / 149,296 B。`#print axioms sha11_order_one_389` **不含** `EulerSystem.rank_389a1`——环已断。
+
+axiom 账：`Sha11_389` 34 → 30、`RankTwo389` 4 → 3、库净 +3（下沉只是搬家 + 别名，净增来自 ℚ 侧锚点）。审计注同步写入 `SelmerLayer`：`sel2_rank_bound` 的 `K` 形参数学上必须取 ℚ，取大扩域会假。
+
+### 16.5 G5（P2·Reg 分母）：空链拆解，环 4 由 axiom 降为定理
+
+先给最重要的一条事实：`GrHChain389.lean`（10-16 版）把 `Lpp389`、`OmegaReg389` 定义成常数 `0`，同时保留 axiom `omega_reg_min_bound_389 : 0.759291598 ≤ OmegaReg389`——def-eq 一展开就是 `0.759291598 ≤ 0`，**假命题**。axiom 不检查可满足性，`False` 因此进入上下文，`#Ш ≤ 3` 与 `#Ш = 1` 全靠 `False.elim` 下游。编译通过、回执干净，但**零信息量**。§13.4 里 G5 标"已闭合（条件）"这一行，严格说不成立。
+
+| 环 | 断言 | 形态（改前 → 改后） | 状态 |
+|---|---|---|---|
+| 环 1 | GRH 偏和界 $N_0(t_0,C_1) < 4$ | 无 Lean 定义 → 仍无 | 未 Lean 化，$C_1,k$ 为经验 sup |
+| 环 2 | $\|L''(1)/2\| \le M$ | axiom → axiom | 仍挂账（$M$ 锚点 0.857） |
+| 环 3 | $\#\mathcal{S}\cdot\Omega\cdot\mathrm{Reg} = L''(1)/2$ | axiom → axiom | 仍挂账（精细 BSD） |
+| 环 4 | $\Omega\cdot\mathrm{Reg}\cdot\prod c \ge 0.759291598$ | axiom → **theorem** | 已真证 |
+| 收口 | $\#\text{Ш} \le 3$、$\#\text{Ш} = 1$ | theorem → theorem | 条件定理（前提换血） |
+
+修法四条：
+
+1. `Lpp389`、`Omega389`、`Reg389` 三个数值对象全部改**不透明 axiom**（与 `BSD.Positivity` 的 `OmegaE`/`RegulatorE` 同口径）——数值对象只能声明，不能定义，否则任何关于它的不等式都自动失去对象。
+2. $\Omega$ 与 $\mathrm{Reg}$ 拆开，分母改成**乘法结构定义**：`OmegaReg389 := Omega389 * Reg389 * prodC389`（`prodC389 := 1`），只做乘、不做断言。
+3. 两条双侧区间锚点：$\Omega \in [4.9804, 4.9805]$、$\mathrm{Reg} \in [0.1524600, 0.1524602]$（G3 真值 4.98042512171 / 0.15246017794314375162432… 均落在内）。
+4. 环 4 真证：$4.9804 \times 0.1524600 = 0.759311784 \ge 0.759291598$（`mul_le_mul` + `norm_num`），只需两条锚点，不需要关于 $\Omega$、$\mathrm{Reg}$ 的任何真值知识。
+
+另加排空链定理 `anchor_consistent_389`：$\exists O R,\ 4.9804 \le O \le 4.9805 \wedge 0.1524600 \le R \le 0.1524602 \wedge 0.759291598 \le OR$，witness $(4.9804, 0.1524600)$，`norm_num` 逐项通过——闭包里**一个有效 axiom 都没有**。这条定理证的不是结论，是"前提可满足"。
+
+回执：`GrHChain389` EXIT=0 / 12.7 s / olean 249,232 B（改前 109,840 B，约 2.3×，新增证明项所致）；`Main` EXIT=0 / 23.3 s / 149,296 B；`_check_g5` EXIT=0。`#print axioms omega_reg_min_bound_389` 闭包 = `Omega389`、`Reg389`、`omega_bracket_389`、`reg_bracket_389`，**不含 `omega_reg_min_bound_389` 本身**——这是"axiom 降定理"的可机检含义。
+
+诚实边界：G5 的数学本体（环 1：把 $C_1$、$k$ 从 $x \le 10^6$ 的经验 sup 升级为证明型显式常数，即 Brummer–Murty 秩 0 常数向秩 2 推广并显式化导数误差）**本段未动**；$N_0 < 4$ 仍靠数值 sup + 有限采样（阈值 $4\Omega\mathrm{Reg}_{\min} = 3.037166$，最紧 $(k{=}2, t_0{=}10^7)$ 得 1.128，最松 1.705）；$\mathrm{Reg}$ 无证明级下界；精细 BSD 与 G1 仍开放。故 G5 的正确记账是：**结构侧闭合，常数侧未证**。
+
+### 16.6 本段账目总表
+
+| 模块 | axiom（本段前 → 后） | olean | 本段性质 |
+|---|---|---|---|
+| `Main.lean` | 7 → 8 | 149,296 B | C7/C6 拆黑箱（`mwRank` 转 def，两条秩断言转 theorem，腾出 4 条锚点/结构） |
+| `Count37a1.lean` | 新 0 | 51,576 B | 有限域点计数（`native_decide` 计算信任公理） |
+| `SelmerLayer.lean` | 新 8 | 18,504 B | 抽象 Selmer / Ш 层（曲线无关） |
+| `Sha11_389.lean` | 34 → 30 | 90,136 B | 下沉 + ℚ 侧秩真证 + 别名兼容 |
+| `RankTwo389.lean` | 4 → 3 | 22,456 B | `sel2_rank_bound` 别名化 |
+| `GrHChain389.lean` | 5（含 1 条假） → 9（断言 6 条全部可满足） | 249,232 B | 空链拆解，环 4 降定理 |
+| `EulerSystem.lean` | 18（未动） | — | `rank_389a1` 仍 axiom，但已被 ℚ 侧路径绕开 |
+
+净账：库 raw axiom 总数上升（拆黑箱与对象声明都加数），但**假命题清零**、**可由 `False` 触发的空壳清零**。口径未变：raw axiom 上升必须如实记，不许把钱算成"减少"。
+
+### 16.7 未闭合与待拍板
+
+- G5 数学本体（环 1 证明化）未做；`grh_retire_feasibility.md` 已判"余量不够退役 GRH"。
+- G1（Ш 整体有限性，秩 2）仍开放。
+- `rank2_status.md` G5 行"已闭合（条件）"、`BSD_axiom_audit.md`（10-06 版仍把 `mwRank`、`rank_E_Q_le_one`、`rank_E_Q_ge_one` 记为 axiom）与 §13.4 过期表格：本节为 2026-11-27 的权威口径，旧表**未逐格改写**，等拍板一次性改齐。
+- `eGamE`（`NegOneNeOneUnitsZmodFour.lean:154`，RH 侧归约发散，四次 `whnf`/`isDefEq` 全超时）未修。

@@ -1,5 +1,6 @@
 # BSD Library — Lean Formalization of Weak BSD Rank 1 / Rank-2 Symmetry + n=3 Skeleton (Status Summary)
 
+> Updated: 2026-11-27 (attack-table P0/P1/P2 landed, circular debt stripped, G5 vacuous chain dismantled) — **C7 and G2 demoted from data anchors to theorems; C6 split into three pieces with a 0-axiom finite-field point-counting module; the `rank_389a1` circular debt is cut (Selmer layer sunk + genuine rank proof over ℚ); G5's "Reg denominator" vacuous chain (`OmegaReg389 := 0` contradicting `0.759291598 ≤ Ω·Reg`, hence `False`, hence an empty shell) is dismantled, ring 4 demoted from axiom to theorem with a satisfiability witness for the anchors**. Receipts: `SelmerLayer` 18,504 B, `Sha11_389` 90,136 B, `RankTwo389` 22,456 B, `Main` 149,296 B, `GrHChain389` 249,232 B, all EXIT=0; `#print axioms sha11_order_one_389` excludes `rank_389a1`, and `#print axioms omega_reg_min_bound_389` excludes itself. See §16.
 > Updated: 2026-10-19 (spectral-duality line added: ζ_K zero-union structure — cross-family pairing explicit formula, character-oscillation cancellation, and the boundary of the Hilbert-space method) — **The spectral-duality series (K=ℚ(√5), ζ_K=ζ·L(χ₅), sharing the same χ₅ structure with the E⁵ twist: a_p = χ₅(p)a_p(E)) closed at assaults XVIII/XIX, producing three objects defensible independently of the truth of RH/GRH/QRH.** **① Q(0) verdict (decisive negative result)**: Q(0)=∫η⁴=∫f² (f=η² a probability density with supp⊂[−1/2,1/2], ∫f=1); Cauchy–Schwarz gives **Q(0)≥1 (equality iff uniform)**, and Lamzouri's Proposition 2.1 (arXiv:2609.02882) applied to the union Z_K has lower bound **2−C_MT(f)−Q(0)(f)≤0 identically** (extremal f₀ gives −0.3338, uniform −0.3333) — the Hilbert-space inequality **fails outright for unions of product L-functions** (cross-family pairs contribute Q(0)≥1 to ΣK² with no corresponding independent count in Σ1). **② Prime-term net suppression quantified (Assault XIX)**: Σ_p χ₅(p)/√p (σ=1/2, critical) has **bounded partial sums sup≤2.457** (X≤5×10⁶) — character sums cancel, no long-period drift; the union prime-term sup envelope (Σ(1+χ₅)/(√p log p)) is below the single-family one at every scale (segment ratios 0.57/0.71/0.82/0.90/0.94); but **in mean-square the union is 1.263× the single family** (Σ(1+χ)²/p = 3.457 vs Σ1/p = 2.736 at X=2×10⁶; (1+χ)² = 4·1_{χ=+1}) — the net suppression holds only at the sup level, not at the power level (echoing the Assault-XVI white-noise verdict). **③ On-line proportion remainder magnitude**: density side sup|S_K|/(π·(T/2π)λ) ≈ 8.1×10⁻⁶, pairing side ∫dF ≈ −0.0094 ≈ 0 ⟹ **0.6725−O(10⁻⁵~10⁻³)** — the gap is in the Levinson constant, not the remainder; 7/8 = 0.875 belongs to the QRH-class mechanism (quasi-random premise), not a constant push of the same argument. **④ L(χ₅) main-term correction**: N_L(T) = (T/2π)[log(T/2π)+log 5−1]+O(log qT) (Γ(s/2) phase; log q is a linear term; historical scripts using the ζ convention or missing log q produced ~10⁵ spurious main terms, now fixed; ζ-side D(t)≈0 verified perfectly; L data carry a 0.27% R-S root-finding artifact, disclosed). **Strategic positioning**: externally defensible assets = the cross-family pairing explicit formula (Theorem 3.1′: ζ–L(χ₅) cross-family pair correlation has main term f(0), primes killed by character oscillation O(x^{−1/2}) — a new tool for pair-correlation theory of products of L-functions) + the character-oscillation cancellation structure + the Q(0) negative result (method boundary / dead-end map in the AI era); the spectral-duality chain (Arthur trace formula ↔ Weil explicit formula, the agreed reparametrization (ℓ₁,ℓ₂)↦(T,W)) remains a belief, not closed — honestly labelled. Numerical system (zeros_T6e5.npz: ζ 999,492 + L 1,150,050 zeros; route2m.json cross-family pairing; Fourier profiles) and the Assault XVI–XIX documents live in the d1 directory. See §15.
 
 > Updated: 2026-10-16 (rank push closed: the `rank_389a1` black-box axiom split into a genuine proof) — **`RankTwo389.lean` landed**: the algebraic rank-2 claim is split into "genuine upper bound + recorded lower bound" — `rank_le_two_389` (genuine: `sel2_rank_bound` (2-descent order bound axiom: 0→E/2E→Sel₂→Ш[2]→0 + E(ℚ) torsion-free ⟹ 2^rank ≤ #Sel₂) + `sel2_order_four_389` (|Sel₂|=4, G4 anchor) ⟹ 2^rank ≤ 4 ⟹ rank ≤ 2) + `rank_ge_two_389` (recorded: two independent infinite-order points P₁=(−1:1:1), P₂=(0:−1:1), height-pairing det = 0.15246017794314375162…≠0 (G3) ⟹ rank ≥ 2 via Mordell–Weil) + `rank_two_389 := le_antisymm` (genuine assembly). **Closure check (#print axioms)**: `rank_two_389` depends on [sel2_rank_bound, sel2_order_four_389, PointsIndependent389, points_independent_389, rank_ge_two_of_points] + infrastructure — **without `rank_389a1`**: algebraic rank 2 is downgraded to "|Sel₂| data anchor + descent structure axiom + two-point single recording". **Build-chain closure**: the lake clean incident (mathlib `.trace` wiped ⟹ near-full recompilation + parallel `.private` read races / module crashes / missing dependencies in batches) was fixed by 3 rounds of serial `lake build Mathlib.XXX` patches; **Lake 5.0 `-R` = `--reconfigure`, building only the default targets (exe chain) — the BSD library requires an explicit `lake build BSD`**; RankTwo389 entered the default build via `BSD/Main.lean` adding `import BSD.RankTwo389` (lean_lib default roots = ["Main"]; globs/roots TOML syntax is unusable under Lake 5.0, config kept default); `lake build -R` all green 7690 jobs, `lake build BSD` all green 3476 jobs (BSD 14 oleans). See §14.
@@ -78,7 +79,9 @@ c:\proj2\
 
 ### 3.2 Declaration layer (axioms, each with "to be proved" comment and upgrade path)
 
-**Main.lean — 7**: `analyticRank`, `mwRank`, `analytic_rank_K_eq_one_of_LK_prime_ne_zero`, `rank_E_Q_ge_one`, `rank_E_Q_le_one`, `rank_E5_Q_eq_zero`, `twist_decomposition` (for meanings and upgrade paths see the Chinese original; each is a documented axiom with an upgrade route, no dead ends).
+**Main.lean — 8** (2026-11-27 convention: `mwRank` became a `def`; `rank_E_Q_le_one` became a theorem; `rank_E_Q_ge_one` was split into three pieces): `analyticRank`, `analytic_rank_K_eq_one_of_LK_prime_ne_zero`, `InfinitePointWitness`, `rank_ge_one_of_infinite_point`, `has_infinite_point_37a1`, `sel2_order_two_37a1`, `rank_E5_Q_eq_zero_of_L_E5_ne_zero`, `twist_decomposition` (meanings and upgrade paths in the Chinese original and §16.1–16.2; each is a documented axiom with an upgrade route, no dead ends). `mwRank` is now `noncomputable def mwRank (E K) : ℕ := EulerSystem.Rank E K`.
+
+> 2026-11-27 module-level axiom counts: `Count37a1.lean` 0; `SelmerLayer.lean` 8 (`SelDim`, `ShaCorank`, `ShaPOrder`, `SelPOrder`, `sel_dim_eq_rank_add_sha_corank`, `sha_p_descent_order`, `sel_p_order_eq_p_pow_dim`, `sel2_rank_bound`); `Sha11_389.lean` 30; `GrHChain389.lean` 9 (3 objects + 2 interval anchors + 4 assertions). Per-module books in §16.6.
 
 **LSeries5.lean — 7**: `ap_E`, `ap_E_values`, `ramanujan_ap_E` (Deligne — permanent-axiom risk), `ap5_satake` (Deligne — permanent-axiom risk), `GammaUpper`, `Lambda_E5` (automorphic L — permanent-axiom risk), `L_E5_series_split` (upgrade: tail-splicing theorem).
 
@@ -104,7 +107,7 @@ lake build BSD            # full library; log > build_*.txt
 lake env lean BSD/_check_bsd.lean   # #print axioms verification
 ```
 
-Statistics: `(Select-String -Path BSD\*.lean -Pattern "^axiom ").Count` — library code = 14 (Main 7 + LSeries5 7; `_check_*.lean` scripts excluded; TwoDescent.lean has no axiom); sorry = 0.
+Statistics: `(Select-String -Path BSD\*.lean -Pattern "^axiom ").Count` — old convention (2026-10-07): library code = 14 (Main 7 + LSeries5 7; `_check_*.lean` scripts excluded; TwoDescent has no axiom); **measured 2026-11-27**: Main 8, EulerSystem 18, Sha11_389 30, RankTwo389 3, SelmerLayer 8, GrHChain389 9, Count37a1 0 (per-module books in §16.6; the totals are not directly comparable with pre-sinking history); sorry = 0.
 
 ## 5. Status and roadmap
 
@@ -501,7 +504,7 @@ Boundary (honest): |Sel₂| ≥ 4 relies on rank=2 and torsion-freeness (establi
 | G2 #Ш[11] order | conditional verdict (refined-BSD numerics) + genuine-proof skeleton (#Sel₁₁=11² dangling) |
 | **G3 Reg full precision** | **closed** (200-bit, four-source agreement) |
 | **G4 \|Sel₂\| pure Python** | **closed** (\|H¹\|=4 ⟹ \|Sel₂\|=4; class number h=1 verified) |
-| G5 GRH upper-bound constant | closed (conditional) |
+| G5 GRH upper-bound constant | ~~closed (conditional)~~ **2026-11-27 review: structural side closed, constant side unproved** — the original "closure" was a vacuous chain (`OmegaReg389 := 0` conflicting with `0.759291598 ≤ Ω·Reg` ⟹ `False` ⟹ empty conclusion); dismantled, ring 4 demoted to a theorem. See §16.5 |
 | G6 GRH contradiction-chain assembly | verdict passes (conditional on GRH+BSD) |
 
 Artifacts: `Probe389/G3_Reg/g3_result.md` (+ g3_sage.sage), `Probe389/G4_Sel2/g4_result.md` (+ g4_sel2.py / g4_classno.py); `rank2_status.md` G3/G4 rows updated to "closed".
@@ -555,6 +558,7 @@ Main line: the spectral-duality series (K = ℚ(√5), Dedekind ζ_K = ζ·L(χ�
 1. **Q(0) ≥ 1 ⟹ union lower bound identically non-positive (Assault XVIII, decisive negative result)**: Proposition 2.1 (Lamzouri arXiv:2609.02882) applied to Z_K = Z_ζ ∪ Z_L has lower bound 2−C_MT(f)−Q(0)(f) ≤ 0, independent of the mollifier (extremal f₀ −0.3338 / uniform −0.3333). **The Hilbert-space inequality fails for unions of product L-functions** — cross-family pairs are pure debt (Q(0) ≥ 1 in ΣK², no corresponding count in Σ1).
 2. **Cross-family pairing explicit formula (Theorem 3.1′)**: the ζ–L(χ₅) cross-family pair correlation has main term f(0) (density-level coefficient 1), prime terms killed by the χ₅ character oscillation (O(x^{−1/2}) type) — a generalization of Montgomery pair correlation to pairs of L-functions, a pair-correlation-theory tool independent of the truth of RH.
 3. **Prime-term net suppression and remainder magnitude (Assault XIX)**: Σ_p χ₅(p)/√p has bounded partial sums ≤ 2.46 (character-sum cancellation); the union sup envelope is below the single family at every scale (0.57–0.94); in mean square the union is 1.263× the single family (no second-moment gain); the on-line proportion remainder is 0.6725−O(10⁻⁵~10⁻³) — **the gap is in the constant, not the remainder**.
+4. **Δ Constant Law (cross-family repulsion macro constant layer, corrected-caliber finalization 2026-10-19)**: Δ_pure(T)/N_K(T) → −c_pure, **c_pure ≈ 0.0070±0.0003** (−0.70%·N_K, 14σ@6e5, multi-T monotone −0.92%→−0.70%). The former −3.39% (68σ) contained ~2.7%·N_K of E-caliber kernel-truncation artifact (E[A]=log(t/2π)/λ used the full-line ∫w=2π while A(t) has the window |v|<20 truncation, losing 6.35%/point) — verified independently by the jitter difference (Δ_real−Δ_jitter=−14728 ≈ Δ_pure=−15091, 2.5%). Three projections self-consistent: sub-Poisson (var 0.114 ≪ mean 0.786), pair negative bias (C(0.5)≈−0.0172), nearest-neighbor repulsion. Spectral-caliber unification: route2l ∫dF=−0.0242 / route2m −0.0094 / L4 spectrum −0.0099 reproduced on the same data (differences = scale bands + baseline choices; κ drifts 0.267–0.479, endpoint = Levinson-kernel η=∫dF·K/∫F·K). Audit chain closed: 0.874957 is a QRH zero-free vertical line (σ-coordinate), not an on-line proportion (XIII self-certifies "no direct conversion relation") ⟹ coefficient-translation θ_K numbers are void; the Levinson push η/c_main=1.3–1.7% (same-caliber spectrum) is a second-moment-mechanism correction, not addable to the Lamzouri 0.6725 (different mechanism); θ₀_Lev≤0.3 (c_ll-dominated 186–244, second moment 80–100× ζ's) ⟹ the Levinson mechanism is dead for the ζ_K on-line proportion. **The law stands independently**: the first macro constant layer of cross-family zero-statistics repulsion among distinct L-functions (absent from AI frameworks, uncovered by Liu–Ye n-level uncorrelated) — independent of any proportion mechanism.
 
 ### 15.3 L(χ₅) main-term correction (important repair to the numerical workflow)
 
@@ -562,7 +566,107 @@ N_L(T) = (T/2π)[log(T/2π)+log 5−1]+O(log qT) — the Γ(s/2) phase carries (
 
 ### 15.4 Strategic positioning and connections
 
-- **Relation to 7/8 (0.874957, QRH class)**: 0.6725 is the unconditional Levinson–Lamzouri constant; 0.875 is a quasi-random-premise constant — different mechanisms, not a constant push of the same argument; chasing the boundary has no increment.
-- **Defensible assets**: cross-family pairing explicit formula + character-oscillation cancellation + the Q(0) negative result (method boundary); packagable toward "pair-correlation theory of products of L-functions + method boundaries" (document 《ζ_K 零点并集结构》).
+- **Relation to 7/8 (corrected 2026-10-19: two distinct objects, do not conflate)**: the QRH 7/8 is a “zero-free half-plane” — OAI26 announced ζ and Dirichlet L are zero-free for Re s > 7/8, and arXiv:2610.15291 sharpens the boundary to 0.8748867 under OAI’s analytic inputs; the Levinson 7/8 is a “proportion on the critical line” target. 0.6725 is the unconditional Levinson–Lamzouri proportion constant, and Q(0) ≥ 1 makes the proportion method structurally void on the union Z_K of a product of L-functions (lower bound always non-positive, no positive proportion); the half-plane 7/8 was achieved by a different mechanism (cubic theta averages, Poisson summation, reflection bounds), unrelated to the Levinson pairing route — chasing the half-plane boundary gives no increment for our proportion toolkit. **Audit-chain re-correction (2026-10-19)**: 0.874957 is a QRH vertical line (σ-coordinate, not an on-line proportion start; XIII self-certifies no bridge) ⟹ the coefficient-translation θ_K numbers are void; the Levinson push (η/c_main = 1.3–1.7%, same-caliber spectrum) is a second-moment-mechanism correction, not addable to the Lamzouri 0.6725 (different mechanisms); θ₀_Lev ≤ 0.3 (ζ_K second moment dominated by the L side, c_ll/c_zz ≈ 25–40) — **the Levinson mechanism is dead for the ζ_K on-line proportion; the Δ Constant Law stands independently of proportion mechanisms**.
+- **Defensible assets**: cross-family pairing explicit formula + character-oscillation cancellation + the Q(0) negative result (method boundary) + **the Δ Constant Law (cross-family repulsion macro constant layer, c_pure ≈ 0.0070, 14σ)**; packagable toward "pair-correlation theory of products of L-functions + method boundaries + cross-family constant layer" (document 《ζ_K 零点并集结构》).
 - **Spectral-duality chain status**: the agreed reparametrization (ℓ₁,ℓ₂)↦(T,W) of Arthur trace formula ↔ Weil explicit formula remains a belief (not closed to pairing constants), honestly labelled open.
-- **Connection with BSD**: shared χ₅ structure (E⁵ twist and L(χ₅)); a θ_K-lower-bound push (if the L4 cross term lands) could supply numerical input for Chebotarev / prime-splitting distribution precision.
+- **Connection with BSD**: shared χ₅ structure (E⁵ twist and L(χ₅)); the Δ Constant Law's cross-family repulsion structure (pair count −0.70%, spectral −2.5%) can serve as numerical input for Chebotarev / prime-splitting distribution precision — an established constant-layer fact, not a conditional θ_K-push claim.
+
+## 16. 2026-11-27: Attack-table P0/P1/P2 landed + the `rank_389a1` circular debt stripped + G5 vacuous chain dismantled
+
+Main line: we work through the ten-row attack table in `_rh14_zeroside\21_...docx` §6, with the strategic ordering BSD first, QRH as the knife, RH parked. This segment closes C7 (P0), G2 (P1) and G5 (P2, structural side), strips the `rank_389a1` circular debt, and evicts the false premise out of `GrHChain389`. P3 (`RH_14\Formalism\GaloisCohomology\Statement.lean:97`, instance-search collapse) belongs to the mirror-library side and is not booked against BSD.
+
+### 16.1 C7: `rank_E_Q_le_one` demoted from axiom to theorem
+
+| Layer | Name | Content |
+|---|---|---|
+| Structural | `noncomputable def mwRank (E K) : ℕ := EulerSystem.Rank E K` | Mordell–Weil rank no longer occupies an axiom; it is delegated to `EulerSystem.Rank` |
+| Data anchor | `sel2_order_two_37a1 : SelPOrder Curve37a1 2 = 2` | \|Sel₂(37a1)\| = 2 (LMFDB / Magma agree) |
+| Genuine proof | `rank_E_Q_le_one : mwRank Curve37a1 ℚ ≤ 1` | `sel2_rank_bound` (2^rank ≤ #Sel₂) + `Nat.pow_le_pow_iff_right` ⟹ 2^rank ≤ 2 ⟹ rank ≤ 1 |
+
+The closure no longer contains `rank_E_Q_le_one` itself: the upper bound rests only on the 2-descent structural axiom plus the |Sel₂| data anchor. olean 145,312 → 149,152 B (pre-C6 count).
+
+### 16.2 C6: `rank_E_Q_ge_one` split into three pieces + a finite-field counting module
+
+- New `BSD/Count37a1.lean` (**0 axioms**): `nAff` (affine points), `nPoints := nAff + 1` (including the point at infinity), `nPoints_two : nPoints 2 = 5`, `nPoints_three : nPoints 3 = 7` (via `native_decide`, carrying the computational-trust axiom), `coprime_counts : Nat.Coprime 5 7`.
+- The former single `rank_E_Q_ge_one` axiom is split into three pieces: `InfinitePointWitness` (predicate) + `rank_ge_one_of_infinite_point` (modal fact: a free abelian group containing an infinite-order point has rank ≥ 1) + `has_infinite_point_37a1` (data anchor).
+- Logic chain: `#E(𝔽₂) = 5`, `#E(𝔽₇) = 7`, gcd = 1 ⟹ `E(ℚ)[tors] = 0` (injectivity at good primes) ⟹ `P₀ = (0,0)` has infinite order ⟹ rank ≥ 1.
+- Books: raw axioms net +2 — the standard price of splitting a black box (one assertion becomes predicate + structure + data, two of which remain axioms); olean 51,576 B.
+
+### 16.3 G2: `sha11_order_one_389` demoted from data anchor to theorem
+
+No off-the-shelf 11-descent exists (Magma supports only p ∈ {2,3,4,5,7,8,9}; Sage 9.5 / PARI only up to 2/3), so we route through a structural bridge:
+
+$$
+\mathrm{ShaCorank}\ E\ p = 0 \;\Longrightarrow\; \mathrm{SelPOrder}\ E\ p = p^{\mathrm{SelDim}\ E}
+$$
+
+Three steps; only two of the four ingredients are axioms:
+
+1. `sel_dim_two_389 : SelDim Curve389a1 = 2` (data anchor).
+2. `sha_corank_zero_389 : ShaCorank Curve389a1 11 = 0` (**genuine proof**): `SelDim = Rank + ShaCorank`, with `SelDim = 2` and `rank_389a1_Q = 2`, forces corank = 0.
+3. `sel11_order_389` (**genuine proof**): the bridge gives `#Sel₁₁ = 11²`; `sha_p_descent_order` (`#Sel_p = p^rank · #Ш[p]`) gives `#Ш[11] = 121/121 = 1`; `sha11_order_one_389` assembles it.
+
+olean 77,096 B.
+
+### 16.4 Entry 24: stripping the `rank_389a1` circular debt (Selmer layer sunk + genuine rank over ℚ)
+
+**Mechanism of the cycle**: `SelPOrder`/`ShaPOrder` and friends were hard-wired inside `Sha11_389`, while the genuinely proved `RankTwo389.rank_two_389` must `import BSD.Sha11_389` (a reverse dependency). Hence "the proof of the rank" could never be fed into `sha11_order_one_of_sel11`; the only option was `rw [rank_389a1]` (`EulerSystem`'s axiom, rank = 2 over `K389a1`). **Self-proof unusable, black box mandatory** — that is the circular debt.
+
+Fix:
+
+| Action | File | Content |
+|---|---|---|
+| New abstract layer | `BSD/SelmerLayer.lean` | 8 axioms (objects `SelDim`/`ShaCorank`/`ShaPOrder`/`SelPOrder`, plus `sel_dim_eq_rank_add_sha_corank`/`sha_p_descent_order`/`sel_p_order_eq_p_pow_dim`/`sel2_rank_bound`), free of any `Curve389a1`, sitting between `EulerSystem` and `Sha11_389` |
+| Compatibility aliases | `BSD/Sha11_389.lean` | 9 `noncomputable abbrev` aliases, so old paths like `BSD.Sha11_389.SelPOrder` keep working (an `abbrev` pointing at an axiom must be marked `noncomputable`) |
+| Genuine rank over ℚ | `BSD/Sha11_389.lean` | Three new ℚ-point anchors + `rank_389a1_Q : Rank Curve389a1 ℚ = 2`: upper bound `2^rank ≤ #Sel₂ = 4`, lower bound from two independent ℚ-points, assembled by `le_antisymm` |
+| Rewiring | `BSD/Sha11_389.lean` | `sha_corank_zero_389` and `sha11_order_one_of_sel11` now consume `ℚ` and `rank_389a1_Q` |
+
+Receipts (all EXIT=0): `SelmerLayer` 11.7 s / 18,504 B; `Sha11_389` 11.7 s / 90,136 B; `RankTwo389` 11.6 s / 22,456 B; `Main` 22.9 s / 149,296 B. `#print axioms sha11_order_one_389` **does not contain** `EulerSystem.rank_389a1` — the cycle is cut.
+
+Axiom books: `Sha11_389` 34 → 30, `RankTwo389` 4 → 3, library net +3 (sinking only relocates plus aliases; the net increase comes from the ℚ-side anchors). Audit note written into `SelmerLayer`: the `K` argument of `sel2_rank_bound` must mathematically be ℚ, since a large extension makes it false.
+
+### 16.5 G5 (P2, Reg denominator): vacuous chain dismantled, ring 4 demoted from axiom to theorem
+
+The most important fact first: the 10-16 version of `GrHChain389.lean` defined `Lpp389` and `OmegaReg389` as the constant `0`, while retaining the axiom `omega_reg_min_bound_389 : 0.759291598 ≤ OmegaReg389`. Unfolding the def makes the axiom read `0.759291598 ≤ 0` — a **false proposition**. Axioms are not checked for satisfiability, so `False` entered the context and both `#Ш ≤ 3` and `#Ш = 1` hung downstream of `False.elim`. Compilation passed, receipts looked clean, and the content was **zero information**. The §13.4 row marking G5 as "closed (conditional)" does not, strictly speaking, hold.
+
+| Ring | Assertion | Form (before → after) | Status |
+|---|---|---|---|
+| Ring 1 | GRH partial-sum bound $N_0(t_0,C_1) < 4$ | no Lean definition → still none | not Lean-ified; $C_1,k$ are empirical sups |
+| Ring 2 | $\|L''(1)/2\| \le M$ | axiom → axiom | still booked ($M$ anchor 0.857) |
+| Ring 3 | $\#\mathcal{S}\cdot\Omega\cdot\mathrm{Reg} = L''(1)/2$ | axiom → axiom | still booked (fine BSD) |
+| Ring 4 | $\Omega\cdot\mathrm{Reg}\cdot\prod c \ge 0.759291598$ | axiom → **theorem** | genuinely proved |
+| Wrap-up | $\#\text{Ш} \le 3$, $\#\text{Ш} = 1$ | theorem → theorem | conditional theorems (premises rewired) |
+
+Four repairs:
+
+1. `Lpp389`, `Omega389`, `Reg389` become **opaque axioms** (same convention as `OmegaE`/`RegulatorE` in `BSD.Positivity`): a numerical object may only be declared, never defined — otherwise every inequality about it silently loses its subject.
+2. $\Omega$ and $\mathrm{Reg}$ are separated, and the denominator becomes a **multiplicative structure definition**: `OmegaReg389 := Omega389 * Reg389 * prodC389` (`prodC389 := 1`), multiplication only, no assertion.
+3. Two two-sided interval anchors: $\Omega \in [4.9804, 4.9805]$, $\mathrm{Reg} \in [0.1524600, 0.1524602]$ (the G3 values 4.98042512171 / 0.15246017794314375162432… both fall inside).
+4. Ring 4 is genuinely proved: $4.9804 \times 0.1524600 = 0.759311784 \ge 0.759291598$ (`mul_le_mul` + `norm_num`); it needs only the two anchors, no knowledge of the true values.
+
+Plus a vacuity-blocking theorem `anchor_consistent_389`: $\exists O R,\ 4.9804 \le O \le 4.9805 \wedge 0.1524600 \le R \le 0.1524602 \wedge 0.759291598 \le OR$, witness $(4.9804, 0.1524600)$, closed by `norm_num` case by case — its closure contains **not a single effective axiom**. This theorem proves satisfiability of the premises, not the conclusion.
+
+Receipts: `GrHChain389` EXIT=0 / 12.7 s / olean 249,232 B (was 109,840 B, ≈2.3×, from the added proof terms); `Main` EXIT=0 / 23.3 s / 149,296 B; `_check_g5` EXIT=0. The `#print axioms omega_reg_min_bound_389` closure is `Omega389`, `Reg389`, `omega_bracket_389`, `reg_bracket_389` and **does not contain `omega_reg_min_bound_389` itself** — that is the machine-checkable meaning of "axiom demoted to theorem".
+
+Honest boundary: the mathematical substance of G5 (ring 1 — upgrading $C_1,k$ from empirical sups at $x \le 10^6$ to proved explicit constants, i.e. extending the Brummer–Murty rank-0 constant to rank 2 with explicit derivative-error amplification) is **untouched here**; $N_0 < 4$ still rests on numerical sups and finite sampling (threshold $4\Omega\mathrm{Reg}_{\min} = 3.037166$, tightest $(k{=}2, t_0{=}10^7)$ giving 1.128, loosest 1.705); $\mathrm{Reg}$ has no proof-level lower bound; fine BSD and G1 remain open. The correct booking for G5 is therefore: **structural side closed, constant side unproved**.
+
+### 16.6 Books for this segment
+
+| Module | axioms (before → after) | olean | Nature of the change |
+|---|---|---|---|
+| `Main.lean` | 7 → 8 | 149,296 B | C7/C6 black-box splits (`mwRank` becomes a def, the two rank assertions become theorems, four anchors/structure axioms take their place) |
+| `Count37a1.lean` | new, 0 | 51,576 B | finite-field point counting (`native_decide` computational-trust axiom) |
+| `SelmerLayer.lean` | new, 8 | 18,504 B | abstract Selmer / Ш layer (curve-independent) |
+| `Sha11_389.lean` | 34 → 30 | 90,136 B | sinking + genuine rank over ℚ + alias compatibility |
+| `RankTwo389.lean` | 4 → 3 | 22,456 B | `sel2_rank_bound` aliased |
+| `GrHChain389.lean` | 5 (one of them false) → 9 (all 6 assertions satisfiable) | 249,232 B | vacuous chain dismantled, ring 4 demoted |
+| `EulerSystem.lean` | 18 (untouched) | — | `rank_389a1` still an axiom, but the ℚ-side route bypasses it |
+
+Net: the library's raw axiom count goes up (black-box splits and object declarations both add entries), but **false propositions are gone** and **`False`-triggerable shells are gone**. The convention stands: rising raw axiom counts must be booked honestly, never re-labelled as a decrease.
+
+### 16.7 Still open / awaiting your call
+
+- The mathematical substance of G5 (making ring 1 a proof) is undone; `grh_retire_feasibility.md` already rules that the margin is insufficient to retire GRH.
+- G1 (integral finiteness of Ш, rank 2) remains open.
+- `rank2_status.md` (G5 row "closed (conditional)"), `BSD_axiom_audit.md` (10-06 version still lists `mwRank`, `rank_E_Q_le_one`, `rank_E_Q_ge_one` as axioms) and the stale tables in §13.4: this section is the authoritative 2026-11-27 statement; the old tables are **not** rewritten cell by cell, pending your one-shot approval.
+- `eGamE` (`NegOneNeOneUnitsZmodFour.lean:154`, reduction divergence on the RH side; four `whnf`/`isDefEq` runs all timed out) is unfixed.

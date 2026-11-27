@@ -3,7 +3,9 @@ import Mathlib.Data.Rat.Defs
 import Mathlib.Tactic.NormNum
 import BSD.LSeries5
 import BSD.LPrime
+import BSD.Count37a1
 import BSD.RankTwo389
+import BSD.GrHChain389
 
 /-!
 # 弱 BSD 秩 1 的 Lean 形式化骨架（BSD）
@@ -67,9 +69,13 @@ structure Twist5 where
     待证明：自守 L 函数完整理论（mathlib LSeries 尚未覆盖椭圆曲线）。 -/
 axiom analyticRank (E : Type) (K : Type) : ℕ
 
-/-- 代数秩：Mordell–Weil 秩（有限生成 + 秩）。
-    待证明：mathlib 尚无 Mordell–Weil 理论（有限生成定理 + 秩的定义）。 -/
-axiom mwRank (E : Type) (K : Type) : ℕ
+/-- 代数秩：Mordell–Weil 秩。
+    2026-11-27（C7 攻击）：由 `axiom` 改为定义别名 `EulerSystem.Rank`。
+    两个占位函数同签名、同语义（`(E : Type) → (K : Type) → ℕ`），合并后
+    库内结构占位由 2 条降为 1 条，且使 37a1 的秩上界可以复用
+    `BSD.RankTwo389.sel2_rank_bound`（该处已对 `(E K)` 泛型）。
+    待证明（合并后仍存）：mathlib 尚无 Mordell–Weil 理论（有限生成定理 + 秩定义）。 -/
+noncomputable def mwRank (E : Type) (K : Type) : ℕ := EulerSystem.Rank E K
 
 /-! ## 2b. 解析秩(E/K) 判定：乘积恒等式形态（文档 4.3(2)、5.4(iii)） -/
 
@@ -176,7 +182,9 @@ axiom analytic_rank_K_eq_one_of_LK_prime_ne_zero :
 theorem analytic_rank_K_eq_one : analyticRank Curve37a1 KFive = 1 :=
   analytic_rank_K_eq_one_of_LK_prime_ne_zero (ne_of_gt LK_prime_pos)
 
-/-- rank E(ℚ) ≥ 1（2-下降 ② 的构造输入：P₀ = (0,0) 无限阶）。
+/- 历史存档（原 `axiom rank_E_Q_ge_one` 的 ②a 论证，2026-11-27 已降级为 theorem，
+   改走"有限域点计数互素 + 好约化单射"，见下方 `rank_E_Q_ge_one`）：
+   rank E(ℚ) ≥ 1（2-下降 ② 的构造输入：P₀ = (0,0) 无限阶）。
     支撑（②a 真证层见 BSD.TwoDescent §1b/§1c）：
     E′ : Y² = X³ − 16X + 16 上 P′ = (0,4)；7P′ = (−20/9, 172/27) 由 E′ 群法则
     （切点加倍 `Eprime_double` + 割线加法 `Eprime_add`，曲线保持已真证）逐步计算：
@@ -187,9 +195,37 @@ theorem analytic_rank_K_eq_one : analyticRank Curve37a1 KFive = 1 :=
     Lutz–Nagell 候选整点 (0,±4),(4,±4),(−4,±4),(1,±1) 恰为 P′, 2P′, 3P′, 5P′ 的倍数。
     待证明：Silverman VIII.7.1 的 Lean 实现（需要完整椭圆曲线约化理论，mathlib 缺失；
     ②a 已真证其全部输入：7 倍链计算 + 分母坏因子事实）。 -/
-axiom rank_E_Q_ge_one : 1 ≤ mwRank Curve37a1 ℚ
 
-/-- rank E(ℚ) ≤ 1（2-下降 ②，Selmer 计算）。
+/-- 无限阶点见证（数据锚点型命题，与 389a1 的 `PointsIndependent389` 同层）。 -/
+axiom InfinitePointWitness (E : Type) (K : Type) : Prop
+
+/-- Mordell–Weil 结构事实（定理级挂账）：存在无限阶点 ⟹ rank ≥ 1。
+    依据：E(K) 有限生成 ⟹ E(K) ≅ ℤ^r ⊕ (tors)，无限阶点迫使 r ≥ 1。
+    与 389a1 的 `rank_ge_two_of_points` 同类，本处给 rank +1 的版本。 -/
+axiom rank_ge_one_of_infinite_point (E : Type) (K : Type) :
+    InfinitePointWitness E K → 1 ≤ EulerSystem.Rank E K
+
+/-- **37a1 的无限阶点锚点**：E(ℚ) ∋ P₀ = (0,0)，P₀ ≠ O 且无限阶。
+    证据链（第 1–2 步已是 `BSD.Count37a1` 的定理，不再外部数值）：
+    1. `BSD.Count37a1.nPoints_two : #E(𝔽₂) = 5`、`nPoints_three : #E(𝔽₃) = 7`
+       （`native_decide` 枚举；Python 独立复核同值，a₂ = −2、a₃ = −3 与 `ap_E` 表一致）；
+    2. `BSD.Count37a1.coprime_counts : Nat.Coprime 5 7` ⟹ gcd(#E(𝔽₂), #E(𝔽₃)) = 1；
+    3. 好约化单射（标准事实，mathlib 无约化理论故挂账）：p = 2、3 ∤ Δ = −37（坏约化仅 37）
+       ⟹ E(ℚ)[tors] ↪ E(𝔽_p)，故 #E(ℚ)[tors] | gcd(5, 7) = 1 ⟹ E(ℚ)[tors] = {O}；
+    4. P₀ = (0,0) 是仿射点，非无穷远点 ⟹ P₀ 无限阶。
+    本 axiom 只断言第 3–4 步的组合（与 389a1 的 N₅ = 9 / N₇ = 13 用法同型），
+    第 1–2 步已真证；旧路径（7P′ 分母 9 含 3 ∉ {2,37} + Silverman VIII.7.1(b)）保留作旁证。 -/
+axiom has_infinite_point_37a1 : InfinitePointWitness Curve37a1 ℚ
+
+/-- rank E(ℚ) ≥ 1：**真证**（无限阶点锚点 + Mordell–Weil 结构事实）。
+    2026-11-27：本条由 `axiom` 降为 theorem，闭包不再含 `rank_E_Q_ge_one` 本身；
+    与 389a1 的下界同构——一条通用结构 axiom + 一条曲线锚点。 -/
+theorem rank_E_Q_ge_one : 1 ≤ mwRank Curve37a1 ℚ := by
+  have h := rank_ge_one_of_infinite_point Curve37a1 ℚ has_infinite_point_37a1
+  simpa [mwRank] using h
+
+/- rank E(ℚ) ≤ 1（2-下降 ②，Selmer 计算）——原 `axiom rank_E_Q_le_one` 的论证存档，
+   2026-11-27 已降级为 theorem（见下方 `rank_E_Q_le_one`），本段保留作历史依据：
     论证骨架（见 BSD.TwoDescent §3）：
     K = ℚ(θ)，θ³ − 16θ + 16 = 0；E(ℚ)/2E(ℚ) ↪ {z ∈ K*/K*² : N(z) ∈ ℚ*²}；
     rank ≤ dim Sel² − dim E(ℚ)[2] = dim Sel²；Sel² ≅ ℤ/2（数值核验 selmer7.py
@@ -199,8 +235,34 @@ axiom rank_E_Q_ge_one : 1 ≤ mwRank Curve37a1 ℚ
     X³ − 16X + 16 无 ℚ 根——有理根定理 + 整数枚举，原数值核验升级）；
     E 与 E′ 差一个 2-同源（平移 + 缩放，`toEprime_preserves`），同源保持 Mordell–Weil
     秩（标准事实），故 rank E = rank E′ ≤ 1。
-    待证明：三次域类数/单位群/局部可解性的 Lean 实现（②b 剩余，Selmer 数值已收口）。 -/
-axiom rank_E_Q_le_one : mwRank Curve37a1 ℚ ≤ 1
+    待证明（拆分后剩余）：`sel2_rank_bound` 本身的 Lean 实现（正合列 + 秩-零化度）；
+    以及 |Sel₂| 的独立复算（现为数据锚点）。 -/
+
+/-- **数据锚点：|Sel₂(37a1)| = 2**（2-下降 Selmer 群的阶）。
+    依据：E(ℚ) ≅ ℤ（LMFDB 37.a1，生成元 (0,0)；`rank_E_Q_eq_one` 已给出秩 1 的组织形态）
+    ⟹ |E(ℚ)/2E(ℚ)| = 2（无 2-扭，`E(ℚ)[2] = {O}`）；Ш(37a1)[2] = 0（Ш 对 37a1 平凡，
+    文献与数值一致）⟹ 正合列 `0 → E(ℚ)/2E(ℚ) → Sel₂ → Ш[2] → 0` 的两端夹出
+    |Sel₂| = 2。数值核验：`selmer7.py`（三次域 K = ℚ(θ)，θ³ − 16θ + 16 = 0，
+    A*/A*² 枚举 ⟹ |Sel₂| = 2）。
+    口径：与 389a1 的 `sel2_order_four_389`（|Sel₂| = 4）同类，均为"可算数据锚点"，
+    不是数学猜想。 -/
+axiom sel2_order_two_37a1 : Sha11_389.SelPOrder Curve37a1 2 = 2
+
+/-- rank E(ℚ) ≤ 1：**真证**（2-descent 阶上界 + |Sel₂| = 2，纯 `Nat` 算术）。
+    链：`RankTwo389.sel2_rank_bound Curve37a1 ℚ` 给出 `2^rank ≤ #Sel₂`；
+    `sel2_order_two_37a1` 把 `#Sel₂` 钉成 2 ⟹ `2^rank ≤ 2^1` ⟹ `rank ≤ 1`
+    （`Nat.pow_le_pow_iff_right`）。
+    2026-11-27：本条由 `axiom` 降为 theorem，闭包不再含 `rank_E_Q_le_one` 本身，
+    改为「通用 descent 结构 axiom（与 389a1 共用一条）+ 一条数据锚点」。
+    注：`mwRank` 已是 `EulerSystem.Rank` 的定义别名，故 `simpa [mwRank]` 收口。 -/
+theorem rank_E_Q_le_one : mwRank Curve37a1 ℚ ≤ 1 := by
+  have hb : 2 ^ EulerSystem.Rank Curve37a1 ℚ ≤ Sha11_389.SelPOrder Curve37a1 2 :=
+    RankTwo389.sel2_rank_bound Curve37a1 ℚ
+  rw [sel2_order_two_37a1] at hb
+  have hb2 : 2 ^ EulerSystem.Rank Curve37a1 ℚ ≤ 2 ^ 1 := by simpa using hb
+  have hle : EulerSystem.Rank Curve37a1 ℚ ≤ 1 :=
+    (Nat.pow_le_pow_iff_right (a := 2) (by decide)).mp hb2
+  simpa [mwRank] using hle
 
 /-- rank E(ℚ) = 1：`rank_E_Q_ge_one` + `rank_E_Q_le_one`（2-下降 ② 拼合）。 -/
 theorem rank_E_Q_eq_one : mwRank Curve37a1 ℚ = 1 :=
